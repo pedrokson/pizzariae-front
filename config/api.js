@@ -1,5 +1,5 @@
 const API_BASE_URL = window.location.hostname.includes('azurestaticapps.net')
-  ? 'https://pizzariae-backend-fhcydvamdhbndccc.brazilsouth-01.azurewebsites.net/api'
+  ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api'
   : 'http://localhost:3001/api';
 
 console.log('🌐 API Base URL configurada:', API_BASE_URL);

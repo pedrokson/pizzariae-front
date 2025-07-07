@@ -86,7 +86,9 @@
   <script>
     // Função API direta (sem import)
     async function apiRequest(endpoint, options = {}) {
-      const baseURL = 'http://localhost:3001/api';
+      const baseURL = window.location.hostname.includes('azurestaticapps.net')
+        ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api'
+        : 'http://localhost:3001/api';
       const url = baseURL + endpoint;
       
       const defaultOptions = {

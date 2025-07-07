@@ -20,7 +20,7 @@ O frontend foi movido para pasta independente e está pronto para deploy.
 
 ### Pré-requisitos
 - Node.js 14+ instalado
-- Backend rodando em `http://localhost:3001`
+- Backend rodando em `https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net`
 
 ### Instalação e execução
 
@@ -67,7 +67,7 @@ pizzaria-frontend/
 
 ## 🔗 Integração com Backend
 
-- **URL da API**: `http://localhost:3001/api`
+- **URL da API**: `https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api`
 - **Autenticação**: JWT Token
 - **Endpoints disponíveis**:
   - `GET /produtos` - Listar produtos

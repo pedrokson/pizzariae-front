@@ -83,7 +83,7 @@
             <h3>📁 Localização</h3>
             <p><strong>Nova pasta:</strong> c:\Users\pedro\Desktop\pizzaria-frontend</p>
             <p><strong>Porta:</strong> http://localhost:3000</p>
-            <p><strong>Backend API:</strong> http://localhost:3001/api</p>
+            <p><strong>Backend API:</strong> https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api</p>
         </div>
         
         <h2>🔗 Páginas Disponíveis</h2>
@@ -142,7 +142,10 @@
         // Testar conexão com API
         const testarAPI = async () => {
             try {
-                const response = await fetch('http://localhost:3001/api/produtos');
+                const baseURL = window.location.hostname.includes('azurestaticapps.net')
+                    ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api'
+                    : 'http://localhost:3001/api';
+                const response = await fetch(baseURL + '/produtos');
                 if (response.ok) {
                     console.log('✅ API conectada com sucesso!');
                 } else {

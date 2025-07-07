@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "route": "/api/*",
+      "allowedRoles": ["anonymous"]
+    },
+    {
       "route": "/",
       "serve": "/index.html"
     },
@@ -25,6 +29,12 @@
     ".svg": "image/svg+xml"
   },
   "globalHeaders": {
-    "Cache-Control": "no-cache"
+    "Cache-Control": "no-cache",
+    "Access-Control-Allow-Origin": "https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization"
+  },
+  "networking": {
+    "allowedIpRanges": []
   }
 }
