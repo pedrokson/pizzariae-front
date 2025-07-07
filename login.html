@@ -54,15 +54,22 @@
       color: #b22222;
       margin-top: 10px;
       font-size: 0.95rem;
-    }
-    .login-container .cadastro-link {
-      margin-top: 18px;
-      display: block;
-      color: #b22222;
-      text-decoration: underline;
-      cursor: pointer;
-      font-size: 1rem;
-    }
+    }      .login-container .cadastro-link {
+        margin-top: 18px;
+        display: block;
+        color: #b22222;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      .senha-info {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: -5px;
+        margin-bottom: 10px;
+        text-align: left;
+        padding-left: 10px;
+      }
   </style>
 </head>
 <body>
@@ -70,7 +77,7 @@
     <h2>Login</h2>
     <form onsubmit="return fazerLogin(event)">
       <input type="email" id="usuario" placeholder="E-mail" required />
-      <input type="password" id="senha" placeholder="Senha" required />
+      <input type="password" id="senha" placeholder="Senha (mín. 6 dígitos)" required minlength="6" />
       <button type="submit">Entrar</button>
       <div class="erro" id="erro-login"></div>
     </form>
@@ -107,6 +114,12 @@
       event.preventDefault();
       const email = document.getElementById('usuario').value.trim().toLowerCase();
       const senha = document.getElementById('senha').value;
+
+      // Validar senha mínima
+      if (senha.length < 6) {
+        document.getElementById('erro-login').textContent = 'A senha deve ter pelo menos 6 dígitos!';
+        return;
+      }
 
       console.log('🔐 Tentando fazer login...');
       

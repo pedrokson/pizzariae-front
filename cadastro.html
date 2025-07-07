@@ -68,6 +68,14 @@
         cursor: pointer;
         font-size: 1rem;
       }
+      .senha-info {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: -5px;
+        margin-bottom: 10px;
+        text-align: left;
+        padding-left: 10px;
+      }
     </style>
   </head>
   <body>
@@ -80,7 +88,8 @@
         <input type="text" id="novo-numero" placeholder="Número" required />
         <input type="text" id="novo-complemento" placeholder="Complemento (opcional)" />
         <input type="email" id="novo-email" placeholder="E-mail" required />
-        <input type="password" id="nova-senha" placeholder="Senha" required />
+        <input type="password" id="nova-senha" placeholder="Senha (mín. 6 dígitos)" required minlength="6" />
+        <div class="senha-info">💡 A senha deve ter pelo menos 6 caracteres</div>
         <button type="submit">Cadastrar</button>
         <div class="erro" id="erro-cadastro"></div>
         <div class="sucesso" id="sucesso-cadastro"></div>
@@ -130,6 +139,13 @@
         };
         const email = document.getElementById("novo-email").value.trim().toLowerCase();
         const senha = document.getElementById("nova-senha").value;
+
+        // Validar senha mínima
+        if (senha.length < 6) {
+          document.getElementById("erro-cadastro").textContent = "A senha deve ter pelo menos 6 dígitos!";
+          document.getElementById("sucesso-cadastro").textContent = "";
+          return false;
+        }
 
         if (!validarEmail(email)) {
           document.getElementById("erro-cadastro").textContent = "Digite um e-mail válido!";
