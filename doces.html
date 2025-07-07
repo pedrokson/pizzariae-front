@@ -65,8 +65,29 @@
         background: #fff;
         color: #333;
       }
+      .botoes-tamanho {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 8px;
+      }
+      
       .botoes-tamanho button {
-        margin: 0 4px;
+        flex: 1;
+        max-width: 120px;
+        padding: 8px 16px;
+        background: #ff6b35;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin: 0;
+      }
+      
+      .botoes-tamanho button:hover {
+        background: #e55a2b;
       }
       .borda-recheada {
         margin-top: 8px;

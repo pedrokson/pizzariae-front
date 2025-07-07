@@ -101,6 +101,30 @@
       .menu-item button {
         margin-top: 8px;
       }
+      
+      .botoes-tamanho {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 8px;
+      }
+      
+      .botoes-tamanho button {
+        flex: 1;
+        max-width: 120px;
+        padding: 8px 16px;
+        background: #ff6b35;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      
+      .botoes-tamanho button:hover {
+        background: #e55a2b;
+      }
     </style>
     <script>
       function alterarQuantidade(btn, delta) {
@@ -1376,67 +1400,6 @@
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js");
       }
-    </script>
-    <script type="module">
-      import { listarProdutos } from "./produtos.js";
-
-      // Elemento onde os produtos serão exibidos
-      const container = document.querySelector(".menu-group");
-
-      // Busca e exibe apenas produtos da categoria "pizza"
-      listarProdutos().then((produtos) => {
-        const pizzas = produtos.filter((p) => p.categoria === "pizza");
-        container.innerHTML = pizzas
-          .map(
-            (produto) => `
-      <div class="menu-item">
-        ${
-          produto.imagem
-            ? `<img src="${produto.imagem}" alt="${produto.nome}">`
-            : ""
-        }
-        <h3>${produto.nome}</h3>
-        <p>${produto.descricao || ""}</p>
-        <p>Categoria: ${produto.categoria}</p>
-        ${produto.tamanhos
-          ?.map(
-            (tamanho) => `
-          <div>
-            <p>
-              ${tamanho.nome}: R$ ${tamanho.preco.toFixed(2)}${
-              tamanho.diametro ? ` (${tamanho.diametro})` : ""
-            }
-            </p>
-            <div class="quantidade-container">
-              <button type="button" class="btn-menor" onclick="alterarQuantidade(this, -1)">-</button>
-              <input type="number" min="1" value="1" class="quantidade-pizza" readonly />
-              <button type="button" class="btn-maior" onclick="alterarQuantidade(this, 1)">+</button>
-            </div>
-            <label for="borda-recheada">Borda recheada:</label>
-            <select class="borda-recheada">
-              <option value="">Sem borda recheada</option>
-              <option value="Catupiry">Catupiry</option>
-              <option value="Cheddar">Cheddar</option>
-            </select>
-            <button onclick="adicionarCarrinho('${produto.nome.replace(
-              /'/g,
-              "\\'"
-            )}', '${tamanho.nome}', ${tamanho.preco}, this)">Adicionar</button>
-          </div>
-        `
-          )
-          .join("")}
-        ${produto.destaque ? '<span class="destaque">⭐ Destaque</span>' : ""}
-        ${
-          produto.disponivel === false
-            ? '<span class="indisponivel">❌ Indisponível</span>'
-            : ""
-        }
-      </div>
-    `
-          )
-          .join("");
-      });
     </script>
     <script src="js/menu.js"></script>
     <script src="js/auth.js"></script>
