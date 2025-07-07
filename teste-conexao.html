@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Conexão - Pizzaria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #cce7ff; color: #004085; border: 1px solid #b3d7ff; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background-color: #0056b3; }
+        .logs {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍕 Teste de Conexão - Backend Pizzaria</h1>
+        
+        <div class="info">
+            <h3>🔗 URLs de Teste</h3>
+            <p><strong>Frontend:</strong> <span id="frontend-url"></span></p>
+            <p><strong>Backend:</strong> <span id="backend-url"></span></p>
+        </div>
+
+        <h3>🧪 Testes Disponíveis</h3>
+        <button onclick="testarConexao()">Testar Conexão Básica</button>
+        <button onclick="testarProdutos()">Testar Produtos</button>
+        <button onclick="testarLogin()">Testar Login</button>
+        <button onclick="limparLogs()">Limpar Logs</button>
+
+        <h3>📊 Resultados dos Testes</h3>
+        <div id="resultados"></div>
+
+        <h3>📋 Logs Detalhados</h3>
+        <div id="logs" class="logs"></div>
+    </div>
+
+    <script>
+        // Configuração da URL do backend
+        const getBackendURL = () => {
+            if (window.location.hostname.includes('azurestaticapps.net')) {
+                return 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api';
+            }
+            return 'http://localhost:3001/api';
+        };
+
+        const BACKEND_URL = getBackendURL();
+        
+        // Atualizar URLs na página
+        document.getElementById('frontend-url').textContent = window.location.origin;
+        document.getElementById('backend-url').textContent = BACKEND_URL;
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logs = document.getElementById('logs');
+            logs.innerHTML += `[${timestamp}] ${message}\n`;
+            logs.scrollTop = logs.scrollHeight;
+            console.log(message);
+        }
+
+        function addResult(title, success, message) {
+            const resultados = document.getElementById('resultados');
+            const status = success ? 'success' : 'error';
+            resultados.innerHTML += `
+                <div class="status ${status}">
+                    <strong>${title}:</strong> ${message}
+                </div>
+            `;
+        }
+
+        function limparLogs() {
+            document.getElementById('logs').innerHTML = '';
+            document.getElementById('resultados').innerHTML = '';
+        }
+
+        async function testarConexao() {
+            log('🔍 Iniciando teste de conexão básica...');
+            
+            try {
+                const response = await fetch(BACKEND_URL + '/health', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                log(`📡 Status da resposta: ${response.status}`);
+                log(`📦 Headers: ${JSON.stringify(Object.fromEntries(response.headers.entries()))}`);
+                
+                if (response.ok) {
+                    const data = await response.text();
+                    log(`✅ Resposta: ${data}`);
+                    addResult('Conexão Básica', true, 'Backend respondeu com sucesso!');
+                } else {
+                    log(`❌ Erro HTTP: ${response.status} - ${response.statusText}`);
+                    addResult('Conexão Básica', false, `Erro HTTP ${response.status}`);
+                }
+            } catch (error) {
+                log(`❌ Erro de rede: ${error.message}`);
+                addResult('Conexão Básica', false, `Erro de rede: ${error.message}`);
+            }
+        }
+
+        async function testarProdutos() {
+            log('🍕 Iniciando teste de produtos...');
+            
+            try {
+                const response = await fetch(BACKEND_URL + '/produtos', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                log(`📡 Status da resposta: ${response.status}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Produtos encontrados: ${data.length}`);
+                    log(`📦 Primeiros produtos: ${JSON.stringify(data.slice(0, 3), null, 2)}`);
+                    addResult('Lista de Produtos', true, `${data.length} produtos carregados`);
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Erro HTTP: ${response.status} - ${errorText}`);
+                    addResult('Lista de Produtos', false, `Erro HTTP ${response.status}`);
+                }
+            } catch (error) {
+                log(`❌ Erro de rede: ${error.message}`);
+                addResult('Lista de Produtos', false, `Erro de rede: ${error.message}`);
+            }
+        }
+
+        async function testarLogin() {
+            log('🔐 Iniciando teste de login...');
+            
+            const testUser = {
+                email: 'teste@pizzaria.com',
+                senha: '123456'
+            };
+            
+            try {
+                const response = await fetch(BACKEND_URL + '/clientes/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testUser)
+                });
+                
+                log(`📡 Status da resposta: ${response.status}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Login bem-sucedido!`);
+                    log(`📦 Token recebido: ${data.token ? 'Sim' : 'Não'}`);
+                    addResult('Teste de Login', true, 'Login funcional (usuário teste)');
+                } else {
+                    const errorData = await response.json();
+                    log(`❌ Erro de login: ${errorData.error || 'Erro desconhecido'}`);
+                    addResult('Teste de Login', false, errorData.error || 'Erro no login');
+                }
+            } catch (error) {
+                log(`❌ Erro de rede: ${error.message}`);
+                addResult('Teste de Login', false, `Erro de rede: ${error.message}`);
+            }
+        }
+
+        // Executar teste básico ao carregar a página
+        window.onload = function() {
+            log('🚀 Página carregada. Pronto para testes!');
+            log(`🌐 Frontend: ${window.location.origin}`);
+            log(`🔗 Backend: ${BACKEND_URL}`);
+        };
+    </script>
+</body>
+</html>
