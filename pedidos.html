@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      if (!localStorage.getItem("token") || !localStorage.getItem("usuario")) {
+        window.location.href = "login.html";
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meus Pedidos - Jerônimu's</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .pedidos-container {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 20px;
+      }
+      
+      .pedido-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        padding: 20px;
+        border-left: 4px solid #b22222;
+      }
+      
+      .pedido-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      
+      .pedido-numero {
+        font-weight: bold;
+        color: #b22222;
+        font-size: 1.1em;
+      }
+      
+      .pedido-status {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      
+      .status-pendente { background: #fff3cd; color: #856404; }
+      .status-confirmado { background: #d4edda; color: #155724; }
+      .status-preparando { background: #cce5ff; color: #004085; }
+      .status-saiu-entrega { background: #e2e3e5; color: #383d41; }
+      .status-entregue { background: #d1ecf1; color: #0c5460; }
+      .status-cancelado { background: #f8d7da; color: #721c24; }
+      
+      .pedido-data {
+        color: #666;
+        font-size: 0.9em;
+      }
+      
+      .pedido-itens {
+        margin: 15px 0;
+      }
+      
+      .item-pedido {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .item-pedido:last-child {
+        border-bottom: none;
+      }
+      
+      .item-info {
+        flex: 1;
+      }
+      
+      .item-nome {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      
+      .item-detalhes {
+        font-size: 0.9em;
+        color: #666;
+      }
+      
+      .item-preco {
+        font-weight: bold;
+        color: #b22222;
+      }
+      
+      .pedido-total {
+        text-align: right;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #b22222;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid #eee;
+      }
+      
+      .sem-pedidos {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+      }
+      
+      .loading {
+        text-align: center;
+        padding: 40px;
+      }
+      
+      .erro {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      
+      .btn-avaliar {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 0.9em;
+      }
+      
+      .btn-avaliar:hover {
+        background: #1e7e34;
+      }
+      
+      .avaliacao {
+        background: #e7f3ff;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        border-left: 3px solid #007bff;
+      }
+      
+      .estrelas {
+        color: #ffc107;
+        margin-bottom: 5px;
+      }
+      
+      @media (max-width: 600px) {
+        .pedidos-container {
+          padding: 10px;
+        }
+        
+        .pedido-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        
+        .item-pedido {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav style="background: #b22222; padding: 15px; color: white;">
+        <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+          <h1 style="margin: 0; font-size: 1.5em;">Jerônimu's Pizzaria</h1>
+          <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="index.html" style="color: white; text-decoration: none;">Início</a>
+            <a href="menu.html" style="color: white; text-decoration: none;">Cardápio</a>
+            <a href="carrinho.html" style="color: white; text-decoration: none;">Carrinho</a>
+            <a href="pedidos.html" style="color: white; text-decoration: none; font-weight: bold; text-decoration: underline;">Pedidos</a>
+            <a href="#" onclick="logout()" style="color: white; text-decoration: none;">Sair</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="pedidos-container">
+      <h2>Meus Pedidos</h2>
+      
+      <div id="loading" class="loading">
+        <p>Carregando seus pedidos...</p>
+      </div>
+      
+      <div id="erro" class="erro" style="display: none;">
+        <p>Erro ao carregar pedidos. Tente novamente mais tarde.</p>
+      </div>
+      
+      <div id="pedidos-lista">
+        <!-- Pedidos serão inseridos aqui via JavaScript -->
+      </div>
+      
+      <div id="sem-pedidos" class="sem-pedidos" style="display: none;">
+        <h3>Você ainda não fez nenhum pedido</h3>
+        <p>Que tal dar uma olhada no nosso <a href="menu.html">cardápio</a>?</p>
+      </div>
+    </main>
+
+    <!-- Modal de Avaliação -->
+    <div id="modal-avaliacao" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 10px; max-width: 400px; width: 90%;">
+        <h3>Avaliar Pedido</h3>
+        <form id="form-avaliacao">
+          <div style="margin: 15px 0;">
+            <label>Nota:</label>
+            <div id="estrelas-avaliacao" style="margin: 10px 0;">
+              <span onclick="setNota(1)" style="cursor: pointer; font-size: 2em;">⭐</span>
+              <span onclick="setNota(2)" style="cursor: pointer; font-size: 2em;">⭐</span>
+              <span onclick="setNota(3)" style="cursor: pointer; font-size: 2em;">⭐</span>
+              <span onclick="setNota(4)" style="cursor: pointer; font-size: 2em;">⭐</span>
+              <span onclick="setNota(5)" style="cursor: pointer; font-size: 2em;">⭐</span>
+            </div>
+          </div>
+          <div style="margin: 15px 0;">
+            <label for="comentario-avaliacao">Comentário (opcional):</label>
+            <textarea id="comentario-avaliacao" rows="3" style="width: 100%; margin-top: 5px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+          </div>
+          <div style="text-align: right; margin-top: 20px;">
+            <button type="button" onclick="fecharModalAvaliacao()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-right: 10px; cursor: pointer;">Cancelar</button>
+            <button type="submit" style="background: #b22222; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Enviar Avaliação</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      import { apiRequest } from './config/api.js';
+      import { getUser, logout } from './js/auth.js';
+
+      let pedidoParaAvaliar = null;
+      let notaAvaliacao = 0;
+
+      async function carregarPedidos() {
+        try {
+          const usuario = getUser();
+          if (!usuario) {
+            window.location.href = 'login.html';
+            return;
+          }
+
+          document.getElementById('loading').style.display = 'block';
+          document.getElementById('erro').style.display = 'none';
+          
+          // Buscar pedidos do usuário
+          const pedidos = await apiRequest(`/pedidos?cliente=${usuario._id}`);
+          
+          document.getElementById('loading').style.display = 'none';
+          
+          if (!pedidos || pedidos.length === 0) {
+            document.getElementById('sem-pedidos').style.display = 'block';
+            return;
+          }
+          
+          renderizarPedidos(pedidos);
+          
+        } catch (error) {
+          console.error('Erro ao carregar pedidos:', error);
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('erro').style.display = 'block';
+        }
+      }
+
+      function renderizarPedidos(pedidos) {
+        const container = document.getElementById('pedidos-lista');
+        container.innerHTML = '';
+        
+        pedidos.forEach(pedido => {
+          const pedidoHtml = `
+            <div class="pedido-card">
+              <div class="pedido-header">
+                <div>
+                  <div class="pedido-numero">Pedido #${pedido._id.slice(-8)}</div>
+                  <div class="pedido-data">${new Date(pedido.createdAt).toLocaleString()}</div>
+                </div>
+                <div class="pedido-status status-${pedido.status}">
+                  ${getStatusNome(pedido.status)}
+                </div>
+              </div>
+              
+              <div class="pedido-itens">
+                ${pedido.itens.map(item => `
+                  <div class="item-pedido">
+                    <div class="item-info">
+                      <div class="item-nome">${item.nome}</div>
+                      <div class="item-detalhes">
+                        Quantidade: ${item.quantidade}
+                        ${item.tamanho ? ` • Tamanho: ${item.tamanho}` : ''}
+                        ${item.observacoes ? ` • ${item.observacoes}` : ''}
+                      </div>
+                    </div>
+                    <div class="item-preco">R$ ${(item.precoUnitario * item.quantidade).toFixed(2)}</div>
+                  </div>
+                `).join('')}
+              </div>
+              
+              ${pedido.observacoes ? `
+                <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                  <strong>Observações:</strong> ${pedido.observacoes}
+                </div>
+              ` : ''}
+              
+              <div class="pedido-total">
+                Total: R$ ${pedido.valores.total.toFixed(2)}
+              </div>
+              
+              ${pedido.status === 'entregue' && !pedido.avaliacao ? `
+                <button class="btn-avaliar" onclick="abrirModalAvaliacao('${pedido._id}')">
+                  Avaliar Pedido
+                </button>
+              ` : ''}
+              
+              ${pedido.avaliacao ? `
+                <div class="avaliacao">
+                  <div class="estrelas">${'⭐'.repeat(pedido.avaliacao.nota)}</div>
+                  <div><strong>Sua avaliação:</strong> ${pedido.avaliacao.comentario || 'Sem comentário'}</div>
+                </div>
+              ` : ''}
+            </div>
+          `;
+          container.innerHTML += pedidoHtml;
+        });
+      }
+
+      function getStatusNome(status) {
+        const statusNomes = {
+          'pendente': 'Pendente',
+          'confirmado': 'Confirmado',
+          'preparando': 'Preparando',
+          'saiu-entrega': 'Saiu para Entrega',
+          'entregue': 'Entregue',
+          'cancelado': 'Cancelado'
+        };
+        return statusNomes[status] || status;
+      }
+
+      function abrirModalAvaliacao(pedidoId) {
+        pedidoParaAvaliar = pedidoId;
+        notaAvaliacao = 0;
+        document.getElementById('comentario-avaliacao').value = '';
+        atualizarEstrelas();
+        document.getElementById('modal-avaliacao').style.display = 'block';
+      }
+
+      function fecharModalAvaliacao() {
+        document.getElementById('modal-avaliacao').style.display = 'none';
+        pedidoParaAvaliar = null;
+        notaAvaliacao = 0;
+      }
+
+      function setNota(nota) {
+        notaAvaliacao = nota;
+        atualizarEstrelas();
+      }
+
+      function atualizarEstrelas() {
+        const estrelas = document.querySelectorAll('#estrelas-avaliacao span');
+        estrelas.forEach((estrela, index) => {
+          if (index < notaAvaliacao) {
+            estrela.style.color = '#ffc107';
+          } else {
+            estrela.style.color = '#ddd';
+          }
+        });
+      }
+
+      async function enviarAvaliacao(event) {
+        event.preventDefault();
+        
+        if (notaAvaliacao === 0) {
+          alert('Por favor, selecione uma nota!');
+          return;
+        }
+        
+        try {
+          const comentario = document.getElementById('comentario-avaliacao').value.trim();
+          
+          const response = await apiRequest(`/pedidos/${pedidoParaAvaliar}/avaliacao`, {
+            method: 'POST',
+            body: JSON.stringify({
+              nota: notaAvaliacao,
+              comentario: comentario
+            })
+          });
+          
+          if (response._id) {
+            alert('Avaliação enviada com sucesso!');
+            fecharModalAvaliacao();
+            carregarPedidos(); // Recarregar pedidos para mostrar a avaliação
+          } else {
+            throw new Error(response.error || 'Erro ao enviar avaliação');
+          }
+        } catch (error) {
+          console.error('Erro ao enviar avaliação:', error);
+          alert('Erro ao enviar avaliação: ' + error.message);
+        }
+      }
+
+      // Tornar funções globais
+      window.abrirModalAvaliacao = abrirModalAvaliacao;
+      window.fecharModalAvaliacao = fecharModalAvaliacao;
+      window.setNota = setNota;
+      window.logout = logout;
+
+      // Event listeners
+      document.getElementById('form-avaliacao').addEventListener('submit', enviarAvaliacao);
+
+      // Carregar pedidos quando a página carregar
+      document.addEventListener('DOMContentLoaded', carregarPedidos);
+    </script>
+
+    <script src="js/auth.js"></script>
+    <script>
+      verificarAutenticacao();
+    </script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js');
+      }
+    </script>
+  </body>
+</html>

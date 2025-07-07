@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      if (!localStorage.getItem("token") || !localStorage.getItem("usuario")) {
+        window.location.href = "login.html";
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pizzaria Jerônimu's</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      /* Faixa horizontal com as cores da Itália */
+      .faixa-italia-horizontal {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+        border-radius: 0 0 18px 18px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .faixa-italia-horizontal .faixa-verde {
+        background: #1fa64b;
+        flex: 1;
+      }
+      .faixa-italia-horizontal .faixa-branca {
+        background: #fff;
+        flex: 1.6;
+      }
+      .faixa-italia-horizontal .faixa-vermelha {
+        background: #b22222;
+        flex: 1;
+      }
+
+      header {
+        text-align: center;
+        padding: 0;
+        background: none;
+      }
+
+      .logo-container {
+        margin-top: -30px;
+      }
+      .logo-container img {
+        width: 80px;
+        border-radius: 50%;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+      }
+      .logo-container h1 {
+        font-size: 1.8rem;
+        color: #333;
+        margin: 0.3rem 0;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        padding: 0.8rem 0;
+        background-color: #b22222;
+        border-radius: 0 0 15px 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        position: relative;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        transition: color 0.3s ease;
+      }
+      nav a:hover {
+        color: #ffb347;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 3rem 1rem;
+        background-color: #d06060;
+        color: white;
+        border-radius: 20px;
+        margin: 2rem auto;
+        max-width: 900px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      .hero h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+      .hero a.btn {
+        display: inline-block;
+        background-color: orange;
+        color: white;
+        padding: 0.8rem 1.6rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 1rem;
+        transition: background-color 0.3s ease;
+      }
+      .hero a.btn:hover {
+        background-color: #ff8c00;
+      }
+
+      .destaques,
+      .contato {
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: #fff8f0;
+        border-radius: 15px;
+        max-width: 1000px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .destaques h2,
+      .contato h2 {
+        color: #b22222;
+        margin-bottom: 1rem;
+      }
+      .menu-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 1rem;
+      }
+      .menu-item {
+        width: 200px;
+      }
+      .menu-item img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .menu-item h3 {
+        margin-top: 0.5rem;
+        font-size: 1.1rem;
+        color: #333;
+      }
+      .menu-item p {
+        color: #555;
+      }
+
+      @media (max-width: 600px) {
+        .faixa-italia-horizontal {
+          height: 40px;
+        }
+        .logo-container img {
+          width: 60px;
+        }
+        .logo-container h1 {
+          font-size: 1.3rem;
+        }
+      }
+    </style>
+  </head>
+  <a href="https://wa.me/5543999047461" target="_blank" class="whatsapp-float">
+    <img src="img/whatsapp.png" alt="WhatsApp" />
+  </a>
+
+  <body>
+    <header>
+      <div class="faixa-italia-horizontal">
+        <div class="faixa-verde"></div>
+        <div class="faixa-branca"></div>
+        <div class="faixa-vermelha"></div>
+      </div>
+      <div class="logo-container">
+        <img src="img/logo.png" alt="Logo Jerônimu's" class="logo" />
+        <h1>Pizzaria Jerônimu's</h1>
+      </div>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="menu.html">Pizzas Salgadas</a>
+        <a href="doces.html">Pizzas Doces</a>
+        <a href="bebidas.html">Bebidas</a>
+        <a href="carrinho.html">Carrinho</a>
+        <a href="pedidos.html">Meus Pedidos</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="horario">
+        <h2>Horário de Funcionamento</h2>
+        <p>De Quarta a Domingo: 19h - 23h</p>
+      </section>
+      <section class="localizacao">
+        <h2>Onde Estamos</h2>
+        <div class="mapa">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.6140845534374!2d-50.74196532541523!3d-23.72547156764052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ebad957e09ae65%3A0x226dd1ca18275703!2sAv.%20Pedro%20Ferreira%20da%20Costa%2C%20706%20-%20S%C3%A3o%20Jer%C3%B4nimo%20da%20Serra%2C%20PR%2C%2086270-000!5e0!3m2!1spt-BR!2sbr!4v1751409548125!5m2!1spt-BR!2sbr"
+            width="600"
+            height="450"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            width="100%"
+            height="300"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="destaques">
+        <h2>Destaques do Cardápio</h2>
+        <div class="menu-group">
+          <div class="menu-item">
+            <img src="img/pizza-marguerita.jpg" alt="Pizza Marguerita" />
+            <h3>Pizza Marguerita</h3>
+            <p>R$ 39,90</p>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-calabresa.jpg" alt="Pizza Calabresa" />
+            <h3>Pizza Calabresa</h3>
+            <p>R$ 42,90</p>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-4queijos.jpg" alt="Pizza Quatro Queijos" />
+            <h3>Pizza Quatro Queijos</h3>
+            <p>R$ 45,90</p>
+          </div>
+        </div>
+        <a class="btn" href="menu.html">Ver Cardápio Completo</a>
+      </section>
+
+      <section class="contato">
+        <h2>Entre em contato</h2>
+        <p><strong>Telefone/WhatsApp:</strong> (43) 99904-7461</p>
+        <p>
+          <strong>Endereço:</strong> Avenida Pedro Ferreira da Costa, 706 -
+          Centro
+        </p>
+        <p><strong>Horário:</strong> De Quarta a Domingo, das 19h às 23h</p>
+      </section>
+    </main>
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+<script src="js/auth.js"></script>
+<script>
+  verificarAutenticacao();
+</script>
+  </body>
+</html>

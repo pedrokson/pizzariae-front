@@ -1,0 +1,30 @@
+﻿{
+  "name": "pizzaria-frontend",
+  "version": "2.0.0",
+  "description": "Jeronimu's Pizzeria Frontend - Modern and responsive interface", 
+  "main": "index.html",
+  "scripts": {
+    "start": "npx live-server --port=3000 --cors --open",
+    "dev": "npx live-server --port=3000 --cors --watch --open",
+    "build": "echo 'Static frontend - nothing to build'",
+    "deploy:netlify": "echo 'Ready for Netlify deploy'",
+    "deploy:azure": "echo 'Ready for Azure Static Web Apps'"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "keywords": [
+    "pizzeria",
+    "frontend",
+    "html5", 
+    "css3",
+    "javascript",
+    "pwa",
+    "responsive"
+  ],
+  "author": "Pedro",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

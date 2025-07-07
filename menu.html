@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      // Redireciona para login se não estiver logado (usando novo JWT)
+      if (!localStorage.getItem("token") || !localStorage.getItem("usuario")) {
+        window.location.href = "login.html";
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cardápio - Jerônimu's</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .menu-title {
+        text-align: center;
+        margin-top: 32px;
+        margin-bottom: 24px;
+      }
+      .menu-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+      }
+      .menu-item {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px #0002;
+        padding: 24px 18px;
+        width: 320px;
+        text-align: center;
+        margin-bottom: 16px;
+        position: relative;
+      }
+      .menu-item img {
+        width: 100%;
+        max-width: 220px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+      .destaque {
+        color: #b22222;
+        font-weight: bold;
+        margin-left: 8px;
+      }
+      .indisponivel {
+        color: #888;
+        font-size: 0.95em;
+        margin-left: 8px;
+      }
+      .quantidade-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0.5rem 0;
+        justify-content: center;
+      }
+      .btn-menor,
+      .btn-maior {
+        background: #b22222;
+        color: #fff;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        line-height: 1;
+      }
+      .btn-menor:hover,
+      .btn-maior:hover {
+        background: #7a1616;
+      }
+      .quantidade-pizza {
+        width: 40px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        background: #fff;
+        color: #333;
+      }
+      .borda-recheada {
+        margin-top: 8px;
+        margin-bottom: 14px;
+        display: block;
+      }
+      .menu-item label[for="borda-recheada"] {
+        margin-top: 10px;
+        margin-bottom: 2px;
+        display: block;
+      }
+      .menu-item button {
+        margin-top: 8px;
+      }
+    </style>
+    <script>
+      function alterarQuantidade(btn, delta) {
+        const input = btn.parentElement.querySelector(".quantidade-pizza");
+        let valor = parseInt(input.value) || 1;
+        valor += delta;
+        if (valor < 1) valor = 1;
+        input.value = valor;
+      }
+      function adicionarCarrinho(nome, tamanho, preco, btn) {
+        let quantidade = 1;
+        let borda = "";
+        const card = btn.closest(".menu-item");
+        if (card) {
+          const qInput = card.querySelector(".quantidade-pizza");
+          if (qInput) quantidade = parseInt(qInput.value) || 1;
+          const bordaSelect = card.querySelector(".borda-recheada");
+          if (bordaSelect) borda = bordaSelect.value;
+        }
+        // Se tiver borda recheada, soma 13.90 ao preço unitário
+        let precoFinal = preco;
+        if (borda) {
+          precoFinal += 13.9;
+        }
+        let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        carrinho.push({
+          nome: nome + " (" + tamanho + ")",
+          preco: precoFinal,
+          quantidade: quantidade,
+          borda_recheada: borda,
+        });
+        localStorage.setItem("carrinho", JSON.stringify(carrinho));
+        alert(
+          `Adicionado ${quantidade}x ${nome} (${tamanho})${
+            borda ? " com borda " + borda : ""
+          } ao carrinho!`
+        );
+      }
+    </script>
+  </head>
+  <body class="fundo-vermelho">
+    <header>
+      <h1>Cardápio da Jerônimu's</h1>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="menu.html" class="active">Pizzas Salgadas</a>
+        <a href="doces.html">Pizzas Doces</a>
+        <a href="bebidas.html">Bebidas</a>
+        <a href="carrinho.html">Carrinho</a>
+        <a href="pedidos.html">Meus Pedidos</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="menu">
+        <h2 class="menu-title">Pizzas Tradicionais</h2>
+        <div class="menu-group">
+          <!-- Repita este bloco para cada pizza -->
+          <div class="menu-item">
+            <img src="img/pizza-bacon.jpg" alt="Pizza Bacon" />
+            <h3>Bacon</h3>
+            <p>Molho, mussarela, bacon, azeitona e orégano.</p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Bacon', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Bacon', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-portuguesa.jpg" alt="Pizza Portuguesa" />
+            <h3>Portuguesa</h3>
+            <p>
+              Molho, mussarela, presunto, ovo, cebola, tomate, azeitona e
+              orégano.
+            </p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Portuguesa', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Portuguesa', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-4queijos.jpg" alt="Pizza 4 Queijos" />
+            <h3>4 Queijos</h3>
+            <p>
+              Molho, mussarela, catupiry, parmesão, provolone, tomate, azeitona
+              e orégano.
+            </p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza 4 Queijos', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza 4 Queijos', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-calabresa.jpg" alt="Pizza Calabresa" />
+            <h3>Calabresa</h3>
+            <p>
+              Molho, mussarela, calabresa, cebola, tomate, azeitona e orégano.
+            </p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Calabresa', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Calabresa', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-palmito.jpg" alt="Pizza Palmito" />
+            <h3>Palmito</h3>
+            <p>Molho, mussarela, palmito, azeitona e orégano.</p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Palmito', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Palmito', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/pizza-frango.jpg"
+              alt="Pizza Frango com Catupiry ou Cheddar"
+            />
+            <h3>Frango com Catupiry ou Cheddar</h3>
+            <p>
+              Molho, mussarela, frango (catupiry ou cheddar), azeitona e
+              orégano.
+            </p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Frango com Catupiry ou Cheddar', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Frango com Catupiry ou Cheddar', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-baiana.jpg" alt="Pizza Baiana" />
+            <h3>Baiana</h3>
+            <p>
+              Molho, mussarela, presunto, calabresa, molho de pimenta, cebola,
+              azeitona e orégano.
+            </p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Baiana', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Baiana', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-americana.jpg" alt="Pizza Americana" />
+            <h3>Americana</h3>
+            <p>Molho, mussarela, frango, palmito, azeitona e orégano.</p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Americana', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Americana', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-catubresa.jpg" alt="Pizza Catubresa" />
+            <h3>Catubresa</h3>
+            <p>
+              Molho, mussarela, calabresa, cebola, catupiry, azeitona e orégano.
+            </p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Catubresa', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Catubresa', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-marguerita.jpg" alt="Pizza Marguerita" />
+            <h3>Marguerita</h3>
+            <p>
+              Molho, mussarela, manjericão, tomate cereja, azeitona e orégano.
+            </p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Marguerita', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Marguerita', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-napolitana.jpg" alt="Pizza Napolitana" />
+            <h3>Napolitana</h3>
+            <p>Molho, mussarela, presunto, tomate, azeitona e orégano.</p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Napolitana', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Napolitana', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-dacasa.jpg" alt="Pizza Da Casa" />
+            <h3>Da Casa</h3>
+            <p>
+              Molho, mussarela, presunto, calabresa, bacon, catupiry, cebola,
+              tomate e orégano.
+            </p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Da Casa', 'Média', 49.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Da Casa', 'Grande', 52.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="menu-title">Pizzas Especiais</h2>
+        <div class="menu-group">
+          <div class="menu-item">
+            <img src="img/pizza-canadense.jpg" alt="Pizza Canadense" />
+            <h3>Canadense</h3>
+            <p>
+              Molho, mussarela, lombo defumado, catupiry, tomate, azeitona e
+              orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Canadense', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Canadense', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-brocolis.jpg" alt="Pizza Brócolis com Bacon" />
+            <h3>Brócolis com Bacon</h3>
+            <p>
+              Molho, mussarela, brócolis com bacon, champignon, azeitona e
+              orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Brócolis com Bacon', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Brócolis com Bacon', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/pizza-rucula.jpg"
+              alt="Pizza Rúcula com Tomate Seco"
+            />
+            <h3>Rúcula com Tomate Seco</h3>
+            <p>Molho, mussarela, rúcula, tomate seco, azeitona e orégano.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Rúcula com Tomate Seco', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Rúcula com Tomate Seco', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-jeronimus.jpg" alt="Pizza Jerônimus" />
+            <h3>Jerônimus</h3>
+            <p>
+              Molho, mussarela, peito de peru, ervilha, milho, palmito,
+              catupiry, bacon, calabresa, azeitona e orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Jerônimus', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Jerônimus', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-caipira.jpg" alt="Pizza Caipira" />
+            <h3>Caipira</h3>
+            <p>
+              Molho, mussarela, frango, milho, bacon, cheddar, azeitona e
+              orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Caipira', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Caipira', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-garden.jpg" alt="Pizza Garden" />
+            <h3>Garden</h3>
+            <p>
+              Molho, mussarela, brócolis, catupiry, milho, ervilha, tomate e
+              orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Garden', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Garden', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-padoguesa.jpg" alt="Pizza Padoguesa" />
+            <h3>Padoguesa</h3>
+            <p>
+              Molho, mussarela, palmito, milho, ervilha, ovo, catupiry, azeitona
+              e orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Padoguesa', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Padoguesa', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-pizzaiolo.jpg" alt="Pizza Pizzaiolo" />
+            <h3>Pizzaiolo</h3>
+            <p>
+              Molho, mussarela, lombo defumado, frango, catupiry, tomate,
+              azeitona e orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Pizzaiolo', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Pizzaiolo', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-pepperoni.jpg" alt="Pizza Pepperoni" />
+            <h3>Pepperoni</h3>
+            <p>Molho, mussarela, pepperoni, azeitona e orégano.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Pepperoni', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Pepperoni', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-serrana.jpg" alt="Pizza Serrana" />
+            <h3>Serrana</h3>
+            <p>
+              Molho, mussarela, peito de peru, palmito, champignon, catupiry,
+              tomate, azeitona e orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Serrana', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Serrana', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-strogonof.jpg" alt="Pizza Strogonof" />
+            <h3>Strogonof</h3>
+            <p>
+              Molho, mussarela, strogonof de carne, champignon, batata palha,
+              azeitona e orégano.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Strogonof', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Strogonof', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-alcatra.jpg" alt="Pizza Alcatra" />
+            <h3>Alcatra</h3>
+            <p>Molho, mussarela, alcatra, cebola, azeitona e orégano.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Pizza Alcatra', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Pizza Alcatra', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js");
+      }
+    </script>
+    <script type="module">
+      import { listarProdutos } from "./produtos.js";
+
+      // Elemento onde os produtos serão exibidos
+      const container = document.querySelector(".menu-group");
+
+      // Busca e exibe apenas produtos da categoria "pizza"
+      listarProdutos().then((produtos) => {
+        const pizzas = produtos.filter((p) => p.categoria === "pizza");
+        container.innerHTML = pizzas
+          .map(
+            (produto) => `
+      <div class="menu-item">
+        ${
+          produto.imagem
+            ? `<img src="${produto.imagem}" alt="${produto.nome}">`
+            : ""
+        }
+        <h3>${produto.nome}</h3>
+        <p>${produto.descricao || ""}</p>
+        <p>Categoria: ${produto.categoria}</p>
+        ${produto.tamanhos
+          ?.map(
+            (tamanho) => `
+          <div>
+            <p>
+              ${tamanho.nome}: R$ ${tamanho.preco.toFixed(2)}${
+              tamanho.diametro ? ` (${tamanho.diametro})` : ""
+            }
+            </p>
+            <div class="quantidade-container">
+              <button type="button" class="btn-menor" onclick="alterarQuantidade(this, -1)">-</button>
+              <input type="number" min="1" value="1" class="quantidade-pizza" readonly />
+              <button type="button" class="btn-maior" onclick="alterarQuantidade(this, 1)">+</button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="adicionarCarrinho('${produto.nome.replace(
+              /'/g,
+              "\\'"
+            )}', '${tamanho.nome}', ${tamanho.preco}, this)">Adicionar</button>
+          </div>
+        `
+          )
+          .join("")}
+        ${produto.destaque ? '<span class="destaque">⭐ Destaque</span>' : ""}
+        ${
+          produto.disponivel === false
+            ? '<span class="indisponivel">❌ Indisponível</span>'
+            : ""
+        }
+      </div>
+    `
+          )
+          .join("");
+      });
+    </script>
+    <script src="js/menu.js"></script>
+    <script src="js/auth.js"></script>
+<script>
+  verificarAutenticacao();
+</script>
+  </body>
+</html>

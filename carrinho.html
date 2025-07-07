@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      if (!localStorage.getItem("token") || !localStorage.getItem("usuario")) {
+        window.location.href = "login.html";
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carrinho - Jerônimu's</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f4f4f4;
+        color: #333;
+      }
+      header {
+        background: #b22222;
+        color: #fff;
+        padding: 16px;
+        position: relative;
+      }
+      header h1 {
+        margin: 0;
+      }
+      header nav a {
+        color: #fff;
+        text-decoration: none;
+        margin-right: 16px;
+        font-weight: bold;
+      }
+      header nav a.active {
+        text-decoration: underline;
+      }
+      table {
+        border-collapse: collapse;
+        background: #fff;
+        margin-bottom: 16px;
+      }
+      th,
+      td {
+        padding: 10px 8px;
+        text-align: center;
+      }
+      th {
+        background: #b22222;
+        color: #fff;
+        font-weight: bold;
+      }
+      tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+      .quantidade-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #f4f4f4;
+        border-radius: 12px;
+        padding: 4px 8px;
+        box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+        min-width: 100px;
+      }
+      .quantidade-btn {
+        background: #b22222;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+        line-height: 1;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        transition: transform 0.1s, background 0.2s;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+      }
+      .quantidade-btn:hover {
+        background: #7a1616;
+      }
+      .quantidade-btn:active {
+        transform: scale(0.92);
+      }
+      
+      .quantidade-container span {
+        min-width: 28px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #333;
+        display: inline-block;
+      }
+      .remover-btn {
+        background: #fff;
+        color: #b22222;
+        border: 1px solid #b22222;
+        border-radius: 6px;
+        padding: 4px 12px;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.2s, color 0.2s;
+      }
+      .remover-btn:hover {
+        background: #b22222;
+        color: #fff;
+      }
+      .borda-info {
+        color: #b22222;
+        font-size: 0.95em;
+        font-weight: bold;
+      }
+      main {
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+      }
+      button {
+        padding: 10px 20px;
+        background: #b22222;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: background 0.2s;
+      }
+      button:hover {
+        background: #7a1616;
+      }
+
+      /* Responsividade */
+      @media (max-width: 600px) {
+        main {
+          padding: 8px;
+          max-width: 100vw;
+        }
+        table {
+          font-size: 0.95rem;
+          width: 100% !important;
+          max-width: 100vw !important;
+          overflow-x: auto;
+          display: block;
+        }
+        th,
+        td {
+          padding: 6px 2px;
+          font-size: 0.95rem;
+        }
+        .quantidade-container {
+          min-width: 80px;
+          gap: 4px;
+          padding: 2px 2px;
+        }
+        .quantidade-btn {
+          width: 28px;
+          height: 28px;
+          font-size: 1rem;
+        }
+        .remover-btn,
+        button {
+          font-size: 0.95rem;
+          padding: 7px 10px;
+        }
+        header {
+          padding: 10px 4px;
+          font-size: 1rem;
+        }
+        header nav a {
+          margin-right: 8px;
+          font-size: 0.95rem;
+        }
+        h1,
+        h2,
+        h3 {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Seu Carrinho - Jerônimu's</h1>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="menu.html">Cardápio</a>
+        <a href="carrinho.html" class="active">Carrinho</a>
+        <a href="pedidos.html">Meus Pedidos</a>
+        <button
+          onclick="logout()"
+          style="
+            position: absolute;
+            top: 18px;
+            right: 32px;
+            background: transparent;
+            color: #fff;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+          "
+          onmouseover="this.style.opacity=1"
+          onmouseout="this.style.opacity=0.7"
+          title="Sair"
+        >
+          Sair
+        </button>
+      </nav>
+      <script>
+        function logout() {
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuario");
+          window.location.href = "login.html";
+        }
+      </script>
+    </header>
+
+    <main>
+      <section class="carrinho">
+        <h2>Itens no Carrinho</h2>
+        <table
+          border="1"
+          cellpadding="8"
+          style="width: 100%; max-width: 600px; margin: auto"
+        >
+          <thead>
+            <tr>
+              <th>Pizza</th>
+              <th>Quantidade</th>
+              <th>Preço Unitário</th>
+              <th>Total</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-carrinho"></tbody>
+        </table>
+        <h3 id="total"></h3>
+        <!-- Caixa de observação -->
+        <label for="observacao" style="display:block; margin:12px 0 4px 0;">Observação do pedido:</label>
+        <textarea id="observacao" rows="3" style="width:100%;max-width:600px;resize:vertical;" placeholder="Ex: Tirar cebola da pizza, entregar sem contato, etc."></textarea>
+        <button onclick="finalizarPedido()" style="margin-top:12px;">Finalizar Pedido</button>
+        <button
+          onclick="limparCarrinho()"
+          style="margin-top: 10px; background: #7a1616"
+        >
+          Limpar Carrinho
+        </button>
+      </section>
+    </main>
+
+    <script>
+      function renderCarrinho() {
+        console.log('🛒 Renderizando carrinho...');
+        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        console.log('📦 Itens encontrados:', carrinho);
+        
+        const tabela = document.getElementById("tabela-carrinho");
+        const totalEl = document.getElementById("total");
+        tabela.innerHTML = "";
+        let totalGeral = 0;
+        
+        if (carrinho.length === 0) {
+          console.log('⚠️ Carrinho vazio');
+          tabela.innerHTML = `<tr><td colspan="5">Seu carrinho está vazio.</td></tr>`;
+          totalEl.textContent = "";
+          return;
+        }
+        
+        console.log(`✅ Processando ${carrinho.length} itens do carrinho`);
+        carrinho.forEach((item, index) => {
+          const total = item.preco * item.quantidade;
+          totalGeral += total;
+          console.log(`   ${index + 1}. ${item.quantidade}x ${item.nome} - R$ ${item.preco}`);
+          tabela.innerHTML += `
+          <tr>
+            <td>
+              ${item.nome}
+              ${
+                item.borda_recheada
+                  ? `<br><span class="borda-info">com borda ${item.borda_recheada} (+R$ 13,90)</span>`
+                  : ""
+              }
+              ${item.tamanho ? `<br><small>Tamanho: ${item.tamanho}</small>` : ""}
+              ${item.observacoes ? `<br><small>Obs: ${item.observacoes}</small>` : ""}
+            </td>
+            <td>
+              <div class="quantidade-container">
+                <button class="quantidade-btn" onclick="alterarQuantidadeCarrinho(${index}, -1)">-</button>
+                <span>${item.quantidade}</span>
+                <button class="quantidade-btn quantidade-mais" onclick="alterarQuantidadeCarrinho(${index}, 1)">+</button>
+              </div>
+            </td>
+            <td>R$ ${item.preco.toFixed(2)}</td>
+            <td>R$ ${total.toFixed(2)}</td>
+            <td><button class="remover-btn" onclick="removerItemCarrinho(${index})">Remover</button></td>
+          </tr>
+        `;
+        });
+        tabela.innerHTML += `
+        <tr>
+          <td colspan="4"><strong>Total Geral</strong></td>
+          <td><strong>R$ ${totalGeral.toFixed(2)}</strong></td>
+        </tr>
+      `;
+        totalEl.textContent = "";
+      }
+
+      function removerItemCarrinho(index) {
+        let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        carrinho.splice(index, 1);
+        localStorage.setItem("carrinho", JSON.stringify(carrinho));
+        renderCarrinho();
+      }
+
+      function alterarQuantidadeCarrinho(index, delta) {
+        let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        carrinho[index].quantidade += delta;
+        if (carrinho[index].quantidade < 1) carrinho[index].quantidade = 1;
+        localStorage.setItem("carrinho", JSON.stringify(carrinho));
+        renderCarrinho();
+      }
+
+      function limparCarrinho() {
+        if (confirm("Deseja realmente limpar o carrinho?")) {
+          localStorage.removeItem("carrinho");
+          renderCarrinho();
+        }
+      }
+
+      async function finalizarPedido() {
+        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        if (carrinho.length === 0) {
+          alert("Seu carrinho está vazio!");
+          return;
+        }
+
+        // Por enquanto, vamos direto para o WhatsApp
+        enviarWhatsApp(carrinho);
+      }
+
+      function enviarWhatsApp(carrinho) {
+        // Criar mensagem formatada primeiro
+        let mensagem = `🍕 *NOVO PEDIDO - JERÔNIMU'S PIZZARIA*
+
+📋 *ITENS DO PEDIDO:*
+`;
+        
+        let total = 0;
+        carrinho.forEach((item, index) => {
+          const subtotal = item.preco * item.quantidade;
+          total += subtotal;
+          
+          mensagem += `
+${index + 1}. *${item.nome}*`;
+          
+          if (item.tamanho) {
+            mensagem += ` (${item.tamanho})`;
+          }
+          
+          if (item.borda_recheada) {
+            mensagem += `
+   🧀 Borda: ${item.borda_recheada} (+R$ 13,90)`;
+          }
+          
+          mensagem += `
+   📦 Quantidade: ${item.quantidade}
+   💰 Valor unitário: R$ ${item.preco.toFixed(2)}
+   🔢 Subtotal: R$ ${subtotal.toFixed(2)}
+`;
+        });
+
+        mensagem += `
+━━━━━━━━━━━━━━━━━━━━━━━━
+💵 *TOTAL GERAL: R$ ${total.toFixed(2)}*`;
+
+        const obs = document.getElementById("observacao").value.trim();
+        if (obs) {
+          mensagem += `
+
+📝 *OBSERVAÇÕES:*
+${obs}`;
+        }
+
+        mensagem += `
+
+📍 *Dados do Cliente:*
+Entre em contato para confirmar endereço e forma de pagamento.
+
+⏰ Pedido feito em: ${new Date().toLocaleString()}
+
+Obrigado pela preferência! 🙏`;
+
+        const numeroDono = "5543991310616";
+        window.open(
+          `https://wa.me/${numeroDono}?text=${encodeURIComponent(mensagem)}`,
+          "_blank"
+        );
+        
+        // Limpar carrinho após enviar
+        if (confirm("Pedido enviado! Deseja limpar o carrinho?")) {
+          localStorage.removeItem("carrinho");
+          renderCarrinho();
+          document.getElementById("observacao").value = "";
+        }
+      }
+
+      // Carregar carrinho ao inicializar
+      renderCarrinho();
+    </script>
+    <script>
+      if ("serviceWorker"in navigator) {
+        navigator.serviceWorker.register("service-worker.js");
+      }
+    </script>
+    <script src="js/auth.js"></script>
+<script>
+  verificarAutenticacao();
+</script>
+  </body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      if (!localStorage.getItem("token") || !localStorage.getItem("usuario")) {
+        window.location.href = "login.html";
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cardápio - Jerônimu's</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .menu-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+      }
+      .menu-item {
+        background: #fff8f0;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px #0001;
+        padding: 18px;
+        width: 270px;
+        margin-bottom: 18px;
+        text-align: center;
+      }
+      .quantidade-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0.5rem 0;
+        justify-content: center;
+      }
+      .btn-menor,
+      .btn-maior {
+        background: #b22222;
+        color: #fff;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        line-height: 1;
+      }
+      .btn-menor:hover,
+      .btn-maior:hover {
+        background: #7a1616;
+      }
+      .quantidade-pizza {
+        width: 40px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        background: #fff;
+        color: #333;
+      }
+      .botoes-tamanho button {
+        margin: 0 4px;
+      }
+      .borda-recheada {
+        margin-top: 8px;
+        margin-bottom: 14px;
+        display: block;
+      }
+      .menu-item label[for="borda-recheada"] {
+        margin-top: 10px;
+        margin-bottom: 2px;
+        display: block;
+      }
+      .menu-item
+        button:not(.btn-menor):not(.btn-maior):not(.botoes-tamanho button) {
+        margin-top: 8px;
+      }
+    </style>
+    <script src="js/menu.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Cardápio da Jerônimu's</h1>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="menu.html">Cardápio Salgado</a>
+        <a href="doces.html" class="active">Pizzas Doces</a>
+        <a href="bebidas.html">Bebidas</a>
+        <a href="carrinho.html">Carrinho</a>
+        <a href="pedidos.html">Meus Pedidos</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="menu">
+        <div class="menu-group">
+          <div class="menu-item">
+            <img src="img/pizza-romeujulieta.jpg" alt="Romeu e Julieta" />
+            <h3>Romeu e Julieta</h3>
+            <p>Mussarela e goiabada.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Romeu e Julieta', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Romeu e Julieta', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-sonhovalsa.jpg" alt="Sonho de Valsa" />
+            <h3>Sonho de Valsa</h3>
+            <p>
+              Mussarela, chocolate ao leite, sonho de valsa e leite condensado.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Sonho de Valsa', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Sonho de Valsa', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-mm.jpg" alt="M & M" />
+            <h3>M & M</h3>
+            <p>Mussarela, chocolate ao leite, M&M e leite condensado.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('M & M', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('M & M', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-prestigio.jpg" alt="Prestígio" />
+            <h3>Prestígio</h3>
+            <p>
+              Mussarela, chocolate ao leite, coco ralado e leite condensado.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Prestígio', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Prestígio', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-doisamores.jpg" alt="Dois Amores" />
+            <h3>Dois Amores</h3>
+            <p>Mussarela, chocolate branco e chocolate ao leite.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Dois Amores', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Dois Amores', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/pizza-bananachocobranco.jpg"
+              alt="Banana com Chocolate Branco"
+            />
+            <h3>Banana com Chocolate Branco</h3>
+            <p>Mussarela, banana fatiada, chocolate branco, canela e açúcar.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Banana com Chocolate Branco', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Banana com Chocolate Branco', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-banoffe.jpg" alt="Banoffe" />
+            <h3>Banoffe</h3>
+            <p>Mussarela, banana fatiada, doce de leite e canela em pó.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Banoffe', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Banoffe', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-bis.jpg" alt="Bis ao Leite" />
+            <h3>Bis ao Leite</h3>
+            <p>Mussarela, chocolate ao leite, bis e leite condensado.</p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Bis ao Leite', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Bis ao Leite', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+          <div class="menu-item">
+            <img src="img/pizza-abacaxi.jpg" alt="Abacaxi" />
+            <h3>Abacaxi</h3>
+            <p>
+              Mussarela, chocolate branco, abacaxi, coco ralado e leite
+              condensado.
+            </p>
+            <p>Média: R$ 51,90 &nbsp;|&nbsp; Grande: R$ 59,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <label for="borda-recheada">Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Chocolate ao leite">Chocolate ao leite</option>
+              <option value="Chocolate Branco">Chocolate Branco</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button
+                onclick="adicionarCarrinho('Abacaxi', 'Média', 51.90, this)"
+              >
+                Média
+              </button>
+              <button
+                onclick="adicionarCarrinho('Abacaxi', 'Grande', 59.90, this)"
+              >
+                Grande
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js");
+      }
+    </script>
+    <script type="module">
+      import { listarProdutos } from "./produtos.js";
+
+      const container = document.querySelector(".menu-group");
+
+      listarProdutos().then((produtos) => {
+        const doces = produtos.filter((p) => p.categoria === "doce");
+        container.innerHTML = doces
+          .map(
+            (doce) => `
+      <div class="menu-item">
+        <h3>${doce.nome}</h3>
+        <p>${doce.descricao}</p>
+        <p><strong>R$ ${doce.preco.toFixed(2)}</strong></p>
+      </div>
+    `
+          )
+          .join("");
+      });
+    </script>
+    <script src="js/auth.js"></script>
+<script>
+  verificarAutenticacao();
+</script>
+  </body>
+</html>

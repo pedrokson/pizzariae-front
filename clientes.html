@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clientes - Jerônimu's</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <h2>Cadastrar Cliente</h2>
+    <form id="form-cliente">
+      <input type="text" id="nome" placeholder="Nome" required>
+      <input type="text" id="telefone" placeholder="Telefone">
+      <input type="text" id="endereco" placeholder="Endereço">
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Lista de Clientes</h2>
+    <ul id="lista-clientes"></ul>
+
+    <script src="js/clientes.js"></script>
+    <script>
+      document.getElementById('form-cliente').onsubmit = function(e) {
+        e.preventDefault();
+        const nome = document.getElementById('nome').value;
+        const telefone = document.getElementById('telefone').value;
+        const endereco = document.getElementById('endereco').value;
+        cadastrarCliente(nome, telefone, endereco);
+        this.reset();
+      }
+    </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+  </body>
+</html>

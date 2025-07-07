@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      if (!localStorage.getItem("token") || !localStorage.getItem("usuario")) {
+        window.location.href = "login.html";
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bebidas - Jerônimu's</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .menu-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+      }
+      .menu-item {
+        background: #f0f8ff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px #0001;
+        padding: 18px;
+        width: 240px;
+        margin-bottom: 18px;
+        text-align: center;
+      }
+      .quantidade-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0.5rem 0;
+        justify-content: center;
+      }
+      .btn-menor,
+      .btn-maior {
+        background: #b22222;
+        color: #fff;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        line-height: 1;
+      }
+      .btn-menor:hover,
+      .btn-maior:hover {
+        background: #7a1616;
+      }
+      .quantidade-pizza {
+        width: 40px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        background: #fff;
+        color: #333;
+      }
+      @media (max-width: 700px) {
+        .menu-group {
+          flex-direction: column;
+          align-items: center;
+        }
+        .menu-item {
+          width: 98vw;
+          max-width: 340px;
+        }
+      }
+    </style>
+    <script src="js/menu.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Bebidas - Jerônimu's</h1>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="menu.html">Pizzas Salgadas</a>
+        <a href="doces.html">Pizzas Doces</a>
+        <a href="bebidas.html" class="active">Bebidas</a>
+        <a href="carrinho.html">Carrinho</a>
+        <a href="pedidos.html">Meus Pedidos</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="menu">
+        <div class="menu-group">
+          <!-- Refrigerantes -->
+          <div class="menu-item">
+            <img
+              src="img/refri-coca.jpg"
+              alt="Coca-Cola"
+              style="max-width: 90px"
+            />
+            <h3>Coca-Cola</h3>
+            <p>Lata 350ml</p>
+            <p>R$ 5,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Coca-Cola Lata', 'Lata', 5.00, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/refri-cocazero.jpg"
+              alt="Coca-Cola Zero"
+              style="max-width: 90px"
+            />
+            <h3>Coca-Cola Zero</h3>
+            <p>Lata 350ml</p>
+            <p>R$ 5,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Coca-Cola Zero Lata', 'Lata', 5.00, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/refri-fanta.jpg"
+              alt="Fanta"
+              style="max-width: 90px"
+            />
+            <h3>Fanta</h3>
+            <p>Lata 350ml</p>
+            <p>R$ 5,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Fanta Lata', 'Lata', 5.00, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/refri-guarana.jpg"
+              alt="Guaraná Antártica"
+              style="max-width: 90px"
+            />
+            <h3>Guaraná Antártica</h3>
+            <p>Lata 350ml</p>
+            <p>R$ 5,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Guaraná Antártica Lata', 'Lata', 5.00, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/refri-guarana-zero.jpg"
+              alt="Guaraná Antártica Zero"
+              style="max-width: 90px"
+            />
+            <h3>Guaraná Antártica Zero</h3>
+            <p>Lata 350ml</p>
+            <p>R$ 5,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Guaraná Antártica Zero Lata', 'Lata', 5.00, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/refri-sprite.jpg"
+              alt="Sprite"
+              style="max-width: 90px"
+            />
+            <h3>Sprite</h3>
+            <p>Lata 350ml</p>
+            <p>R$ 5,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Sprite Lata', 'Lata', 5.00, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+
+          <div class="menu-item">
+            <div
+              class="carrossel-600ml"
+              style="
+                position: relative;
+                width: 100%;
+                max-width: 140px;
+                margin: auto;
+              "
+            >
+              <img
+                src="img/refri-600ml-coca.jpg"
+                alt="Coca-Cola 600ml"
+                class="carrossel-img"
+                style="width: 100%; display: block; border-radius: 8px"
+                data-sabor="Coca-Cola"
+              />
+              <img
+                src="img/refri-600ml-fanta.jpg"
+                alt="Fanta 600ml"
+                class="carrossel-img"
+                style="width: 100%; display: none; border-radius: 8px"
+                data-sabor="Fanta"
+              />
+              <img
+                src="img/refri-600ml-sprite.jpg"
+                alt="Sprite 600ml"
+                class="carrossel-img"
+                style="width: 100%; display: none; border-radius: 8px"
+                data-sabor="Sprite"
+              />
+              <button
+                type="button"
+                class="carrossel-btn"
+                style="
+                  position: absolute;
+                  top: 45%;
+                  left: 4px;
+                  background: rgba(178, 34, 34, 0.18);
+                  color: #b22222;
+                  border: none;
+                  border-radius: 50%;
+                  width: 22px;
+                  height: 22px;
+                  cursor: pointer;
+                  font-size: 1.1rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  z-index: 2;
+                "
+                onclick="mudarCarrossel600ml(-1)"
+                aria-label="Anterior"
+              >
+                &#8592;
+              </button>
+              <button
+                type="button"
+                class="carrossel-btn"
+                style="
+                  position: absolute;
+                  top: 45%;
+                  right: 4px;
+                  background: rgba(178, 34, 34, 0.18);
+                  color: #b22222;
+                  border: none;
+                  border-radius: 50%;
+                  width: 22px;
+                  height: 22px;
+                  cursor: pointer;
+                  font-size: 1.1rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  z-index: 2;
+                "
+                onclick="mudarCarrossel600ml(1)"
+                aria-label="Próximo"
+              >
+                &#8594;
+              </button>
+            </div>
+            <h3>Refrigerante 600ml</h3>
+            <p>Coca-Cola, Fanta ou Sprite</p>
+            <p>600ml</p>
+            <p>R$ 8,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button onclick="adicionarRefri600ml(this)">Adicionar</button>
+          </div>
+
+          <script>
+            // filepath: c:\Users\pedro\Desktop\pizzaria\bebidas.html
+            let idx600ml = 0;
+            function mudarCarrossel600ml(dir) {
+              const imgs = document.querySelectorAll(
+                ".carrossel-600ml .carrossel-img"
+              );
+              imgs[idx600ml].style.display = "none";
+              idx600ml = (idx600ml + dir + imgs.length) % imgs.length;
+              imgs[idx600ml].style.display = "block";
+            }
+
+            // Função para adicionar o sabor correto ao carrinho
+            function adicionarRefri600ml(btn) {
+              const imgs = document.querySelectorAll(
+                ".carrossel-600ml .carrossel-img"
+              );
+              const sabor = imgs[idx600ml].getAttribute("data-sabor");
+              // Busca a quantidade selecionada
+              const quantidadeInput =
+                btn.parentElement.querySelector(".quantidade-pizza");
+              const quantidade = quantidadeInput
+                ? parseInt(quantidadeInput.value)
+                : 1;
+              // Chama a função original passando o sabor
+              adicionarCarrinho(
+                `Refrigerante 600ml - ${sabor}`,
+                "600ml",
+                8.0,
+                btn,
+                quantidade
+              );
+            }
+          </script>
+          <!-- Sucos Naturais -->
+          <div class="menu-item">
+            <img
+              src="img/suco-uva.jpg"
+              alt="Suco Uva"
+              style="max-width: 90px"
+            />
+            <h3>Suco Uva</h3>
+            <p>Jarra</p>
+            <p>R$ 12,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Suco Uva', 'Jarra', 12.90, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/suco-abacaxi.jpg"
+              alt="Suco Abacaxi"
+              style="max-width: 90px"
+            />
+            <h3>Suco Abacaxi</h3>
+            <p>Jarra</p>
+            <p>R$ 12,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Suco Abacaxi', 'Jarra', 12.90, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/suco-abacaxi-hortela.jpg"
+              alt="Suco Abacaxi c/ Hortelã"
+              style="max-width: 90px"
+            />
+            <h3>Suco Abacaxi c/ Hortelã</h3>
+            <p>Jarra</p>
+            <p>R$ 12,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Suco Abacaxi c/ Hortelã', 'Jarra', 12.90, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/suco-maracuja.jpg"
+              alt="Suco Maracujá"
+              style="max-width: 90px"
+            />
+            <h3>Suco Maracujá</h3>
+            <p>Jarra</p>
+            <p>R$ 12,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Suco Maracujá', 'Jarra', 12.90, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/suco-frutas-vermelhas.jpg"
+              alt="Suco Frutas Vermelhas"
+              style="max-width: 90px"
+            />
+            <h3>Suco Frutas Vermelhas</h3>
+            <p>Jarra</p>
+            <p>R$ 12,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button
+              onclick="adicionarCarrinho('Suco Frutas Vermelhas', 'Jarra', 12.90, this)"
+            >
+              Adicionar
+            </button>
+          </div>
+          <!-- Águas -->
+          <div class="menu-item">
+            <img
+              src="img/agua.jpg"
+              alt="Água Sem Gás"
+              style="max-width: 90px"
+            />
+            <h3>Água Sem Gás</h3>
+            <p>Garrafa</p>
+            <p>R$ 3,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button onclick="adicionarCarrinho('Água Sem Gás', '', 3.00, this)">
+              Adicionar
+            </button>
+          </div>
+          <div class="menu-item">
+            <img
+              src="img/agua-com-gas.jpg"
+              alt="Água Com Gás"
+              style="max-width: 90px"
+            />
+            <h3>Água Com Gás</h3>
+            <p>Garrafa</p>
+            <p>R$ 3,90</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button onclick="adicionarCarrinho('Água Com Gás', '', 3.90, this)">
+              Adicionar
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js");
+      }
+    </script>
+
+    <script type="module">
+      import { listarProdutos } from "./produtos.js";
+
+      const container = document.querySelector(".menu-group");
+
+      listarProdutos().then((produtos) => {
+        const bebidas = produtos.filter((p) => p.categoria === "bebida");
+        container.innerHTML = bebidas
+          .map(
+            (bebida) => `
+      <div class="menu-item">
+        <h3>${bebida.nome}</h3>
+        <p>${bebida.descricao}</p>
+        <p><strong>R$ ${bebida.preco.toFixed(2)}</strong></p>
+      </div>
+    `
+          )
+          .join("");
+      });
+    </script>
+    <script src="js/auth.js"></script>
+<script>
+  verificarAutenticacao();
+</script>
+  </body>
+</html>
