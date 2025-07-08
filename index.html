@@ -14,6 +14,13 @@
     <style>
       /* Estilos específicos para a página inicial */
       
+      body {
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+      }
+      
       /* Faixa horizontal com as cores da Itália */
       .faixa-italia-horizontal {
         width: 100%;
@@ -44,15 +51,17 @@
         padding: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+        text-align: center;
       }
 
       .logo-container {
-        margin-top: -30px;
+        margin: -30px auto 0 auto;
         background: white;
         padding: 20px;
         border-radius: 50px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         display: inline-block;
+        text-align: center;
       }
       
       .logo-container img {
@@ -74,8 +83,30 @@
         background-color: #b22222 !important;
         border-radius: 0 0 15px 15px !important;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
-        margin-top: 20px !important;
+        margin: 20px auto 0 auto !important;
         padding: 1rem 0 !important;
+        text-align: center;
+        max-width: 800px;
+      }
+
+      nav a {
+        color: white !important;
+        text-decoration: none;
+        margin: 0 15px;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      nav a:hover {
+        color: #ffdd00 !important;
+      }
+
+      /* Ajustes para o main */
+      main {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
       }
 
       /* Seções específicas da página inicial */
@@ -179,7 +210,7 @@
           height: 40px;
         }
         .logo-container {
-          margin-top: -20px;
+          margin: -20px auto 0 auto;
           padding: 15px;
         }
         .logo-container img {
@@ -189,6 +220,17 @@
         .logo-container h1 {
           font-size: 1.3rem;
         }
+        nav {
+          margin: 15px auto 0 auto !important;
+          max-width: 95% !important;
+        }
+        nav a {
+          margin: 0 8px;
+          font-size: 0.9rem;
+        }
+        main {
+          padding: 15px;
+        }
         .menu-group {
           gap: 15px;
         }
@@ -196,7 +238,7 @@
           width: 160px;
         }
         .horario, .localizacao, .destaques, .contato {
-          margin: 1.5rem;
+          margin: 1.5rem auto;
           padding: 1.5rem;
         }
       }
