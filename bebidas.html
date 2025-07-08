@@ -12,67 +12,155 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/styles.css" />
     <style>
-      .menu-group {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 24px;
+      /* Container do menu */
+      .menu {
+        padding: 2rem 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
       }
-      .menu-item {
-        background: #f0f8ff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px #0001;
-        padding: 18px;
-        width: 240px;
-        margin-bottom: 18px;
+
+      .menu h2 {
         text-align: center;
+        color: #2E86C1;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-weight: bold;
       }
+
+      .menu-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+      }
+
+      .menu-item {
+        background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(46, 134, 193, 0.1);
+        padding: 1.5rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 35px rgba(46, 134, 193, 0.15);
+        border-color: #3498db;
+      }
+
+      .menu-item img {
+        width: 100%;
+        max-width: 120px;
+        height: 120px;
+        object-fit: contain;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .menu-item h3 {
+        color: #2E86C1;
+        margin-bottom: 0.5rem;
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
+
+      .menu-item p {
+        color: #666;
+        margin-bottom: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .menu-item p:last-of-type {
+        font-weight: bold;
+        color: #3498db;
+        font-size: 1.1rem;
+      }
+
       .quantidade-container {
         display: flex;
         align-items: center;
-        gap: 6px;
-        margin: 0.5rem 0;
+        gap: 8px;
+        margin: 1rem 0;
         justify-content: center;
       }
+
       .btn-menor,
       .btn-maior {
-        background: #b22222;
+        background: #2E86C1;
         color: #fff;
         border: none;
-        width: 32px;
-        height: 32px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
         font-size: 1.2rem;
         font-weight: bold;
         cursor: pointer;
-        transition: background 0.2s;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 0;
         line-height: 1;
       }
+
       .btn-menor:hover,
       .btn-maior:hover {
-        background: #7a1616;
+        background: #1b5d8c;
+        transform: scale(1.1);
       }
+
       .quantidade-pizza {
-        width: 40px;
+        width: 50px;
         text-align: center;
-        border: 1px solid #ccc;
-        border-radius: 6px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
         font-size: 1rem;
         background: #fff;
         color: #333;
+        padding: 8px;
+        font-weight: bold;
       }
-      @media (max-width: 700px) {
-        .menu-group {
-          flex-direction: column;
-          align-items: center;
+
+      .menu-item button:not(.btn-menor):not(.btn-maior) {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+        font-size: 1rem;
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        width: 100%;
+        max-width: 200px;
+      }
+
+      .menu-item button:not(.btn-menor):not(.btn-maior):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+      }
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        .menu {
+          padding: 1rem 0.5rem;
         }
+
+        .menu-group {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
         .menu-item {
-          width: 98vw;
-          max-width: 340px;
+          padding: 1rem;
+        }
+
+        .menu h2 {
+          font-size: 1.5rem;
         }
       }
     </style>
@@ -80,26 +168,28 @@
   </head>
   <body>
     <header>
-      <h1>Bebidas - Jerônimu's</h1>
-      <nav>
-        <a href="index.html">Início</a>
-        <a href="menu.html">Pizzas Salgadas</a>
-        <a href="doces.html">Pizzas Doces</a>
-        <a href="bebidas.html" class="active">Bebidas</a>
-        <a href="carrinho.html">Carrinho</a>
-        <a href="pedidos.html">Meus Pedidos</a>
-      </nav>
+      <div class="header-content">
+        <h1>🍕 Jerônimu's Pizzaria</h1>
+        <nav>
+          <a href="index.html">🏠 Início</a>
+          <a href="menu.html">🍕 Pizzas Salgadas</a>
+          <a href="doces.html">🍰 Pizzas Doces</a>
+          <a href="bebidas.html" class="active">🥤 Bebidas</a>
+          <a href="carrinho.html">🛒 Carrinho</a>
+          <a href="pedidos.html">📋 Meus Pedidos</a>
+        </nav>
+      </div>
     </header>
 
     <main>
       <section class="menu">
+        <h2>🥤 Nossas Bebidas Refrescantes</h2>
         <div class="menu-group">
           <!-- Refrigerantes -->
           <div class="menu-item">
             <img
               src="img/refri-coca.jpg"
               alt="Coca-Cola"
-              style="max-width: 90px"
             />
             <h3>Coca-Cola</h3>
             <p>Lata 350ml</p>
@@ -137,7 +227,6 @@
             <img
               src="img/refri-cocazero.jpg"
               alt="Coca-Cola Zero"
-              style="max-width: 90px"
             />
             <h3>Coca-Cola Zero</h3>
             <p>Lata 350ml</p>
@@ -175,7 +264,6 @@
             <img
               src="img/refri-fanta.jpg"
               alt="Fanta"
-              style="max-width: 90px"
             />
             <h3>Fanta</h3>
             <p>Lata 350ml</p>
@@ -213,7 +301,7 @@
             <img
               src="img/refri-guarana.jpg"
               alt="Guaraná Antártica"
-              style="max-width: 90px"
+              
             />
             <h3>Guaraná Antártica</h3>
             <p>Lata 350ml</p>
@@ -251,7 +339,7 @@
             <img
               src="img/refri-guarana-zero.jpg"
               alt="Guaraná Antártica Zero"
-              style="max-width: 90px"
+              
             />
             <h3>Guaraná Antártica Zero</h3>
             <p>Lata 350ml</p>
@@ -289,7 +377,7 @@
             <img
               src="img/refri-sprite.jpg"
               alt="Sprite"
-              style="max-width: 90px"
+              
             />
             <h3>Sprite</h3>
             <p>Lata 350ml</p>
@@ -475,7 +563,7 @@
             <img
               src="img/suco-uva.jpg"
               alt="Suco Uva"
-              style="max-width: 90px"
+              
             />
             <h3>Suco Uva</h3>
             <p>Jarra</p>
@@ -513,7 +601,7 @@
             <img
               src="img/suco-abacaxi.jpg"
               alt="Suco Abacaxi"
-              style="max-width: 90px"
+              
             />
             <h3>Suco Abacaxi</h3>
             <p>Jarra</p>
@@ -551,7 +639,7 @@
             <img
               src="img/suco-abacaxi-hortela.jpg"
               alt="Suco Abacaxi c/ Hortelã"
-              style="max-width: 90px"
+              
             />
             <h3>Suco Abacaxi c/ Hortelã</h3>
             <p>Jarra</p>
@@ -589,7 +677,7 @@
             <img
               src="img/suco-maracuja.jpg"
               alt="Suco Maracujá"
-              style="max-width: 90px"
+              
             />
             <h3>Suco Maracujá</h3>
             <p>Jarra</p>
@@ -627,7 +715,7 @@
             <img
               src="img/suco-frutas-vermelhas.jpg"
               alt="Suco Frutas Vermelhas"
-              style="max-width: 90px"
+              
             />
             <h3>Suco Frutas Vermelhas</h3>
             <p>Jarra</p>
@@ -666,7 +754,7 @@
             <img
               src="img/agua.jpg"
               alt="Água Sem Gás"
-              style="max-width: 90px"
+              
             />
             <h3>Água Sem Gás</h3>
             <p>Garrafa</p>
@@ -702,7 +790,7 @@
             <img
               src="img/agua-com-gas.jpg"
               alt="Água Com Gás"
-              style="max-width: 90px"
+              
             />
             <h3>Água Com Gás</h3>
             <p>Garrafa</p>
@@ -737,6 +825,12 @@
         </div>
       </section>
     </main>
+
+    <!-- Botão flutuante do WhatsApp -->
+    <a href="https://wa.me/5511999999999" class="whatsapp-btn" target="_blank" title="Fale conosco no WhatsApp">
+      <img src="img/whatsapp.png" alt="WhatsApp">
+    </a>
+
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js");

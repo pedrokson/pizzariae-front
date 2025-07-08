@@ -8,119 +8,235 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cardápio - Jerônimu's</title>
+    <title>Pizzas Doces - Jerônimu's</title>
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/styles.css" />
     <style>
-      .menu-group {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 24px;
+      /* Container do menu */
+      .menu {
+        padding: 2rem 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
       }
-      .menu-item {
-        background: #fff8f0;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px #0001;
-        padding: 18px;
-        width: 270px;
-        margin-bottom: 18px;
+
+      .menu h2 {
         text-align: center;
+        color: #8B4513;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-weight: bold;
       }
+
+      .menu-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+      }
+
+      .menu-item {
+        background: linear-gradient(135deg, #fff9f0 0%, #fff5e6 100%);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(139, 69, 19, 0.1);
+        padding: 1.5rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 35px rgba(139, 69, 19, 0.15);
+        border-color: #ff6b35;
+      }
+
+      .menu-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .menu-item h3 {
+        color: #8B4513;
+        margin-bottom: 0.5rem;
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
+
+      .menu-item p {
+        color: #666;
+        margin-bottom: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .menu-item p:last-of-type {
+        font-weight: bold;
+        color: #ff6b35;
+        font-size: 1.1rem;
+      }
+
       .quantidade-container {
         display: flex;
         align-items: center;
-        gap: 6px;
-        margin: 0.5rem 0;
+        gap: 8px;
+        margin: 1rem 0;
         justify-content: center;
       }
+
       .btn-menor,
       .btn-maior {
-        background: #b22222;
+        background: #8B4513;
         color: #fff;
         border: none;
-        width: 32px;
-        height: 32px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
         font-size: 1.2rem;
         font-weight: bold;
         cursor: pointer;
-        transition: background 0.2s;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 0;
         line-height: 1;
       }
+
       .btn-menor:hover,
       .btn-maior:hover {
-        background: #7a1616;
+        background: #654321;
+        transform: scale(1.1);
       }
+
       .quantidade-pizza {
-        width: 40px;
+        width: 50px;
         text-align: center;
-        border: 1px solid #ccc;
-        border-radius: 6px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
         font-size: 1rem;
         background: #fff;
         color: #333;
+        padding: 8px;
+        font-weight: bold;
       }
+
+      .borda-recheada {
+        margin: 1rem 0;
+        padding: 8px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        background: #fff;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 250px;
+      }
+
+      .menu-item label[for="borda-recheada"] {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        display: block;
+        font-weight: bold;
+        color: #8B4513;
+      }
+
+      .menu-item button:not(.btn-menor):not(.btn-maior):not(.botoes-tamanho button) {
+        background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+        font-size: 1rem;
+        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+      }
+
+      .menu-item button:not(.btn-menor):not(.btn-maior):not(.botoes-tamanho button):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+      }
+
       .botoes-tamanho {
         display: flex;
-        gap: 10px;
+        gap: 12px;
         justify-content: center;
-        margin-top: 8px;
+        margin-top: 1rem;
       }
-      
+
       .botoes-tamanho button {
         flex: 1;
         max-width: 120px;
-        padding: 8px 16px;
-        background: #ff6b35;
+        padding: 10px 16px;
+        background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
         color: white;
         border: none;
         border-radius: 20px;
         font-weight: bold;
         cursor: pointer;
-        transition: background 0.3s;
+        transition: all 0.3s ease;
         margin: 0;
+        box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
       }
-      
+
       .botoes-tamanho button:hover {
-        background: #e55a2b;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+        background: linear-gradient(135deg, #654321 0%, #4a2e1a 100%);
       }
-      .borda-recheada {
-        margin-top: 8px;
-        margin-bottom: 14px;
-        display: block;
-      }
-      .menu-item label[for="borda-recheada"] {
-        margin-top: 10px;
-        margin-bottom: 2px;
-        display: block;
-      }
-      .menu-item
-        button:not(.btn-menor):not(.btn-maior):not(.botoes-tamanho button) {
-        margin-top: 8px;
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        .menu {
+          padding: 1rem 0.5rem;
+        }
+
+        .menu-group {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .menu-item {
+          padding: 1rem;
+        }
+
+        .menu h2 {
+          font-size: 1.5rem;
+        }
+
+        .botoes-tamanho {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .botoes-tamanho button {
+          max-width: none;
+        }
       }
     </style>
     <script src="js/menu.js"></script>
   </head>
   <body>
     <header>
-      <h1>Cardápio da Jerônimu's</h1>
-      <nav>
-        <a href="index.html">Início</a>
-        <a href="menu.html">Cardápio Salgado</a>
-        <a href="doces.html" class="active">Pizzas Doces</a>
-        <a href="bebidas.html">Bebidas</a>
-        <a href="carrinho.html">Carrinho</a>
-        <a href="pedidos.html">Meus Pedidos</a>
-      </nav>
+      <div class="header-content">
+        <h1>🍕 Jerônimu's Pizzaria</h1>
+        <nav>
+          <a href="index.html">🏠 Início</a>
+          <a href="menu.html">🍕 Pizzas Salgadas</a>
+          <a href="doces.html" class="active">🍰 Pizzas Doces</a>
+          <a href="bebidas.html">🥤 Bebidas</a>
+          <a href="carrinho.html">🛒 Carrinho</a>
+          <a href="pedidos.html">📋 Meus Pedidos</a>
+        </nav>
+      </div>
     </header>
 
     <main>
       <section class="menu">
+        <h2>🍰 Nossas Deliciosas Pizzas Doces</h2>
         <div class="menu-group">
           <div class="menu-item">
             <img src="img/pizza-romeujulieta.jpg" alt="Romeu e Julieta" />
@@ -567,6 +683,12 @@
         </div>
       </section>
     </main>
+
+    <!-- Botão flutuante do WhatsApp -->
+    <a href="https://wa.me/5511999999999" class="whatsapp-btn" target="_blank" title="Fale conosco no WhatsApp">
+      <img src="img/whatsapp.png" alt="WhatsApp">
+    </a>
+
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js");
