@@ -272,7 +272,7 @@
               <option value="Chocolate ao leite">Chocolate ao leite</option>
               <option value="Chocolate Branco">Chocolate Branco</option>
             </select>
-            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <button onclick="console.log('🔍 TESTE: Botão Romeu e Julieta clicado!'); window.testeMostrarTamanhos ? window.testeMostrarTamanhos(this) : mostrarTamanhos(this)">Adicionar</button>
             <div class="botoes-tamanho" style="display: none; margin-top: 8px">
               <button
                 onclick="adicionarCarrinho('Romeu e Julieta', 'Média', 51.90, this)"
@@ -693,6 +693,22 @@
     <script src="js/auth.js"></script>
     <script>
       verificarAutenticacao();
+      
+      // Função de teste para diagnóstico
+      window.testeMostrarTamanhos = function(botao) {
+        console.log('🧪 TESTE: Função testeMostrarTamanhos chamada');
+        console.log('🧪 TESTE: Botão recebido:', botao);
+        console.log('🧪 TESTE: Tipo de mostrarTamanhos:', typeof mostrarTamanhos);
+        
+        if (typeof mostrarTamanhos === 'function') {
+          console.log('🧪 TESTE: Chamando mostrarTamanhos original...');
+          mostrarTamanhos(botao);
+        } else {
+          console.error('🧪 TESTE: mostrarTamanhos não está definida!');
+        }
+      };
+      
+      console.log('🧪 TESTE: Página de doces carregada, testeMostrarTamanhos criada');
     </script>
   </body>
 </html>

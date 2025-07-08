@@ -5,18 +5,31 @@
       "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/",
-      "serve": "/index.html"
+      "route": "/css/*",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000"
+      }
     },
     {
-      "route": "/*",
-      "serve": "/index.html",
-      "statusCode": 404
+      "route": "/js/*",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000"
+      }
+    },
+    {
+      "route": "/img/*",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000"
+      }
+    },
+    {
+      "route": "/",
+      "serve": "/index.html"
     }
   ],
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/img/*", "/css/*", "/js/*", "*.{css,js,png,jpg,gif,ico,svg}"]
+    "exclude": ["/img/*", "/css/*", "/js/*", "/manifest.json", "*.{css,js,png,jpg,gif,ico,svg,json}"]
   },
   "mimeTypes": {
     ".html": "text/html",
