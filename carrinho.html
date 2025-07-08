@@ -912,7 +912,7 @@
               <tr>
                 <th>Pizza</th>
                 <th>Quantidade</th>
-                <th>Preço Unitário</th>
+                <th>Preço Unit.</th>
                 <th>Total</th>
                 <th>Ação</th>
               </tr>
@@ -993,21 +993,19 @@
         
         <div class="form-group">
           <label for="endereco-referencia">Ponto de Referência:</label>
-          <input type="text" id="endereco-referencia" placeholder="Ex: Próximo ao mercado, em frente à igreja"> 
-                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;">
-          </div>
-          
-          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-            <button onclick="confirmarPedidoComEndereco()" style="background: #25d366; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
-              📱 Enviar Pedido
-            </button>
-            <button onclick="fecharModalEndereco()" style="background: #dc3545; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
-              ❌ Cancelar
-            </button>
-          </div>
+          <input type="text" id="endereco-referencia" placeholder="Ex: Próximo ao mercado, em frente à igreja">
+        </div>
+        
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button onclick="confirmarPedidoComEndereco()" style="background: #25d366; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
+            📱 Enviar Pedido
+          </button>
+          <button onclick="fecharModalEndereco()" style="background: #dc3545; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
+            ❌ Cancelar
+          </button>
         </div>
       </div>
-    </main>
+    </div>
 
     <script>
       function renderCarrinho() {
@@ -1037,7 +1035,7 @@
             <td>
               ${item.nome}
               ${
-                item.borda_recheada
+                item.borda_recheada && item.borda_recheada !== ""
                   ? `<br><span class="borda-info">com borda ${item.borda_recheada} (+R$ 13,90)</span>`
                   : ""
               }
@@ -1051,8 +1049,8 @@
                 <button class="quantidade-btn quantidade-mais" onclick="alterarQuantidadeCarrinho(${index}, 1)">+</button>
               </div>
             </td>
-            <td>R$ ${item.preco.toFixed(2)}</td>
-            <td>R$ ${total.toFixed(2)}</td>
+            <td>R$ ${item.preco.toFixed(2).replace('.', ',')}</td>
+            <td>R$ ${total.toFixed(2).replace('.', ',')}</td>
             <td><button class="remover-btn" onclick="removerItemCarrinho(${index})">Remover</button></td>
           </tr>
         `;
@@ -1060,7 +1058,7 @@
         tabela.innerHTML += `
         <tr>
           <td colspan="4"><strong>Total Geral</strong></td>
-          <td><strong>R$ ${totalGeral.toFixed(2)}</strong></td>
+          <td><strong>R$ ${totalGeral.toFixed(2).replace('.', ',')}</strong></td>
         </tr>
       `;
         totalEl.textContent = "";
@@ -1114,8 +1112,10 @@
           return false;
         }
         
-        if (cep.length < 9) {
-          alert('Por favor, informe um CEP válido (formato: 00000-000)!');
+        // Validar CEP (formato 00000-000 ou 00000000)
+        const cepLimpo = cep.replace(/\D/g, '');
+        if (cepLimpo.length !== 8) {
+          alert('Por favor, informe um CEP válido (8 dígitos)!');
           return false;
         }
         
@@ -1135,26 +1135,39 @@
       }
 
       function confirmarPedidoComEndereco() {
-        // Validar endereço
-        if (!validarEndereco()) {
-          return;
-        }
+        try {
+          // Validar carrinho
+          const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+          if (carrinho.length === 0) {
+            alert('Seu carrinho está vazio!');
+            fecharModalEndereco();
+            return;
+          }
+          
+          // Validar endereço
+          if (!validarEndereco()) {
+            return;
+          }
 
-        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-        const endereco = obterDadosEndereco();
-        
-        // Fechar modal
-        fecharModalEndereco();
-        
-        // Enviar para WhatsApp com endereço
-        enviarWhatsAppComEndereco(carrinho, endereco);
+          const endereco = obterDadosEndereco();
+          
+          // Fechar modal
+          fecharModalEndereco();
+          
+          // Enviar para WhatsApp com endereço
+          enviarWhatsAppComEndereco(carrinho, endereco);
+        } catch (error) {
+          console.error('Erro ao confirmar pedido:', error);
+          alert('Erro ao processar pedido. Tente novamente.');
+        }
       }
 
       function enviarWhatsAppComEndereco(carrinho, endereco) {
-        const usuario = JSON.parse(localStorage.getItem("usuario"));
-        
-        // Criar mensagem formatada
-        let mensagem = `🍕 *NOVO PEDIDO - JERÔNIMU'S PIZZARIA*
+        try {
+          const usuario = JSON.parse(localStorage.getItem("usuario")) || {};
+          
+          // Criar mensagem formatada
+          let mensagem = `🍕 *NOVO PEDIDO - JERÔNIMU'S PIZZARIA*
 
 👤 *CLIENTE:*
 Nome: ${usuario.nome || 'Não informado'}
@@ -1165,79 +1178,83 @@ ${endereco.rua}, ${endereco.numero}
 ${endereco.bairro} - ${endereco.cidade}
 CEP: ${endereco.cep}`;
 
-        if (endereco.complemento) {
-          mensagem += `\nComplemento: ${endereco.complemento}`;
-        }
-        
-        if (endereco.referencia) {
-          mensagem += `\nReferência: ${endereco.referencia}`;
-        }
+          if (endereco.complemento) {
+            mensagem += `\nComplemento: ${endereco.complemento}`;
+          }
+          
+          if (endereco.referencia) {
+            mensagem += `\nReferência: ${endereco.referencia}`;
+          }
 
-        mensagem += `
+          mensagem += `
 
 📋 *ITENS DO PEDIDO:*`;
-        
-        let total = 0;
-        carrinho.forEach((item, index) => {
-          const subtotal = item.preco * item.quantidade;
-          total += subtotal;
           
-          mensagem += `
-${index + 1}. *${item.nome}*`;
-          
-          if (item.tamanho) {
-            mensagem += ` (${item.tamanho})`;
-          }
-          
-          if (item.borda_recheada) {
+          let total = 0;
+          carrinho.forEach((item, index) => {
+            const subtotal = item.preco * item.quantidade;
+            total += subtotal;
+            
             mensagem += `
+${index + 1}. *${item.nome}*`;
+            
+            if (item.tamanho) {
+              mensagem += ` (${item.tamanho})`;
+            }
+            
+            if (item.borda_recheada && item.borda_recheada !== "") {
+              mensagem += `
    🧀 Borda: ${item.borda_recheada} (+R$ 13,90)`;
-          }
-          
-          mensagem += `
+            }
+            
+            mensagem += `
    📦 Quantidade: ${item.quantidade}
-   💰 Valor unitário: R$ ${item.preco.toFixed(2)}
-   🔢 Subtotal: R$ ${subtotal.toFixed(2)}`;
-        });
+   💰 Valor unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}
+   🔢 Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+          });
 
-        mensagem += `
+          mensagem += `
 
 ━━━━━━━━━━━━━━━━━━━━━━━━
-💵 *TOTAL GERAL: R$ ${total.toFixed(2)}*`;
+💵 *TOTAL GERAL: R$ ${total.toFixed(2).replace('.', ',')}*`;
 
-        const obs = document.getElementById("observacao").value.trim();
-        if (obs) {
-          mensagem += `
+          const obs = document.getElementById("observacao").value.trim();
+          if (obs) {
+            mensagem += `
 
 📝 *OBSERVAÇÕES DO PEDIDO:*
 ${obs}`;
-        }
+          }
 
-        mensagem += `
+          mensagem += `
 
 ⏰ Pedido feito em: ${new Date().toLocaleString('pt-BR')}
 
 Aguardamos confirmação! 🙏`;
 
-        const numeroDono = "5543991310616";
-        window.open(
-          `https://wa.me/${numeroDono}?text=${encodeURIComponent(mensagem)}`,
-          "_blank"
-        );
-        
-        // Limpar carrinho após enviar
-        if (confirm("Pedido enviado com sucesso! Deseja limpar o carrinho?")) {
-          localStorage.removeItem("carrinho");
-          renderCarrinho();
-          document.getElementById("observacao").value = "";
+          const numeroDono = "5543991310616";
+          window.open(
+            `https://wa.me/${numeroDono}?text=${encodeURIComponent(mensagem)}`,
+            "_blank"
+          );
           
-          // Limpar campos de endereço
-          document.getElementById('endereco-rua').value = '';
-          document.getElementById('endereco-numero').value = '';
-          document.getElementById('endereco-bairro').value = '';
-          document.getElementById('endereco-complemento').value = '';
-          document.getElementById('endereco-cep').value = '';
-          document.getElementById('endereco-referencia').value = '';
+          // Limpar carrinho após enviar
+          if (confirm("Pedido enviado com sucesso! Deseja limpar o carrinho?")) {
+            localStorage.removeItem("carrinho");
+            renderCarrinho();
+            document.getElementById("observacao").value = "";
+            
+            // Limpar campos de endereço
+            document.getElementById('endereco-rua').value = '';
+            document.getElementById('endereco-numero').value = '';
+            document.getElementById('endereco-bairro').value = '';
+            document.getElementById('endereco-complemento').value = '';
+            document.getElementById('endereco-cep').value = '';
+            document.getElementById('endereco-referencia').value = '';
+          }
+        } catch (error) {
+          console.error('Erro ao enviar pedido:', error);
+          alert('Erro ao enviar pedido. Tente novamente.');
         }
       }
 
