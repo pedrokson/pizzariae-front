@@ -227,6 +227,37 @@
         border-radius: 50% !important;
       }
 
+      /* Botão de logout no canto superior direito */
+      .logout-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 25px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .logout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+      }
+
+      .logout-btn:active {
+        transform: translateY(0);
+      }
+
       /* Responsividade */
       @media (max-width: 600px) {
         .faixa-italia-horizontal {
@@ -272,10 +303,24 @@
           bottom: 15px !important;
           right: 15px !important;
         }
+        
+        /* Logout responsivo no mobile */
+        .logout-btn {
+          top: 10px !important;
+          right: 10px !important;
+          padding: 8px 12px !important;
+          font-size: 0.8rem !important;
+        }
       }
     </style>
   </head>
   <body>
+    <!-- Botão de logout no canto superior direito -->
+    <button class="logout-btn" onclick="sair()">
+      <span>🚪</span>
+      <span>Sair</span>
+    </button>
+    
     <a href="https://wa.me/5543999047461" target="_blank" class="whatsapp-float">
       <img src="img/whatsapp.png" alt="WhatsApp" />
     </a>
@@ -352,6 +397,9 @@
         <p><strong>Horário:</strong> De Quarta a Domingo, das 19h às 23h</p>
       </section>
     </main>
+    <button class="logout-btn" onclick="sair()">
+      <img src="img/logout-icon.png" alt="Sair" style="width: 20px; height: 20px;"/> Sair
+    </button>
     <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js');
@@ -360,6 +408,16 @@
 <script src="js/auth.js"></script>
 <script>
   verificarAutenticacao();
+  
+  // Importar função sair
+  async function sair() {
+    if (confirm('Deseja realmente sair?')) {
+      // Importar dinamicamente a função sair
+      const { sair: fazerLogout } = await import('./js/auth.js');
+      fazerLogout();
+      window.location.href = 'login.html';
+    }
+  }
 </script>
   </body>
 </html>

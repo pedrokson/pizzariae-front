@@ -513,6 +513,7 @@
           <a href="bebidas.html">🥤 Bebidas</a>
           <a href="carrinho.html" class="active">🛒 Carrinho</a>
           <a href="pedidos.html">📋 Meus Pedidos</a>
+          <a href="#" onclick="sair()" style="color: #ffcccc;">🚪 Sair</a>
         </nav>
       </div>
     </header>
@@ -985,6 +986,16 @@ Obrigado pela preferência! 🙏`;
     <script src="js/auth.js"></script>
 <script>
   verificarAutenticacao();
+  
+  // Importar função sair
+  async function sair() {
+    if (confirm('Deseja realmente sair?')) {
+      // Importar dinamicamente a função sair
+      const { sair: fazerLogout } = await import('./js/auth.js');
+      fazerLogout();
+      window.location.href = 'login.html';
+    }
+  }
 </script>
   </body>
 </html>
