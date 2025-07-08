@@ -7,10 +7,27 @@ function alterarQuantidade(btn, delta) {
 }
 
 function mostrarTamanhos(botao) {
+  console.log('🎯 [DEBUG] mostrarTamanhos chamada');
+  
   // Esconde todos os outros botoes-tamanho abertos
-  document.querySelectorAll('.botoes-tamanho').forEach(div => div.style.display = 'none');
-  // Mostra o container de tamanhos do card clicado
-  botao.nextElementSibling.style.display = 'block';
+  document.querySelectorAll('.botoes-tamanho').forEach(div => {
+    div.style.display = 'none';
+    console.log('🙈 [DEBUG] Escondendo botão de tamanho:', div);
+  });
+  
+  // Encontrar o container de tamanhos no mesmo card
+  const card = botao.closest('.menu-item');
+  if (card) {
+    const botoesContainer = card.querySelector('.botoes-tamanho');
+    if (botoesContainer) {
+      botoesContainer.style.display = 'block';
+      console.log('👁️ [DEBUG] Mostrando botões de tamanho:', botoesContainer);
+    } else {
+      console.error('❌ [DEBUG] Não encontrou .botoes-tamanho no card');
+    }
+  } else {
+    console.error('❌ [DEBUG] Não encontrou .menu-item pai');
+  }
 }
 
 function adicionarCarrinho(nome, tamanho, preco, btn) {
