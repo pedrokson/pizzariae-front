@@ -48,12 +48,18 @@
         padding: 1rem;
         font-weight: bold;
         text-align: center;
+        font-size: 1rem;
       }
 
       .carrinho-table td {
         padding: 1rem;
         text-align: center;
         border-bottom: 1px solid #eee;
+        vertical-align: middle;
+      }
+
+      .carrinho-table td:first-child {
+        text-align: left;
       }
 
       .carrinho-table tr:nth-child(even) {
@@ -62,6 +68,17 @@
 
       .carrinho-table tr:hover {
         background: #fff3e0;
+      }
+
+      .carrinho-table tr:last-child {
+        background: linear-gradient(135deg, #fff9f0 0%, #fff5e6 100%);
+        font-weight: bold;
+      }
+
+      .carrinho-table tr:last-child td {
+        border-bottom: none;
+        color: #d32f2f;
+        font-size: 1.1rem;
       }
 
       /* Botões de quantidade */
@@ -953,6 +970,11 @@ Obrigado pela preferência! 🙏`;
             }
           }
         });
+      });
+      
+      // Carregar carrinho ao carregar a página
+      document.addEventListener('DOMContentLoaded', function() {
+        renderCarrinho();
       });
     </script>
     <script>
