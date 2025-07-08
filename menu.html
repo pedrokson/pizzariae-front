@@ -505,35 +505,149 @@
         }
       }
 
-      /* Botão flutuante do WhatsApp */
-      .whatsapp-float {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: #25d366;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-        transition: all 0.3s ease;
-        z-index: 1000;
-        text-decoration: none;
+      /* Melhorias para smartphones pequenos */
+      @media (max-width: 480px) {
+        .menu-group {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          padding: 8px;
+          margin: 15px auto;
+        }
+        
+        .menu-item {
+          min-height: 400px;
+          padding: 12px;
+          margin: 0 4px;
+          border-radius: 12px;
+        }
+        
+        .menu-item img {
+          height: 120px;
+          width: 120px;
+          object-fit: cover;
+        }
+        
+        .menu-item h3 {
+          font-size: 1.1rem;
+          margin: 8px 0;
+        }
+        
+        .menu-item p {
+          font-size: 0.85rem;
+          margin: 4px 0;
+        }
+        
+        .menu-title {
+          font-size: 1.5rem;
+          margin: 1rem 0;
+          padding: 0 10px;
+        }
+        
+        .botoes-tamanho {
+          flex-direction: column;
+          gap: 8px;
+          margin: 10px 0;
+        }
+        
+        .botoes-tamanho button {
+          padding: 12px;
+          font-size: 0.9rem;
+          border-radius: 10px;
+          min-height: 45px;
+        }
+        
+        .menu-item .quantidade-container {
+          gap: 6px;
+          margin: 8px 0;
+        }
+        
+        .menu-item .btn-menor,
+        .menu-item .btn-maior {
+          width: 32px;
+          height: 32px;
+          font-size: 1rem;
+        }
+        
+        .menu-item .quantidade-pizza {
+          width: 50px;
+          padding: 6px;
+          font-size: 1rem;
+        }
+        
+        select.borda-recheada {
+          padding: 12px 8px;
+          font-size: 0.9rem;
+          border-radius: 8px;
+        }
+        
+        header h1 {
+          font-size: 1.4rem;
+          margin-bottom: 0.6rem;
+        }
+        
+        nav {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 0.3rem;
+          padding: 0.8rem 0.5rem;
+        }
+        
+        nav a {
+          padding: 10px 12px;
+          font-size: 0.8rem;
+          border-radius: 15px;
+          flex: 1;
+          min-width: 80px;
+          text-align: center;
+        }
+      }
+      
+      /* Para tablets em modo retrato */
+      @media (min-width: 601px) and (max-width: 768px) {
+        .menu-group {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 18px;
+          padding: 15px;
+        }
+        
+        .menu-item {
+          min-height: 420px;
+          padding: 16px;
+        }
+        
+        .menu-item img {
+          height: 150px;
+        }
+        
+        .botoes-tamanho {
+          gap: 8px;
+        }
+        
+        .botoes-tamanho button {
+          padding: 10px;
+          font-size: 0.9rem;
+        }
+      }
+      
+      /* Para tablets em modo paisagem */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .menu-group {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          padding: 20px;
+        }
+        
+        .menu-item {
+          min-height: 450px;
+          padding: 18px;
+        }
+        
+        .menu-item img {
+          height: 160px;
+        }
       }
 
-      .whatsapp-float:hover {
-        transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
-      }
-
-      .whatsapp-float img {
-        width: 35px;
-        height: 35px;
-        filter: brightness(0) invert(1);
-      }
-
+      /* WhatsApp responsivo melhorado */
       @media (max-width: 768px) {
         .whatsapp-float {
           width: 50px;

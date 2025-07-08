@@ -268,19 +268,30 @@
       }
 
       .form-group input,
-      .form-group select {
+      .form-group select,
+      .form-group textarea {
         width: 100%;
         padding: 12px;
         border: 2px solid #ddd;
         border-radius: 8px;
         font-size: 1rem;
         transition: border-color 0.3s ease;
+        font-family: inherit;
+        resize: vertical;
+        box-sizing: border-box;
+      }
+
+      .form-group textarea {
+        min-height: 120px;
+        line-height: 1.5;
       }
 
       .form-group input:focus,
-      .form-group select:focus {
+      .form-group select:focus,
+      .form-group textarea:focus {
         outline: none;
         border-color: #d32f2f;
+        box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
       }
 
       /* Responsividade */
@@ -289,26 +300,234 @@
           padding: 1rem 0.5rem;
         }
 
+        .carrinho-container h2 {
+          font-size: 1.5rem;
+          margin-bottom: 1.5rem;
+        }
+
         .carrinho-table {
           overflow-x: auto;
+          margin-bottom: 1.5rem;
         }
 
         .carrinho-table table {
           min-width: 600px;
+          font-size: 0.9rem;
+        }
+
+        .carrinho-table th,
+        .carrinho-table td {
+          padding: 0.8rem 0.5rem;
+        }
+
+        .carrinho-table th:first-child,
+        .carrinho-table td:first-child {
+          min-width: 200px;
+        }
+
+        .quantidade-container {
+          min-width: 90px;
+          gap: 6px;
+          padding: 3px 6px;
+        }
+
+        .quantidade-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 1.1rem;
+        }
+
+        .quantidade-container span {
+          min-width: 24px;
+          font-size: 1.1rem;
+        }
+
+        .remover-btn {
+          padding: 6px 10px;
+          font-size: 0.9rem;
         }
 
         .acoes-carrinho {
           flex-direction: column;
           align-items: center;
+          gap: 1rem;
         }
 
         .btn-acao {
           width: 100%;
           max-width: 300px;
+          padding: 15px 20px;
+          font-size: 1.1rem;
+        }
+
+        .total-carrinho {
+          padding: 1.5rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .total-carrinho h3 {
+          font-size: 1.3rem;
+        }
+
+        .total-valor {
+          font-size: 1.8rem;
+        }
+
+        .form-group textarea {
+          min-height: 140px;
+          font-size: 1rem;
+        }
+
+        /* Modal responsivo no mobile */
+        .modal-endereco {
+          padding: 1.5rem;
+          margin: 1rem;
+          max-width: calc(100vw - 2rem);
+        }
+
+        .modal-endereco h3 {
+          font-size: 1.4rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+          padding: 14px;
+          font-size: 1.1rem;
+        }
+      }
+
+      /* Responsividade para telas muito pequenas */
+      @media (max-width: 480px) {
+        .carrinho-container {
+          padding: 0.5rem 0.25rem;
         }
 
         .carrinho-container h2 {
-          font-size: 1.5rem;
+          font-size: 1.3rem;
+          margin-bottom: 1rem;
+        }
+
+        .carrinho-table table {
+          min-width: 500px;
+          font-size: 0.8rem;
+        }
+
+        .carrinho-table th,
+        .carrinho-table td {
+          padding: 0.6rem 0.3rem;
+        }
+
+        .total-carrinho {
+          padding: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .total-carrinho h3 {
+          font-size: 1.2rem;
+        }
+
+        .total-valor {
+          font-size: 1.6rem;
+        }
+
+        .btn-acao {
+          padding: 14px 16px;
+          font-size: 1rem;
+        }
+
+        .form-group textarea {
+          min-height: 150px;
+          padding: 16px;
+          font-size: 1rem;
+          border-radius: 10px;
+        }
+
+        .modal-endereco {
+          padding: 1rem;
+          margin: 0.5rem;
+          max-width: calc(100vw - 1rem);
+        }
+
+        .modal-endereco h3 {
+          font-size: 1.3rem;
+          margin-bottom: 1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+          padding: 16px;
+          font-size: 1rem;
+          border-radius: 10px;
+        }
+      }
+
+      /* Melhorias para tablets */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .carrinho-container {
+          padding: 1.5rem 1rem;
+        }
+
+        .carrinho-table th,
+        .carrinho-table td {
+          padding: 1rem 0.8rem;
+        }
+
+        .acoes-carrinho {
+          gap: 1.5rem;
+        }
+
+        .btn-acao {
+          min-width: 180px;
+          padding: 14px 28px;
+        }
+
+        .form-group textarea {
+          min-height: 130px;
+        }
+      }
+      @media (max-width: 480px) {
+        .carrinho-container {
+          padding: 0.5rem 0.25rem;
+        }
+
+        .carrinho-container h2 {
+          font-size: 1.3rem;
+        }
+
+        .carrinho-table table {
+          min-width: 500px;
+          font-size: 0.85rem;
+        }
+
+        .carrinho-table th,
+        .carrinho-table td {
+          padding: 0.6rem 0.3rem;
+        }
+
+        .quantidade-btn {
+          width: 28px;
+          height: 28px;
+          font-size: 1rem;
+        }
+
+        .total-carrinho {
+          padding: 1rem;
+        }
+
+        .total-valor {
+          font-size: 1.6rem;
+        }
+
+        .btn-acao {
+          padding: 12px 16px;
+          font-size: 1rem;
+        }
+
+        .form-group textarea {
+          min-height: 100px;
+          padding: 12px;
         }
       }
       
@@ -545,7 +764,7 @@
             <label for="observacao">Observação do pedido:</label>
             <textarea 
               id="observacao" 
-              rows="3" 
+              rows="5" 
               placeholder="Ex: Tirar cebola da pizza, entregar sem contato, etc."
             ></textarea>
           </div>

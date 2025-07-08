@@ -259,44 +259,109 @@
       }
 
       /* Responsividade */
-      @media (max-width: 600px) {
+      @media (max-width: 768px) {
         .faixa-italia-horizontal {
-          height: 40px;
+          height: 35px;
         }
+        
         .logo-container {
-          margin: -20px auto 0 auto;
+          margin: -18px auto 0 auto;
           padding: 15px;
         }
+        
         .logo-container img {
           width: 60px;
           height: 60px;
         }
+        
         .logo-container h1 {
-          font-size: 1.3rem;
+          font-size: 1.4rem;
         }
+        
         nav {
           margin: 15px auto 0 auto !important;
           max-width: 95% !important;
+          padding: 0.8rem 0 !important;
         }
+        
         nav a {
-          margin: 0 8px;
-          font-size: 0.9rem;
+          margin: 0 10px;
+          font-size: 0.95rem;
+          padding: 8px 12px;
         }
+        
         main {
-          padding: 15px;
+          padding: 20px 15px;
         }
-        .menu-group {
-          gap: 15px;
-        }
-        .menu-item {
-          width: 160px;
-        }
+        
         .horario, .localizacao, .destaques, .contato {
           margin: 1.5rem auto;
           padding: 1.5rem;
+          border-radius: 12px;
+        }
+        
+        .horario h2, .localizacao h2 {
+          font-size: 1.5rem;
         }
         
         /* WhatsApp menor no mobile */
+        .whatsapp-float {
+          width: 50px !important;
+          height: 50px !important;
+          bottom: 20px !important;
+          right: 20px !important;
+        }
+        
+        /* Logout responsivo no mobile */
+        .logout-btn {
+          top: 15px !important;
+          right: 15px !important;
+          padding: 10px 14px !important;
+          font-size: 0.85rem !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .faixa-italia-horizontal {
+          height: 30px;
+        }
+        
+        .logo-container {
+          padding: 12px;
+        }
+        
+        .logo-container img {
+          width: 50px;
+          height: 50px;
+        }
+        
+        .logo-container h1 {
+          font-size: 1.2rem;
+        }
+        
+        nav {
+          padding: 0.6rem 0 !important;
+        }
+        
+        nav a {
+          margin: 0 6px;
+          font-size: 0.85rem;
+          padding: 6px 8px;
+        }
+        
+        main {
+          padding: 15px 10px;
+        }
+        
+        .horario, .localizacao {
+          padding: 1rem;
+          margin: 1rem auto;
+        }
+        
+        .horario h2, .localizacao h2 {
+          font-size: 1.3rem;
+        }
+        
         .whatsapp-float {
           width: 45px !important;
           height: 45px !important;
@@ -304,12 +369,12 @@
           right: 15px !important;
         }
         
-        /* Logout responsivo no mobile */
         .logout-btn {
           top: 10px !important;
           right: 10px !important;
-          padding: 8px 12px !important;
-          font-size: 0.8rem !important;
+          padding: 8px 10px !important;
+          font-size: 0.75rem !important;
+          gap: 4px !important;
         }
       }
     </style>
