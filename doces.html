@@ -689,29 +689,9 @@
         navigator.serviceWorker.register("service-worker.js");
       }
     </script>
-    <script type="module">
-      import { listarProdutos } from "./produtos.js";
-
-      const container = document.querySelector(".menu-group");
-
-      listarProdutos().then((produtos) => {
-        const doces = produtos.filter((p) => p.categoria === "doce");
-        container.innerHTML = doces
-          .map(
-            (doce) => `
-      <div class="menu-item">
-        <h3>${doce.nome}</h3>
-        <p>${doce.descricao}</p>
-        <p><strong>R$ ${doce.preco.toFixed(2)}</strong></p>
-      </div>
-    `
-          )
-          .join("");
-      });
-    </script>
     <script src="js/auth.js"></script>
-<script>
-  verificarAutenticacao();
-</script>
+    <script>
+      verificarAutenticacao();
+    </script>
   </body>
 </html>

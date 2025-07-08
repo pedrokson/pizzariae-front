@@ -831,30 +831,9 @@
         navigator.serviceWorker.register("service-worker.js");
       }
     </script>
-
-    <script type="module">
-      import { listarProdutos } from "./produtos.js";
-
-      const container = document.querySelector(".menu-group");
-
-      listarProdutos().then((produtos) => {
-        const bebidas = produtos.filter((p) => p.categoria === "bebida");
-        container.innerHTML = bebidas
-          .map(
-            (bebida) => `
-      <div class="menu-item">
-        <h3>${bebida.nome}</h3>
-        <p>${bebida.descricao}</p>
-        <p><strong>R$ ${bebida.preco.toFixed(2)}</strong></p>
-      </div>
-    `
-          )
-          .join("");
-      });
-    </script>
     <script src="js/auth.js"></script>
-<script>
-  verificarAutenticacao();
-</script>
+    <script>
+      verificarAutenticacao();
+    </script>
   </body>
 </html>

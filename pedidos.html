@@ -12,42 +12,271 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/styles.css" />
     <style>
+      /* Container principal */
       .pedidos-container {
-        max-width: 900px;
-        margin: 20px auto;
-        padding: 20px;
+        padding: 2rem 1rem;
+        max-width: 1000px;
+        margin: 0 auto;
       }
-      
+
+      .pedidos-container h2 {
+        text-align: center;
+        color: #8e24aa;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      /* Cards dos pedidos */
       .pedido-card {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-        padding: 20px;
-        border-left: 4px solid #b22222;
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(142, 36, 170, 0.1);
+        margin-bottom: 2rem;
+        padding: 2rem;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
       }
-      
+
+      .pedido-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #8e24aa, #6a1b9a, #8e24aa);
+      }
+
+      .pedido-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 35px rgba(142, 36, 170, 0.15);
+        border-color: #8e24aa;
+      }
+
+      /* Header do pedido */
       .pedido-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 1.5rem;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 1rem;
       }
-      
+
       .pedido-numero {
         font-weight: bold;
-        color: #b22222;
-        font-size: 1.1em;
+        color: #8e24aa;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
-      
+
+      .pedido-numero::before {
+        content: '🍕';
+        font-size: 1.5rem;
+      }
+
       .pedido-status {
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.9em;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 0.9rem;
         font-weight: bold;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .status-pendente {
+        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        color: white;
+      }
+
+      .status-preparando {
+        background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+        color: white;
+      }
+
+      .status-entregue {
+        background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        color: white;
+      }
+
+      .status-cancelado {
+        background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        color: white;
+      }
+
+      /* Informações do pedido */
+      .pedido-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .info-item {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+        border-left: 4px solid #8e24aa;
+      }
+
+      .info-label {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .info-value {
+        color: #666;
+        font-size: 1rem;
+      }
+
+      /* Lista de itens */
+      .pedido-itens {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .pedido-itens h4 {
+        color: #8e24aa;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .pedido-itens h4::before {
+        content: '📝';
+      }
+
+      .item-lista {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .item-lista li {
+        background: white;
+        padding: 0.8rem;
+        margin-bottom: 0.5rem;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .item-lista li:last-child {
+        margin-bottom: 0;
+      }
+
+      .item-nome {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .item-quantidade {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .item-preco {
+        font-weight: bold;
+        color: #8e24aa;
+      }
+
+      /* Total do pedido */
+      .pedido-total {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #8e24aa;
+        background: linear-gradient(135deg, #fff3e0 0%, #fce4ec 100%);
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+      }
+
+      .pedido-total::before {
+        content: '💰 ';
+        font-size: 1.2rem;
+      }
+
+      /* Mensagem de pedidos vazios */
+      .pedidos-vazio {
+        text-align: center;
+        padding: 3rem;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(142, 36, 170, 0.1);
+      }
+
+      .pedidos-vazio h3 {
+        color: #757575;
+        margin-bottom: 1rem;
+      }
+
+      .pedidos-vazio p {
+        color: #999;
+        margin-bottom: 2rem;
+      }
+
+      .btn-fazer-pedido {
+        background: linear-gradient(135deg, #8e24aa 0%, #6a1b9a 100%);
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(142, 36, 170, 0.3);
+      }
+
+      .btn-fazer-pedido:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(142, 36, 170, 0.4);
+        text-decoration: none;
+        color: white;
+      }
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        .pedidos-container {
+          padding: 1rem 0.5rem;
+        }
+
+        .pedido-card {
+          padding: 1.5rem;
+        }
+
+        .pedido-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .pedido-info {
+          grid-template-columns: 1fr;
+        }
+
+        .pedidos-container h2 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
       }
       
       .status-pendente { background: #fff3cd; color: #856404; }
@@ -174,22 +403,21 @@
   </head>
   <body>
     <header>
-      <nav style="background: #b22222; padding: 15px; color: white;">
-        <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-          <h1 style="margin: 0; font-size: 1.5em;">Jerônimu's Pizzaria</h1>
-          <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-            <a href="index.html" style="color: white; text-decoration: none;">Início</a>
-            <a href="menu.html" style="color: white; text-decoration: none;">Cardápio</a>
-            <a href="carrinho.html" style="color: white; text-decoration: none;">Carrinho</a>
-            <a href="pedidos.html" style="color: white; text-decoration: none; font-weight: bold; text-decoration: underline;">Pedidos</a>
-            <a href="#" onclick="logout()" style="color: white; text-decoration: none;">Sair</a>
-          </div>
-        </div>
-      </nav>
+      <div class="header-content">
+        <h1>🍕 Jerônimu's Pizzaria</h1>
+        <nav>
+          <a href="index.html">🏠 Início</a>
+          <a href="menu.html">🍕 Pizzas Salgadas</a>
+          <a href="doces.html">🍰 Pizzas Doces</a>
+          <a href="bebidas.html">🥤 Bebidas</a>
+          <a href="carrinho.html">🛒 Carrinho</a>
+          <a href="pedidos.html" class="active">📋 Meus Pedidos</a>
+        </nav>
+      </div>
     </header>
 
     <main class="pedidos-container">
-      <h2>Meus Pedidos</h2>
+      <h2>📋 Meus Pedidos</h2>
       
       <div id="loading" class="loading">
         <p>Carregando seus pedidos...</p>

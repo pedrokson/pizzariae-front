@@ -8,46 +8,166 @@
   <link rel="stylesheet" href="css/styles.css" />
   <style>
     body {
-      background: #fff8f0;
+      background: linear-gradient(135deg, #ff6b35 0%, #d32f2f 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b35, #d32f2f, #ff6b35);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .login-header {
+      margin-bottom: 2rem;
+    }
+
+    .login-header h1 {
+      color: #d32f2f;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .login-header p {
+      color: #666;
       margin: 0;
     }
-    .login-container {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px #0002;
-      padding: 32px 24px;
-      width: 320px;
-      text-align: center;
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
     }
-    .login-container h2 {
-      margin-bottom: 24px;
-      color: #b22222;
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
     }
-    .login-container input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-    .login-container button {
+
+    .form-group input {
       width: 100%;
-      padding: 10px;
-      background: #b22222;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      margin-top: 16px;
-      transition: background 0.2s;
+      padding: 15px;
+      border: 2px solid #e1e1e1;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #fafafa;
+      box-sizing: border-box;
     }
-    .login-container button:hover {
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff6b35;
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #ff6b35 0%, #d32f2f 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .login-footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+    }
+
+    .login-footer p {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .btn-cadastro {
+      background: transparent;
+      color: #ff6b35;
+      border: 2px solid #ff6b35;
+      padding: 12px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-cadastro:hover {
+      background: #ff6b35;
+      color: white;
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .error-message {
+      background: #ffebee;
+      color: #c62828;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: 1px solid #ffcdd2;
+      display: none;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .login-container {
+        margin: 1rem;
+        padding: 2rem 1.5rem;
+      }
+
+      .login-header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
       background: #7a1616;
     }
     .login-container .erro {
@@ -74,14 +194,35 @@
 </head>
 <body>
   <div class="login-container">
-    <h2>Login</h2>
+    <div class="login-header">
+      <h1>🍕 Jerônimu's Pizzaria</h1>
+      <p>Faça login para continuar</p>
+    </div>
+
+    <div class="error-message" id="erro-login"></div>
+
     <form onsubmit="return fazerLogin(event)">
-      <input type="email" id="usuario" placeholder="E-mail" required />
-      <input type="password" id="senha" placeholder="Senha (mín. 6 dígitos)" required minlength="6" />
-      <button type="submit">Entrar</button>
-      <div class="erro" id="erro-login"></div>
+      <div class="form-group">
+        <label for="usuario">E-mail:</label>
+        <input type="email" id="usuario" placeholder="Digite seu e-mail" required />
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" placeholder="Digite sua senha (mín. 6 dígitos)" required minlength="6" />
+      </div>
+
+      <button type="submit" class="btn-login">
+        🔐 Entrar
+      </button>
     </form>
-    <a class="cadastro-link" href="cadastro.html">Não tem cadastro? Cadastre-se aqui</a>
+
+    <div class="login-footer">
+      <p>Não tem cadastro?</p>
+      <a href="cadastro.html" class="btn-cadastro">
+        📝 Cadastre-se aqui
+      </a>
+    </div>
   </div>
   <script>
     // Função API direta (sem import)
@@ -119,7 +260,9 @@
 
       // Validar senha mínima
       if (senha.length < 6) {
-        document.getElementById('erro-login').textContent = 'A senha deve ter pelo menos 6 dígitos!';
+        const erroDiv = document.getElementById('erro-login');
+        erroDiv.textContent = 'A senha deve ter pelo menos 6 dígitos!';
+        erroDiv.style.display = 'block';
         return;
       }
 
@@ -151,11 +294,15 @@
           
           window.location.href = 'menu.html'; // Vai direto para o menu
         } else {
-          document.getElementById('erro-login').textContent = response.error || 'E-mail ou senha inválidos!';
+          const erroDiv = document.getElementById('erro-login');
+          erroDiv.textContent = response.error || 'E-mail ou senha inválidos!';
+          erroDiv.style.display = 'block';
         }
       } catch (error) {
         console.error('Erro no login:', error);
-        document.getElementById('erro-login').textContent = 'Erro ao conectar ao servidor!';
+        const erroDiv = document.getElementById('erro-login');
+        erroDiv.textContent = 'Erro ao conectar ao servidor!';
+        erroDiv.style.display = 'block';
       }
     }
   </script>

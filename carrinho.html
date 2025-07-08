@@ -12,92 +12,289 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/styles.css" />
     <style>
-      /* Reset específico para o carrinho */
-      .carrinho * {
-        box-sizing: border-box;
+      /* Container principal */
+      .carrinho-container {
+        padding: 2rem 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
       }
-      
-      /* Estilos específicos do carrinho que sobrescrevem qualquer conflito */
-      .carrinho {
-        font-family: Arial, sans-serif;
-        background: #f4f4f4;
-        color: #333;
-        padding: 0;
-        margin: 0;
-      }
-      
-      /* Body override para carrinho */
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-        background: #fff8f0 !important;
-        color: #333 !important;
-        line-height: 1.6 !important;
-        min-height: 100vh !important;
-        display: flex !important;
-        flex-direction: column !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      /* Header específico do carrinho */
-      .carrinho-header {
-        background: #b22222;
-        color: #fff;
-        padding: 1.5rem 2rem;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+
+      .carrinho-container h2 {
         text-align: center;
-        border-radius: 0 0 18px 18px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      }
-      .carrinho-header h1 {
-        margin: 0;
-        font-family: 'Georgia', serif;
-        font-weight: 700;
+        color: #d32f2f;
+        margin-bottom: 2rem;
         font-size: 2rem;
-        color: #fff;
-      }
-      .carrinho-header nav {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        padding: 0.8rem 0;
-      }
-      .carrinho-header nav a {
-        color: white;
-        text-decoration: none;
-        margin: 0 1rem;
-        font-weight: 600;
-        transition: color 0.3s ease;
-      }
-      .carrinho-header nav a:hover,
-      .carrinho-header nav a.active {
-        color: #ffb347;
-        font-weight: 700;
-        text-decoration: underline;
-      }
-      table {
-        border-collapse: collapse;
-        background: #fff;
-        margin-bottom: 16px;
-      }
-      th,
-      td {
-        padding: 10px 8px;
-        text-align: center;
-      }
-      th {
-        background: #b22222;
-        color: #fff;
         font-weight: bold;
       }
-      tr:nth-child(even) {
+
+      /* Tabela do carrinho */
+      .carrinho-table {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(211, 47, 47, 0.1);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        width: 100%;
+      }
+
+      .carrinho-table table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .carrinho-table th {
+        background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+        color: white;
+        padding: 1rem;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .carrinho-table td {
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+      }
+
+      .carrinho-table tr:nth-child(even) {
         background: #f9f9f9;
       }
+
+      .carrinho-table tr:hover {
+        background: #fff3e0;
+      }
+
+      /* Botões de quantidade */
       .quantidade-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .btn-quantidade {
+        background: #d32f2f;
+        color: white;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn-quantidade:hover {
+        background: #b71c1c;
+        transform: scale(1.1);
+      }
+
+      .quantidade-input {
+        width: 50px;
+        text-align: center;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        padding: 5px;
+        font-weight: bold;
+      }
+
+      /* Botão remover */
+      .btn-remover {
+        background: #f44336;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+      }
+
+      .btn-remover:hover {
+        background: #d32f2f;
+        transform: translateY(-2px);
+      }
+
+      /* Total do carrinho */
+      .total-carrinho {
+        background: linear-gradient(135deg, #fff9f0 0%, #fff5e6 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(211, 47, 47, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .total-carrinho h3 {
+        color: #d32f2f;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .total-valor {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #ff6b35;
+        margin-bottom: 1.5rem;
+      }
+
+      /* Botões de ação */
+      .acoes-carrinho {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+
+      .btn-acao {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        min-width: 150px;
+      }
+
+      .btn-limpar {
+        background: linear-gradient(135deg, #757575 0%, #424242 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(117, 117, 117, 0.3);
+      }
+
+      .btn-limpar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(117, 117, 117, 0.4);
+      }
+
+      .btn-finalizar {
+        background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+      }
+
+      .btn-finalizar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+      }
+
+      /* Mensagem carrinho vazio */
+      .carrinho-vazio {
+        text-align: center;
+        padding: 3rem;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(211, 47, 47, 0.1);
+      }
+
+      .carrinho-vazio h3 {
+        color: #757575;
+        margin-bottom: 1rem;
+      }
+
+      .carrinho-vazio p {
+        color: #999;
+        margin-bottom: 2rem;
+      }
+
+      .btn-continuar {
+        background: linear-gradient(135deg, #ff6b35 0%, #e55a2b 100%);
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+      }
+
+      .btn-continuar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        text-decoration: none;
+        color: white;
+      }
+
+      /* Modal de endereço */
+      .modal-endereco {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 90%;
+      }
+
+      .modal-endereco h3 {
+        color: #d32f2f;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #d32f2f;
+      }
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        .carrinho-container {
+          padding: 1rem 0.5rem;
+        }
+
+        .carrinho-table {
+          overflow-x: auto;
+        }
+
+        .carrinho-table table {
+          min-width: 600px;
+        }
+
+        .acoes-carrinho {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn-acao {
+          width: 100%;
+          max-width: 300px;
+        }
+
+        .carrinho-container h2 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
         display: flex;
         align-items: center;
         justify-content: center;
@@ -289,122 +486,112 @@
     </style>
   </head>
   <body>
-    <header class="carrinho-header">
-      <h1>Seu Carrinho - Jerônimu's</h1>
-      <nav>
-        <a href="index.html">Início</a>
-        <a href="menu.html">Cardápio</a>
-        <a href="carrinho.html" class="active">Carrinho</a>
-        <a href="pedidos.html">Meus Pedidos</a>
-        <button
-          onclick="logout()"
-          style="
-            position: absolute;
-            top: 18px;
-            right: 32px;
-            background: transparent;
-            color: #fff;
-            border: none;
-            font-size: 1.1rem;
-            cursor: pointer;
-            font-weight: bold;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-          "
-          onmouseover="this.style.opacity=1"
-          onmouseout="this.style.opacity=0.7"
-          title="Sair"
-        >
-          Sair
-        </button>
-      </nav>
-      <script>
-        function logout() {
-          localStorage.removeItem("token");
-          localStorage.removeItem("usuario");
-          window.location.href = "login.html";
-        }
-      </script>
+    <header>
+      <div class="header-content">
+        <h1>🍕 Jerônimu's Pizzaria</h1>
+        <nav>
+          <a href="index.html">🏠 Início</a>
+          <a href="menu.html">🍕 Pizzas Salgadas</a>
+          <a href="doces.html">🍰 Pizzas Doces</a>
+          <a href="bebidas.html">🥤 Bebidas</a>
+          <a href="carrinho.html" class="active">🛒 Carrinho</a>
+          <a href="pedidos.html">📋 Meus Pedidos</a>
+        </nav>
+      </div>
     </header>
 
-    <main class="carrinho-main">
-      <section class="carrinho">
-        <h2>Itens no Carrinho</h2>
-        <table
-          border="1"
-          cellpadding="8"
-          style="width: 100%; max-width: 600px; margin: auto"
-        >
-          <thead>
-            <tr>
-              <th>Pizza</th>
-              <th>Quantidade</th>
-              <th>Preço Unitário</th>
-              <th>Total</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-carrinho"></tbody>
-        </table>
-        <h3 id="total"></h3>
-        <!-- Caixa de observação -->
-        <label for="observacao" style="display:block; margin:12px 0 4px 0;">Observação do pedido:</label>
-        <textarea id="observacao" rows="3" style="width:100%;max-width:600px;resize:vertical;" placeholder="Ex: Tirar cebola da pizza, entregar sem contato, etc."></textarea>
-        <button onclick="finalizarPedido()" style="margin-top:12px;">Finalizar Pedido</button>
-        <button
-          onclick="limparCarrinho()"
-          style="margin-top: 10px; background: #7a1616"
-        >
-          Limpar Carrinho
-        </button>
-      </section>
+    <main>
+      <div class="carrinho-container">
+        <h2>🛒 Seu Carrinho de Compras</h2>
+        
+        <div class="carrinho-table">
+          <table id="tabela-carrinho-container">
+            <thead>
+              <tr>
+                <th>Pizza</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+                <th>Total</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-carrinho"></tbody>
+          </table>
+        </div>
 
-      <!-- Modal de Endereço -->
-      <div id="modal-endereco" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%; max-height: 90%; overflow-y: auto;">
-          <h3 style="margin-top: 0; color: #b22222; text-align: center;">📍 Dados para Entrega</h3>
+        <div class="total-carrinho">
+          <h3>Total do Pedido</h3>
+          <div class="total-valor" id="total">R$ 0,00</div>
           
-          <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Rua/Avenida:</label>
-            <input type="text" id="endereco-rua" placeholder="Ex: Rua das Flores, Av. Brasil" 
-                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;" required>
+          <div class="form-group">
+            <label for="observacao">Observação do pedido:</label>
+            <textarea 
+              id="observacao" 
+              rows="3" 
+              placeholder="Ex: Tirar cebola da pizza, entregar sem contato, etc."
+            ></textarea>
           </div>
-          
-          <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-            <div style="flex: 2;">
-              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Número:</label>
-              <input type="text" id="endereco-numero" placeholder="123" 
-                     style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;" required>
-            </div>
-            <div style="flex: 3;">
-              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Bairro:</label>
-              <input type="text" id="endereco-bairro" placeholder="Ex: Centro, Vila Nova" 
-                     style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;" required>
-            </div>
+        </div>
+
+        <div class="acoes-carrinho">
+          <button class="btn-acao btn-limpar" onclick="limparCarrinho()">
+            🗑️ Limpar Carrinho
+          </button>
+          <button class="btn-acao btn-finalizar" onclick="finalizarPedido()">
+            ✅ Finalizar Pedido
+          </button>
+        </div>
+
+        <div id="carrinho-vazio" class="carrinho-vazio" style="display: none;">
+          <h3>Seu carrinho está vazio</h3>
+          <p>Adicione algumas deliciosas pizzas ao seu carrinho!</p>
+          <a href="menu.html" class="btn-continuar">
+            🍕 Ver Pizzas Salgadas
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal de Endereço -->
+    <div id="modal-endereco" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+      <div class="modal-endereco" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <h3>📍 Dados para Entrega</h3>
+        
+        <div class="form-group">
+          <label for="endereco-rua">Rua/Avenida:</label>
+          <input type="text" id="endereco-rua" placeholder="Ex: Rua das Flores, Av. Brasil" required>
+        </div>
+        
+        <div style="display: flex; gap: 15px;">
+          <div class="form-group" style="flex: 1;">
+            <label for="endereco-numero">Número:</label>
+            <input type="text" id="endereco-numero" placeholder="123" required>
           </div>
-          
-          <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Complemento (opcional):</label>
-            <input type="text" id="endereco-complemento" placeholder="Ex: Apartamento 201, Casa dos fundos" 
-                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+          <div class="form-group" style="flex: 2;">
+            <label for="endereco-bairro">Bairro:</label>
+            <input type="text" id="endereco-bairro" placeholder="Ex: Centro, Vila Nova" required>
           </div>
-          
-          <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-            <div style="flex: 1;">
-              <label style="display: block; margin-bottom: 5px; font-weight: bold;">CEP:</label>
-              <input type="text" id="endereco-cep" placeholder="86270-000" maxlength="9"
-                     style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;" required>
-            </div>
-            <div style="flex: 2;">
-              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cidade:</label>
-              <input type="text" id="endereco-cidade" value="São Jerônimo da Serra - PR" readonly
-                     style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5; box-sizing: border-box;">
-            </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="endereco-complemento">Complemento (opcional):</label>
+          <input type="text" id="endereco-complemento" placeholder="Ex: Apartamento 201, Casa dos fundos">
+        </div>
+        
+        <div style="display: flex; gap: 15px;">
+          <div class="form-group" style="flex: 1;">
+            <label for="endereco-cep">CEP:</label>
+            <input type="text" id="endereco-cep" placeholder="86270-000" maxlength="9" required>
           </div>
-          
-          <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Ponto de Referência:</label>
-            <input type="text" id="endereco-referencia" placeholder="Ex: Próximo ao mercado, em frente à igreja" 
+          <div class="form-group" style="flex: 2;">
+            <label for="endereco-cidade">Cidade:</label>
+            <input type="text" id="endereco-cidade" value="São Jerônimo da Serra - PR" readonly style="background: #f5f5f5;">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="endereco-referencia">Ponto de Referência:</label>
+          <input type="text" id="endereco-referencia" placeholder="Ex: Próximo ao mercado, em frente à igreja"> 
                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;">
           </div>
           

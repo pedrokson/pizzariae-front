@@ -8,46 +8,176 @@
     <link rel="stylesheet" href="css/styles.css" />
     <style>
       body {
-        background: #fff8f0;
+        background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100vh;
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .cadastro-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        padding: 3rem 2.5rem;
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cadastro-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #4caf50, #2e7d32, #4caf50);
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+
+      .cadastro-header {
+        margin-bottom: 2rem;
+      }
+
+      .cadastro-header h1 {
+        color: #2e7d32;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+
+      .cadastro-header p {
+        color: #666;
         margin: 0;
       }
-      .login-container {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px #0002;
-        padding: 32px 24px;
-        width: 340px;
-        text-align: center;
+
+      .form-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
       }
-      .login-container h2 {
-        margin-bottom: 24px;
-        color: #b22222;
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
       }
-      .login-container input {
-        width: 90%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-      }
-      .login-container button {
+
+      .form-group input {
         width: 100%;
-        padding: 10px;
-        background: #b22222;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        margin-top: 16px;
-        transition: background 0.2s;
+        padding: 15px;
+        border: 2px solid #e1e1e1;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fafafa;
+        box-sizing: border-box;
       }
-      .login-container button:hover {
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #4caf50;
+        background: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.2);
+      }
+
+      .btn-cadastrar {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+      }
+
+      .btn-cadastrar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+      }
+
+      .btn-cadastrar:active {
+        transform: translateY(0);
+      }
+
+      .cadastro-footer {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #eee;
+      }
+
+      .cadastro-footer p {
+        color: #666;
+        margin-bottom: 1rem;
+      }
+
+      .btn-login {
+        background: transparent;
+        color: #4caf50;
+        border: 2px solid #4caf50;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-login:hover {
+        background: #4caf50;
+        color: white;
+        transform: translateY(-2px);
+        text-decoration: none;
+      }
+
+      .error-message,
+      .success-message {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: none;
+      }
+
+      .error-message {
+        background: #ffebee;
+        color: #c62828;
+        border: 1px solid #ffcdd2;
+      }
+
+      .success-message {
+        background: #e8f5e8;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+      }
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        .cadastro-container {
+          margin: 1rem;
+          padding: 2rem 1.5rem;
+        }
+
+        .cadastro-header h1 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
         background: #7a1616;
       }
       .login-container .erro {
@@ -79,22 +209,63 @@
     </style>
   </head>
   <body>
-    <div class="login-container">
-      <h2>Cadastro</h2>
+    <div class="cadastro-container">
+      <div class="cadastro-header">
+        <h1>🍕 Jerônimu's Pizzaria</h1>
+        <p>Crie sua conta para começar</p>
+      </div>
+
+      <div class="error-message" id="erro-cadastro"></div>
+      <div class="success-message" id="sucesso-cadastro"></div>
+
       <form onsubmit="return fazerCadastro(event)">
-        <input type="text" id="novo-nome" placeholder="Nome completo" required />
-        <input type="tel" id="novo-telefone" placeholder="Telefone" required pattern="[0-9]{10,15}" />
-        <input type="text" id="novo-rua" placeholder="Rua" required />
-        <input type="text" id="novo-numero" placeholder="Número" required />
-        <input type="text" id="novo-complemento" placeholder="Complemento (opcional)" />
-        <input type="email" id="novo-email" placeholder="E-mail" required />
-        <input type="password" id="nova-senha" placeholder="Senha (mín. 6 dígitos)" required minlength="6" />
-        <div class="senha-info">💡 A senha deve ter pelo menos 6 caracteres</div>
-        <button type="submit">Cadastrar</button>
-        <div class="erro" id="erro-cadastro"></div>
-        <div class="sucesso" id="sucesso-cadastro"></div>
+        <div class="form-group">
+          <label for="novo-nome">Nome completo:</label>
+          <input type="text" id="novo-nome" placeholder="Digite seu nome completo" required />
+        </div>
+
+        <div class="form-group">
+          <label for="novo-telefone">Telefone:</label>
+          <input type="tel" id="novo-telefone" placeholder="(11) 99999-9999" required pattern="[0-9]{10,15}" />
+        </div>
+
+        <div class="form-group">
+          <label for="novo-rua">Rua/Avenida:</label>
+          <input type="text" id="novo-rua" placeholder="Digite sua rua" required />
+        </div>
+
+        <div class="form-group">
+          <label for="novo-numero">Número:</label>
+          <input type="text" id="novo-numero" placeholder="Digite o número" required />
+        </div>
+
+        <div class="form-group">
+          <label for="novo-complemento">Complemento:</label>
+          <input type="text" id="novo-complemento" placeholder="Apartamento, casa, etc. (opcional)" />
+        </div>
+
+        <div class="form-group">
+          <label for="novo-email">E-mail:</label>
+          <input type="email" id="novo-email" placeholder="Digite seu e-mail" required />
+        </div>
+
+        <div class="form-group">
+          <label for="nova-senha">Senha:</label>
+          <input type="password" id="nova-senha" placeholder="Digite uma senha (mín. 6 dígitos)" required minlength="6" />
+          <small style="color: #666; font-size: 0.9rem;">💡 A senha deve ter pelo menos 6 caracteres</small>
+        </div>
+
+        <button type="submit" class="btn-cadastrar">
+          📝 Criar Conta
+        </button>
       </form>
-      <a class="login-link" href="login.html">Já tem cadastro? Faça login</a>
+
+      <div class="cadastro-footer">
+        <p>Já tem uma conta?</p>
+        <a href="login.html" class="btn-login">
+          🔐 Fazer Login
+        </a>
+      </div>
     </div>
     <script>
       // Importar função API diretamente (sem módulo)
@@ -144,13 +315,17 @@
 
         // Validar senha mínima
         if (senha.length < 6) {
-          document.getElementById("erro-cadastro").textContent = "A senha deve ter pelo menos 6 dígitos!";
+          const erroDiv = document.getElementById("erro-cadastro");
+          erroDiv.textContent = "A senha deve ter pelo menos 6 dígitos!";
+          erroDiv.style.display = "block";
           document.getElementById("sucesso-cadastro").textContent = "";
           return false;
         }
 
         if (!validarEmail(email)) {
-          document.getElementById("erro-cadastro").textContent = "Digite um e-mail válido!";
+          const erroDiv = document.getElementById("erro-cadastro");
+          erroDiv.textContent = "Digite um e-mail válido!";
+          erroDiv.style.display = "block";
           document.getElementById("sucesso-cadastro").textContent = "";
           return false;
         }
@@ -163,16 +338,22 @@
 
           if (data._id || data.nome) {
             // Cadastro bem-sucedido
-            document.getElementById("erro-cadastro").textContent = "";
-            document.getElementById("sucesso-cadastro").textContent = "Cadastro realizado com sucesso! Faça login.";
+            document.getElementById("erro-cadastro").style.display = "none";
+            const sucessoDiv = document.getElementById("sucesso-cadastro");
+            sucessoDiv.textContent = "Cadastro realizado com sucesso! Faça login.";
+            sucessoDiv.style.display = "block";
           } else {
-            document.getElementById("erro-cadastro").textContent = data.error || "Erro no cadastro";
-            document.getElementById("sucesso-cadastro").textContent = "";
+            const erroDiv = document.getElementById("erro-cadastro");
+            erroDiv.textContent = data.error || "Erro no cadastro";
+            erroDiv.style.display = "block";
+            document.getElementById("sucesso-cadastro").style.display = "none";
           }
         } catch (error) {
           console.error('Erro:', error);
-          document.getElementById("erro-cadastro").textContent = "Erro ao conectar com o servidor";
-          document.getElementById("sucesso-cadastro").textContent = "";
+          const erroDiv = document.getElementById("erro-cadastro");
+          erroDiv.textContent = "Erro ao conectar com o servidor";
+          erroDiv.style.display = "block";
+          document.getElementById("sucesso-cadastro").style.display = "none";
         }
         return false;
       }
