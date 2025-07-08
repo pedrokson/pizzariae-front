@@ -135,6 +135,8 @@
         input.value = valor;
       }
       function adicionarCarrinho(nome, tamanho, preco, btn) {
+        console.log('🛒 CHAMANDO adicionarCarrinho:', nome, tamanho, preco);
+        
         let quantidade = 1;
         let borda = "";
         const card = btn.closest(".menu-item");
@@ -156,12 +158,40 @@
           quantidade: quantidade,
           borda_recheada: borda,
         });
+        
+        console.log('💾 Salvando carrinho:', carrinho);
         localStorage.setItem("carrinho", JSON.stringify(carrinho));
+        
+        // Feedback visual
+        btn.style.background = '#228b22';
+        btn.textContent = '✓ Adicionado!';
+        
+        setTimeout(() => {
+          btn.style.background = '#b22222';
+          btn.textContent = tamanho;
+        }, 2000);
+        
         alert(
           `Adicionado ${quantidade}x ${nome} (${tamanho})${
             borda ? " com borda " + borda : ""
           } ao carrinho!`
         );
+      }
+      
+      function mostrarTamanhos(botao) {
+        console.log('👆 CHAMANDO mostrarTamanhos');
+        // Esconde todos os outros botoes-tamanho abertos
+        document.querySelectorAll('.botoes-tamanho').forEach(div => {
+          div.style.display = 'none';
+        });
+        // Mostra o container de tamanhos do card clicado
+        const tamanhos = botao.nextElementSibling;
+        if (tamanhos) {
+          tamanhos.style.display = 'block';
+          console.log('✅ Mostrando tamanhos');
+        } else {
+          console.error('❌ Elemento tamanhos não encontrado');
+        }
       }
     </script>
   </head>

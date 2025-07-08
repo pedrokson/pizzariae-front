@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Funções - Pizzaria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            color: #b22222;
+            margin-top: 0;
+        }
+        button {
+            background-color: #b22222;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background-color: #8b1a1a; }
+        .resultado {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+        .success { border-color: #28a745; background-color: #d4edda; }
+        .error { border-color: #dc3545; background-color: #f8d7da; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste de Funções da Pizzaria</h1>
+        
+        <div class="test-section">
+            <h3>1. Teste de LocalStorage (Carrinho)</h3>
+            <button onclick="testarLocalStorage()">Testar LocalStorage</button>
+            <button onclick="limparCarrinho()">Limpar Carrinho</button>
+            <button onclick="verCarrinho()">Ver Carrinho</button>
+            <div id="resultado-localStorage" class="resultado"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Teste de Adicionar ao Carrinho</h3>
+            <button onclick="testarAdicionar()">Adicionar Pizza Teste</button>
+            <button onclick="testarAdicionarComBorda()">Adicionar com Borda</button>
+            <div id="resultado-adicionar" class="resultado"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Teste de Autenticação</h3>
+            <button onclick="testarAuth()">Verificar Token/Usuario</button>
+            <button onclick="simularLogin()">Simular Login</button>
+            <div id="resultado-auth" class="resultado"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Teste de Funções Globais</h3>
+            <button onclick="testarFuncoes()">Verificar Funções</button>
+            <div id="resultado-funcoes" class="resultado"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. Console do Navegador</h3>
+            <p>Abra o Console do Navegador (F12) para ver erros JavaScript em tempo real.</p>
+            <button onclick="gerarLog()">Gerar Log de Teste</button>
+        </div>
+    </div>
+
+    <script>
+        function log(elemento, mensagem, tipo = 'info') {
+            const resultado = document.getElementById(elemento);
+            const timestamp = new Date().toLocaleTimeString();
+            resultado.innerHTML = `[${timestamp}] ${mensagem}`;
+            resultado.className = `resultado ${tipo}`;
+            console.log(`[${timestamp}] ${mensagem}`);
+        }
+
+        function testarLocalStorage() {
+            try {
+                // Testar se localStorage funciona
+                localStorage.setItem('teste', 'funcionando');
+                const teste = localStorage.getItem('teste');
+                
+                if (teste === 'funcionando') {
+                    log('resultado-localStorage', '✅ LocalStorage funcionando corretamente', 'success');
+                    localStorage.removeItem('teste');
+                } else {
+                    log('resultado-localStorage', '❌ LocalStorage não está funcionando', 'error');
+                }
+            } catch (error) {
+                log('resultado-localStorage', `❌ Erro no LocalStorage: ${error.message}`, 'error');
+            }
+        }
+
+        function limparCarrinho() {
+            localStorage.removeItem('carrinho');
+            log('resultado-localStorage', '🗑️ Carrinho limpo', 'success');
+        }
+
+        function verCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            log('resultado-localStorage', `📦 Carrinho: ${carrinho.length} itens - ${JSON.stringify(carrinho)}`, 'info');
+        }
+
+        function testarAdicionar() {
+            try {
+                // Simular função adicionarCarrinho
+                let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+                
+                carrinho.push({
+                    nome: "Pizza Teste (Média)",
+                    preco: 39.90,
+                    quantidade: 1,
+                    borda_recheada: ""
+                });
+                
+                localStorage.setItem("carrinho", JSON.stringify(carrinho));
+                log('resultado-adicionar', `✅ Pizza adicionada! Total: ${carrinho.length} itens`, 'success');
+                
+            } catch (error) {
+                log('resultado-adicionar', `❌ Erro ao adicionar: ${error.message}`, 'error');
+            }
+        }
+
+        function testarAdicionarComBorda() {
+            try {
+                let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+                
+                carrinho.push({
+                    nome: "Pizza Teste com Borda (Grande)",
+                    preco: 52.90 + 13.90, // Preço com borda
+                    quantidade: 2,
+                    borda_recheada: "Catupiry"
+                });
+                
+                localStorage.setItem("carrinho", JSON.stringify(carrinho));
+                log('resultado-adicionar', `✅ Pizza com borda adicionada! Total: ${carrinho.length} itens`, 'success');
+                
+            } catch (error) {
+                log('resultado-adicionar', `❌ Erro ao adicionar com borda: ${error.message}`, 'error');
+            }
+        }
+
+        function testarAuth() {
+            const token = localStorage.getItem('token');
+            const usuario = localStorage.getItem('usuario');
+            
+            if (token && usuario) {
+                try {
+                    const userData = JSON.parse(usuario);
+                    log('resultado-auth', `✅ Usuário logado: ${userData.nome || 'Nome não encontrado'}`, 'success');
+                } catch (error) {
+                    log('resultado-auth', `⚠️ Token existe mas dados de usuário inválidos: ${error.message}`, 'error');
+                }
+            } else {
+                log('resultado-auth', '❌ Usuário não está logado (token ou usuario ausente)', 'error');
+            }
+        }
+
+        function simularLogin() {
+            // Simular dados de login para teste
+            const userData = {
+                id: 1,
+                nome: "Usuário Teste",
+                email: "teste@test.com"
+            };
+            
+            localStorage.setItem('token', 'token-teste-123');
+            localStorage.setItem('usuario', JSON.stringify(userData));
+            
+            log('resultado-auth', '✅ Login simulado com sucesso', 'success');
+        }
+
+        function testarFuncoes() {
+            const funcoes = [];
+            
+            // Verificar se existem funções globais do menu
+            if (typeof adicionarCarrinho === 'function') {
+                funcoes.push('✅ adicionarCarrinho');
+            } else {
+                funcoes.push('❌ adicionarCarrinho não encontrada');
+            }
+            
+            if (typeof mostrarTamanhos === 'function') {
+                funcoes.push('✅ mostrarTamanhos');
+            } else {
+                funcoes.push('❌ mostrarTamanhos não encontrada');
+            }
+            
+            if (typeof alterarQuantidade === 'function') {
+                funcoes.push('✅ alterarQuantidade');
+            } else {
+                funcoes.push('❌ alterarQuantidade não encontrada');
+            }
+            
+            log('resultado-funcoes', funcoes.join('\n'), funcoes.some(f => f.includes('❌')) ? 'error' : 'success');
+        }
+
+        function gerarLog() {
+            console.log('🧪 TESTE DE PIZZARIA - LOG DETALHADO');
+            console.log('📊 LocalStorage disponível:', typeof Storage !== 'undefined');
+            console.log('🛒 Carrinho atual:', JSON.parse(localStorage.getItem('carrinho') || '[]'));
+            console.log('👤 Usuário logado:', localStorage.getItem('usuario'));
+            console.log('🔑 Token:', localStorage.getItem('token') ? 'Presente' : 'Ausente');
+            console.log('🌐 User Agent:', navigator.userAgent);
+            console.log('📱 Viewport:', window.innerWidth + 'x' + window.innerHeight);
+        }
+
+        // Executar testes básicos ao carregar
+        window.onload = function() {
+            console.log('🚀 Página de teste carregada');
+            testarLocalStorage();
+            testarAuth();
+        };
+    </script>
+</body>
+</html>

@@ -12,6 +12,8 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/styles.css" />
     <style>
+      /* Estilos específicos para a página inicial */
+      
       /* Faixa horizontal com as cores da Itália */
       .faixa-italia-horizontal {
         width: 100%;
@@ -36,134 +38,175 @@
         flex: 1;
       }
 
+      /* Ajustes específicos para o header da página inicial */
       header {
-        text-align: center;
-        padding: 0;
-        background: none;
+        background: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
       }
 
       .logo-container {
         margin-top: -30px;
+        background: white;
+        padding: 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        display: inline-block;
       }
+      
       .logo-container img {
         width: 80px;
+        height: 80px;
         border-radius: 50%;
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
       }
+      
       .logo-container h1 {
         font-size: 1.8rem;
-        color: #333;
+        color: #b22222 !important;
         margin: 0.3rem 0;
+        text-shadow: none;
       }
 
+      /* Navegação específica para página inicial */
       nav {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        padding: 0.8rem 0;
-        background-color: #b22222;
-        border-radius: 0 0 15px 15px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        z-index: 10;
-        position: relative;
-      }
-      nav a {
-        color: white;
-        text-decoration: none;
-        font-weight: 700;
-        transition: color 0.3s ease;
-      }
-      nav a:hover {
-        color: #ffb347;
+        background-color: #b22222 !important;
+        border-radius: 0 0 15px 15px !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+        margin-top: 20px !important;
+        padding: 1rem 0 !important;
       }
 
-      .hero {
-        text-align: center;
-        padding: 3rem 1rem;
-        background-color: #d06060;
-        color: white;
-        border-radius: 20px;
+      /* Seções específicas da página inicial */
+      .horario, .localizacao {
+        background-color: #fff;
         margin: 2rem auto;
-        max-width: 900px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        padding: 2rem;
+        border-radius: 15px;
+        max-width: 800px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
       }
-      .hero h2 {
-        font-size: 2rem;
+      
+      .horario h2, .localizacao h2 {
+        color: #b22222;
         margin-bottom: 1rem;
       }
-      .hero a.btn {
-        display: inline-block;
-        background-color: orange;
-        color: white;
-        padding: 0.8rem 1.6rem;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: bold;
-        margin-top: 1rem;
-        transition: background-color 0.3s ease;
-      }
-      .hero a.btn:hover {
-        background-color: #ff8c00;
+
+      .mapa iframe {
+        border-radius: 10px;
+        width: 100%;
+        max-width: 600px;
+        height: 300px;
       }
 
       .destaques,
       .contato {
         margin: 3rem auto;
         padding: 2rem;
-        background-color: #fff8f0;
+        background-color: #fff;
         border-radius: 15px;
         max-width: 1000px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         text-align: center;
       }
+      
       .destaques h2,
       .contato h2 {
         color: #b22222;
         margin-bottom: 1rem;
       }
+      
       .menu-group {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 24px;
-        margin-top: 1rem;
+        margin: 2rem 0;
       }
+      
       .menu-item {
         width: 200px;
+        background: #f9f9f9;
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
       }
+      
+      .menu-item:hover {
+        transform: translateY(-5px);
+      }
+      
       .menu-item img {
         width: 100%;
         border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 0.5rem;
       }
+      
       .menu-item h3 {
-        margin-top: 0.5rem;
+        margin: 0.5rem 0;
         font-size: 1.1rem;
         color: #333;
       }
+      
       .menu-item p {
-        color: #555;
+        color: #b22222;
+        font-weight: bold;
+        font-size: 1.1rem;
       }
 
+      .btn {
+        display: inline-block;
+        background-color: #b22222;
+        color: white !important;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 1rem;
+        transition: background-color 0.3s ease;
+      }
+      
+      .btn:hover {
+        background-color: #8b1a1a;
+      }
+
+      /* Responsividade */
       @media (max-width: 600px) {
         .faixa-italia-horizontal {
           height: 40px;
         }
+        .logo-container {
+          margin-top: -20px;
+          padding: 15px;
+        }
         .logo-container img {
           width: 60px;
+          height: 60px;
         }
         .logo-container h1 {
           font-size: 1.3rem;
         }
+        .menu-group {
+          gap: 15px;
+        }
+        .menu-item {
+          width: 160px;
+        }
+        .horario, .localizacao, .destaques, .contato {
+          margin: 1.5rem;
+          padding: 1.5rem;
+        }
       }
     </style>
   </head>
-  <a href="https://wa.me/5543999047461" target="_blank" class="whatsapp-float">
-    <img src="img/whatsapp.png" alt="WhatsApp" />
-  </a>
-
   <body>
+    <a href="https://wa.me/5543999047461" target="_blank" class="whatsapp-float">
+      <img src="img/whatsapp.png" alt="WhatsApp" />
+    </a>
+
     <header>
       <div class="faixa-italia-horizontal">
         <div class="faixa-verde"></div>
@@ -194,19 +237,13 @@
         <div class="mapa">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.6140845534374!2d-50.74196532541523!3d-23.72547156764052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ebad957e09ae65%3A0x226dd1ca18275703!2sAv.%20Pedro%20Ferreira%20da%20Costa%2C%20706%20-%20S%C3%A3o%20Jer%C3%B4nimo%20da%20Serra%2C%20PR%2C%2086270-000!5e0!3m2!1spt-BR!2sbr!4v1751409548125!5m2!1spt-BR!2sbr"
-            width="600"
-            height="450"
-            style="border: 0"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
             width="100%"
             height="300"
             style="border: 0"
             allowfullscreen=""
             loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
         </div>
       </section>
 

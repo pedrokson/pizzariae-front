@@ -12,28 +12,71 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/styles.css" />
     <style>
-      body {
+      /* Reset específico para o carrinho */
+      .carrinho * {
+        box-sizing: border-box;
+      }
+      
+      /* Estilos específicos do carrinho que sobrescrevem qualquer conflito */
+      .carrinho {
         font-family: Arial, sans-serif;
-        margin: 0;
         background: #f4f4f4;
         color: #333;
-      }
-      header {
-        background: #b22222;
-        color: #fff;
-        padding: 16px;
-        position: relative;
-      }
-      header h1 {
+        padding: 0;
         margin: 0;
       }
-      header nav a {
-        color: #fff;
-        text-decoration: none;
-        margin-right: 16px;
-        font-weight: bold;
+      
+      /* Body override para carrinho */
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        background: #fff8f0 !important;
+        color: #333 !important;
+        line-height: 1.6 !important;
+        min-height: 100vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
-      header nav a.active {
+      /* Header específico do carrinho */
+      .carrinho-header {
+        background: #b22222;
+        color: #fff;
+        padding: 1.5rem 2rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border-radius: 0 0 18px 18px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      }
+      .carrinho-header h1 {
+        margin: 0;
+        font-family: 'Georgia', serif;
+        font-weight: 700;
+        font-size: 2rem;
+        color: #fff;
+      }
+      .carrinho-header nav {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        padding: 0.8rem 0;
+      }
+      .carrinho-header nav a {
+        color: white;
+        text-decoration: none;
+        margin: 0 1rem;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+      .carrinho-header nav a:hover,
+      .carrinho-header nav a.active {
+        color: #ffb347;
+        font-weight: 700;
         text-decoration: underline;
       }
       table {
@@ -118,10 +161,14 @@
         font-size: 0.95em;
         font-weight: bold;
       }
-      main {
-        padding: 20px;
-        max-width: 800px;
-        margin: auto;
+      /* Main específico do carrinho */
+      .carrinho-main {
+        flex: 1;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #fff8f0;
+        min-height: calc(100vh - 200px);
       }
       button {
         padding: 10px 20px;
@@ -242,7 +289,7 @@
     </style>
   </head>
   <body>
-    <header>
+    <header class="carrinho-header">
       <h1>Seu Carrinho - Jerônimu's</h1>
       <nav>
         <a href="index.html">Início</a>
@@ -280,7 +327,7 @@
       </script>
     </header>
 
-    <main>
+    <main class="carrinho-main">
       <section class="carrinho">
         <h2>Itens no Carrinho</h2>
         <table
