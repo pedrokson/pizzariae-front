@@ -138,11 +138,13 @@ main {
 
 /* Agrupa os itens do menu em linhas centralizadas */
 .menu-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto 2.5rem auto;
+  padding: 20px;
+  justify-items: center;
 }
 
 /* Cardápio */
@@ -152,20 +154,27 @@ main {
 
 /* Card de cada pizza */
 .menu-item {
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  padding: 1.5rem;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f8f8 100%);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  padding: 25px;
   text-align: center;
-  transition: transform 0.3s ease;
-  width: 240px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  max-width: 350px;
+  min-height: 420px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.8);
+  overflow: hidden;
 }
 
 .menu-item:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(178,34,34,0.2);
 }
 
 .menu-item h3 {
@@ -228,11 +237,16 @@ main {
 /* Estilo para imagens nos cards do cardápio */
 .menu-item img {
   width: 100%;
-  height: 160px;
+  height: 180px;
   object-fit: cover;
-  border-radius: 12px 12px 0 0;
+  border-radius: 15px;
   margin-bottom: 1rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.menu-item:hover img {
+  transform: scale(1.05);
 }
 
 /* Carrinho */
@@ -281,15 +295,28 @@ footer {
   margin-top: auto;
 }
 
-/* Responsividade simples */
+/* Responsividade */
+@media (max-width: 1200px) {
+  .menu-group {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    padding: 15px;
+  }
+}
+
 @media (max-width: 900px) {
   .menu-group {
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 10px;
   }
   .menu-item {
-    width: 45vw;
-    min-width: 180px;
-    max-width: 320px;
+    max-width: 100%;
+    min-height: 400px;
+    padding: 20px;
+  }
+  .menu-item img {
+    height: 160px;
   }
 }
 
@@ -311,18 +338,22 @@ footer {
     margin: 0.5rem 0 0 0;
   }
   .menu-title {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
+    margin: 1.5rem 0;
   }
   .menu-group {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 5px;
   }
   .menu-item {
-    width: 90vw;
-    min-width: 140px;
-    max-width: 98vw;
-    padding: 1rem;
+    max-width: 100%;
+    min-height: 380px;
+    padding: 15px;
+    margin: 0 auto;
+  }
+  .menu-item img {
+    height: 140px;
   }
   main {
     padding: 1.5rem 0.5rem;
