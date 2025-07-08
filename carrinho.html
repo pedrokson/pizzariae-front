@@ -184,6 +184,60 @@
         h3 {
           font-size: 1.1rem;
         }
+        
+        /* Modal responsivo */
+        #modal-endereco > div {
+          width: 95% !important;
+          margin: 20px auto !important;
+          padding: 20px !important;
+          max-height: 85% !important;
+        }
+        
+        #modal-endereco > div > div[style*="display: flex"] {
+          flex-direction: column !important;
+          gap: 10px !important;
+        }
+        
+        #modal-endereco > div > div[style*="display: flex"] > div {
+          flex: none !important;
+        }
+      }
+
+      /* Estilos do modal */
+      #modal-endereco input:focus {
+        border-color: #b22222;
+        outline: none;
+        box-shadow: 0 0 5px rgba(178, 34, 34, 0.3);
+      }
+
+      #modal-endereco label {
+        color: #333;
+        font-size: 14px;
+      }
+
+      /* Animação do modal */
+      #modal-endereco {
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      #modal-endereco > div {
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -60%);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%);
+        }
       }
     </style>
   </head>
@@ -257,6 +311,66 @@
           Limpar Carrinho
         </button>
       </section>
+
+      <!-- Modal de Endereço -->
+      <div id="modal-endereco" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%; max-height: 90%; overflow-y: auto;">
+          <h3 style="margin-top: 0; color: #b22222; text-align: center;">📍 Dados para Entrega</h3>
+          
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Rua/Avenida:</label>
+            <input type="text" id="endereco-rua" placeholder="Ex: Rua das Flores, Av. Brasil" 
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;" required>
+          </div>
+          
+          <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+            <div style="flex: 2;">
+              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Número:</label>
+              <input type="text" id="endereco-numero" placeholder="123" 
+                     style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;" required>
+            </div>
+            <div style="flex: 3;">
+              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Bairro:</label>
+              <input type="text" id="endereco-bairro" placeholder="Ex: Centro, Vila Nova" 
+                     style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;" required>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Complemento (opcional):</label>
+            <input type="text" id="endereco-complemento" placeholder="Ex: Apartamento 201, Casa dos fundos" 
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+          </div>
+          
+          <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+            <div style="flex: 1;">
+              <label style="display: block; margin-bottom: 5px; font-weight: bold;">CEP:</label>
+              <input type="text" id="endereco-cep" placeholder="86270-000" maxlength="9"
+                     style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;" required>
+            </div>
+            <div style="flex: 2;">
+              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cidade:</label>
+              <input type="text" id="endereco-cidade" value="São Jerônimo da Serra - PR" readonly
+                     style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5; box-sizing: border-box;">
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Ponto de Referência:</label>
+            <input type="text" id="endereco-referencia" placeholder="Ex: Próximo ao mercado, em frente à igreja" 
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;">
+          </div>
+          
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button onclick="confirmarPedidoComEndereco()" style="background: #25d366; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
+              📱 Enviar Pedido
+            </button>
+            <button onclick="fecharModalEndereco()" style="background: #dc3545; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
+              ❌ Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script>
@@ -345,8 +459,150 @@
           return;
         }
 
-        // Por enquanto, vamos direto para o WhatsApp
-        enviarWhatsApp(carrinho);
+        // Mostrar modal de endereço
+        document.getElementById("modal-endereco").style.display = "block";
+      }
+
+      function fecharModalEndereco() {
+        document.getElementById("modal-endereco").style.display = "none";
+      }
+
+      function validarEndereco() {
+        const rua = document.getElementById('endereco-rua').value.trim();
+        const numero = document.getElementById('endereco-numero').value.trim();
+        const bairro = document.getElementById('endereco-bairro').value.trim();
+        const cep = document.getElementById('endereco-cep').value.trim();
+        
+        if (!rua || !numero || !bairro || !cep) {
+          alert('Por favor, preencha todos os campos obrigatórios do endereço!');
+          return false;
+        }
+        
+        if (cep.length < 9) {
+          alert('Por favor, informe um CEP válido (formato: 00000-000)!');
+          return false;
+        }
+        
+        return true;
+      }
+
+      function obterDadosEndereco() {
+        return {
+          rua: document.getElementById('endereco-rua').value.trim(),
+          numero: document.getElementById('endereco-numero').value.trim(),
+          bairro: document.getElementById('endereco-bairro').value.trim(),
+          complemento: document.getElementById('endereco-complemento').value.trim(),
+          cep: document.getElementById('endereco-cep').value.trim(),
+          cidade: document.getElementById('endereco-cidade').value.trim(),
+          referencia: document.getElementById('endereco-referencia').value.trim()
+        };
+      }
+
+      function confirmarPedidoComEndereco() {
+        // Validar endereço
+        if (!validarEndereco()) {
+          return;
+        }
+
+        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        const endereco = obterDadosEndereco();
+        
+        // Fechar modal
+        fecharModalEndereco();
+        
+        // Enviar para WhatsApp com endereço
+        enviarWhatsAppComEndereco(carrinho, endereco);
+      }
+
+      function enviarWhatsAppComEndereco(carrinho, endereco) {
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        
+        // Criar mensagem formatada
+        let mensagem = `🍕 *NOVO PEDIDO - JERÔNIMU'S PIZZARIA*
+
+👤 *CLIENTE:*
+Nome: ${usuario.nome || 'Não informado'}
+Telefone: ${usuario.telefone || 'Não informado'}
+
+📍 *ENDEREÇO DE ENTREGA:*
+${endereco.rua}, ${endereco.numero}
+${endereco.bairro} - ${endereco.cidade}
+CEP: ${endereco.cep}`;
+
+        if (endereco.complemento) {
+          mensagem += `\nComplemento: ${endereco.complemento}`;
+        }
+        
+        if (endereco.referencia) {
+          mensagem += `\nReferência: ${endereco.referencia}`;
+        }
+
+        mensagem += `
+
+📋 *ITENS DO PEDIDO:*`;
+        
+        let total = 0;
+        carrinho.forEach((item, index) => {
+          const subtotal = item.preco * item.quantidade;
+          total += subtotal;
+          
+          mensagem += `
+${index + 1}. *${item.nome}*`;
+          
+          if (item.tamanho) {
+            mensagem += ` (${item.tamanho})`;
+          }
+          
+          if (item.borda_recheada) {
+            mensagem += `
+   🧀 Borda: ${item.borda_recheada} (+R$ 13,90)`;
+          }
+          
+          mensagem += `
+   📦 Quantidade: ${item.quantidade}
+   💰 Valor unitário: R$ ${item.preco.toFixed(2)}
+   🔢 Subtotal: R$ ${subtotal.toFixed(2)}`;
+        });
+
+        mensagem += `
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+💵 *TOTAL GERAL: R$ ${total.toFixed(2)}*`;
+
+        const obs = document.getElementById("observacao").value.trim();
+        if (obs) {
+          mensagem += `
+
+📝 *OBSERVAÇÕES DO PEDIDO:*
+${obs}`;
+        }
+
+        mensagem += `
+
+⏰ Pedido feito em: ${new Date().toLocaleString('pt-BR')}
+
+Aguardamos confirmação! 🙏`;
+
+        const numeroDono = "5543991310616";
+        window.open(
+          `https://wa.me/${numeroDono}?text=${encodeURIComponent(mensagem)}`,
+          "_blank"
+        );
+        
+        // Limpar carrinho após enviar
+        if (confirm("Pedido enviado com sucesso! Deseja limpar o carrinho?")) {
+          localStorage.removeItem("carrinho");
+          renderCarrinho();
+          document.getElementById("observacao").value = "";
+          
+          // Limpar campos de endereço
+          document.getElementById('endereco-rua').value = '';
+          document.getElementById('endereco-numero').value = '';
+          document.getElementById('endereco-bairro').value = '';
+          document.getElementById('endereco-complemento').value = '';
+          document.getElementById('endereco-cep').value = '';
+          document.getElementById('endereco-referencia').value = '';
+        }
       }
 
       function enviarWhatsApp(carrinho) {
@@ -417,6 +673,53 @@ Obrigado pela preferência! 🙏`;
 
       // Carregar carrinho ao inicializar
       renderCarrinho();
+
+      // Função para formatar CEP automaticamente
+      function formatarCEP(input) {
+        let value = input.value.replace(/\D/g, '');
+        if (value.length >= 5) {
+          value = value.substring(0, 5) + '-' + value.substring(5, 8);
+        }
+        input.value = value;
+      }
+
+      // Adicionar eventos quando a página carregar
+      document.addEventListener('DOMContentLoaded', function() {
+        // Formatação automática do CEP
+        const cepInput = document.getElementById('endereco-cep');
+        if (cepInput) {
+          cepInput.addEventListener('input', function() {
+            formatarCEP(this);
+          });
+          
+          // Permitir apenas números e hífen
+          cepInput.addEventListener('keypress', function(e) {
+            if (!/[0-9-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+              e.preventDefault();
+            }
+          });
+        }
+
+        // Fechar modal ao clicar fora dele
+        const modal = document.getElementById('modal-endereco');
+        if (modal) {
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+              fecharModalEndereco();
+            }
+          });
+        }
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            const modal = document.getElementById('modal-endereco');
+            if (modal && modal.style.display === 'block') {
+              fecharModalEndereco();
+            }
+          }
+        });
+      });
     </script>
     <script>
       if ("serviceWorker"in navigator) {
