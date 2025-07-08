@@ -204,6 +204,29 @@
         background-color: #8b1a1a;
       }
 
+      /* Botão WhatsApp específico para página inicial */
+      .whatsapp-float {
+        position: fixed !important;
+        width: 50px !important;
+        height: 50px !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        z-index: 1000 !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        transition: transform 0.3s ease !important;
+      }
+
+      .whatsapp-float:hover {
+        transform: scale(1.1) !important;
+      }
+
+      .whatsapp-float img {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 50% !important;
+      }
+
       /* Responsividade */
       @media (max-width: 600px) {
         .faixa-italia-horizontal {
@@ -240,6 +263,14 @@
         .horario, .localizacao, .destaques, .contato {
           margin: 1.5rem auto;
           padding: 1.5rem;
+        }
+        
+        /* WhatsApp menor no mobile */
+        .whatsapp-float {
+          width: 45px !important;
+          height: 45px !important;
+          bottom: 15px !important;
+          right: 15px !important;
         }
       }
     </style>
