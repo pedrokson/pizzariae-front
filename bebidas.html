@@ -1016,6 +1016,118 @@
               Adicionar
             </button>
           </div>
+
+          <!-- Bebidas Alcoólicas -->
+          <div class="menu-item">
+            <img
+              src="img/cerveja-amstel.jpg"
+              alt="Cerveja Amstel"
+              style="object-fit: contain;"
+            />
+            <h3>Cerveja Amstel</h3>
+            <p>Long Neck 350ml</p>
+            <p>R$ 5,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button onclick="adicionarCarrinho('Cerveja Amstel', 'Long Neck 350ml', 5.00, this)">
+              Adicionar
+            </button>
+          </div>
+
+          <div class="menu-item">
+            <img
+              src="img/vinho-tinto.jpg"
+              alt="Vinho Tinto"
+              style="object-fit: contain;"
+            />
+            <h3>Vinho Tinto</h3>
+            <p>Garrafa 750ml</p>
+            <p>R$ 35,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button onclick="adicionarCarrinho('Vinho Tinto', 'Garrafa 750ml', 35.00, this)">
+              Adicionar
+            </button>
+          </div>
+
+          <div class="menu-item">
+            <img
+              src="img/vinho-branco.jpg"
+              alt="Vinho Branco"
+              style="object-fit: contain;"
+            />
+            <h3>Vinho Branco</h3>
+            <p>Garrafa 750ml</p>
+            <p>R$ 35,00</p>
+            <div class="quantidade-container">
+              <button
+                type="button"
+                class="btn-menor"
+                onclick="alterarQuantidade(this, -1)"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="1"
+                value="1"
+                class="quantidade-pizza"
+                readonly
+              />
+              <button
+                type="button"
+                class="btn-maior"
+                onclick="alterarQuantidade(this, 1)"
+              >
+                +
+              </button>
+            </div>
+            <button onclick="adicionarCarrinho('Vinho Branco', 'Garrafa 750ml', 35.00, this)">
+              Adicionar
+            </button>
+          </div>
         </div>
       </section>
     </main>
