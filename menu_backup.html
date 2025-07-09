@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      // Redireciona para login se não estiver logado (usando novo JWT)
+      if (!localStorage.getItem("token") || !localStorage.getItem("usuario")) {
+        window.location.href = "login.html";
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cardápio - Jerônimu's</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      /* O mesmo CSS do arquivo original aqui... */
+      /* Por enquanto vou focar em corrigir o HTML */
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="faixa-italia-horizontal">
+        <div class="faixa-verde"></div>
+        <div class="faixa-branca"></div>
+        <div class="faixa-vermelha"></div>
+      </div>
+      <div class="logo-container">
+        <img src="img/logo.png" alt="Logo Jerônimu's" class="logo" />
+        <h1>Pizzaria Jerônimu's</h1>
+      </div>
+      <nav>
+        <a href="index.html">🏠 Início</a>
+        <a href="menu.html" class="active">🍕 Pizzas Salgadas</a>
+        <a href="doces.html">🍰 Pizzas Doces</a>
+        <a href="bebidas.html">🥤 Bebidas</a>
+        <a href="carrinho.html">🛒 Carrinho</a>
+        <a href="#" onclick="sair()">🚪 Sair</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="menu">
+        <h2 class="menu-title">Pizzas Tradicionais</h2>
+        <div class="menu-group">
+          <div class="menu-item">
+            <img src="img/pizza-bacon.jpg" alt="Pizza Bacon" />
+            <h3>Bacon</h3>
+            <p>Molho, mussarela, bacon, azeitona e orégano.</p>
+            <p>Média: R$ 49,90 &nbsp;|&nbsp; Grande: R$ 52,90</p>
+            <div class="quantidade-container">
+              <button type="button" class="btn-menor" onclick="alterarQuantidade(this, -1)">-</button>
+              <input type="number" min="1" value="1" class="quantidade-pizza" readonly />
+              <button type="button" class="btn-maior" onclick="alterarQuantidade(this, 1)">+</button>
+            </div>
+            <label>Borda recheada:</label>
+            <select class="borda-recheada">
+              <option value="">Sem borda recheada</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+            </select>
+            <button onclick="mostrarTamanhos(this)">Adicionar</button>
+            <div class="botoes-tamanho" style="display: none; margin-top: 8px">
+              <button onclick="adicionarCarrinho('Pizza Bacon', 'Média', 49.90, this)">Média</button>
+              <button onclick="adicionarCarrinho('Pizza Bacon', 'Grande', 52.90, this)">Grande</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script>
+      // Funções do menu aqui...
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste API</title>
+</head>
+<body>
+    <h1>Teste de Conexão com API</h1>
+    <button onclick="testarAPI()">Testar Conexão</button>
+    <div id="resultado"></div>
+
+    <script>
+        const API_BASE_URL = window.location.hostname.includes('azurestaticapps.net')
+            ? 'https://pizzariae-backend-fhcydvamdhbndccc.brazilsouth-01.azurewebsites.net/api'
+            : 'http://localhost:3001/api';
+
+        async function testarAPI() {
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = '<p>Testando conexão...</p>';
+            
+            try {
+                console.log('Testando URL:', API_BASE_URL + '/test');
+                const response = await fetch(API_BASE_URL + '/test');
+                const data = await response.text();
+                
+                resultado.innerHTML = `
+                    <h3>✅ Conexão bem-sucedida!</h3>
+                    <p><strong>Status:</strong> ${response.status}</p>
+                    <p><strong>Resposta:</strong> ${data}</p>
+                    <p><strong>URL testada:</strong> ${API_BASE_URL}</p>
+                `;
+            } catch (error) {
+                resultado.innerHTML = `
+                    <h3>❌ Erro na conexão</h3>
+                    <p><strong>Erro:</strong> ${error.message}</p>
+                    <p><strong>URL testada:</strong> ${API_BASE_URL}</p>
+                    <p><strong>Sugestão:</strong> Verifique se o backend está rodando</p>
+                `;
+                console.error('Erro:', error);
+            }
+        }
+    </script>
+</body>
+</html>
