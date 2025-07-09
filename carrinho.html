@@ -487,6 +487,9 @@
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         max-width: 500px;
         width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
       }
 
       .modal-endereco h3 {
@@ -648,8 +651,9 @@
           padding: 1.5rem;
           margin: 1rem;
           max-width: calc(100vw - 2rem);
-          max-height: calc(100vh - 4rem);
+          max-height: calc(100vh - 2rem);
           overflow-y: auto;
+          position: relative;
         }
 
         .modal-endereco h3 {
@@ -778,8 +782,9 @@
           padding: 1rem;
           margin: 0.5rem;
           max-width: calc(100vw - 1rem);
-          max-height: calc(100vh - 2rem);
+          max-height: calc(100vh - 1rem);
           overflow-y: auto;
+          position: relative;
         }
 
         .modal-endereco h3 {
@@ -977,6 +982,42 @@
           transform: translate(-50%, -50%);
         }
       }
+
+      /* CSS específico para modal com scroll otimizado */
+      @media (max-height: 700px) {
+        #modal-endereco .modal-endereco {
+          position: absolute !important;
+          top: 2% !important;
+          left: 50% !important;
+          transform: translateX(-50%) !important;
+          max-height: 96vh !important;
+          overflow-y: auto !important;
+          margin: 0 !important;
+        }
+      }
+
+      @media (max-height: 600px) {
+        #modal-endereco .modal-endereco {
+          position: absolute !important;
+          top: 1% !important;
+          left: 50% !important;
+          transform: translateX(-50%) !important;
+          max-height: 98vh !important;
+          overflow-y: auto !important;
+          margin: 0 !important;
+          padding: 1rem !important;
+        }
+      }
+
+      /* Melhorar botões do modal para sempre ficarem visíveis */
+      .modal-endereco .botoes-modal {
+        position: sticky;
+        bottom: 0;
+        background: white;
+        padding: 1rem 0 0 0;
+        margin-top: 1rem;
+        border-top: 2px solid #f0f0f0;
+      }
     </style>
   </head>
   <body>
@@ -1058,8 +1099,8 @@
     </main>
 
     <!-- Modal de Endereço -->
-    <div id="modal-endereco" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
-      <div class="modal-endereco" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div id="modal-endereco" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
+      <div class="modal-endereco" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-height: auto;">
         <h3>📍 Dados para Entrega</h3>
         
         <div class="form-group">
@@ -1099,7 +1140,47 @@
           <input type="text" id="endereco-referencia" placeholder="Ex: Próximo ao mercado, em frente à igreja">
         </div>
         
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <div class="form-group">
+          <label for="tipo-entrega">Tipo de Pedido:</label>
+          <select id="tipo-entrega" onchange="atualizarTaxaEntrega()" required>
+            <option value="">Selecione...</option>
+            <option value="entrega">🚚 Entrega (+R$ 3,00)</option>
+            <option value="retirada">🏠 Retirar na Pizzaria (Grátis)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="forma-pagamento">Forma de Pagamento:</label>
+          <select id="forma-pagamento" onchange="mostrarCampoTroco()" required>
+            <option value="">Selecione...</option>
+            <option value="dinheiro">💵 Dinheiro</option>
+            <option value="cartao-debito">💳 Cartão de Débito</option>
+            <option value="cartao-credito">💳 Cartão de Crédito</option>
+            <option value="pix">📱 PIX</option>
+          </select>
+        </div>
+        
+        <div id="troco-container" class="form-group" style="display: none;">
+          <label for="troco-para">Troco para quanto? (opcional):</label>
+          <input type="number" id="troco-para" placeholder="Ex: 50" step="0.01" min="0">
+        </div>
+        
+        <div class="form-group" style="background: #f8f9fa; border: 2px solid #d32f2f; border-radius: 8px; padding: 1rem; margin: 1rem 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <strong style="color: #333;">Subtotal dos Itens:</strong>
+            <span id="subtotal-modal" style="color: #333; font-weight: bold;">R$ 0,00</span>
+          </div>
+          <div id="taxa-entrega-info" style="display: none; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; color: #666;">
+            <span>Taxa de Entrega:</span>
+            <span>R$ 3,00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem; border-top: 2px solid #d32f2f;">
+            <strong style="color: #d32f2f; font-size: 1.1rem;">TOTAL FINAL:</strong>
+            <strong id="total-final-modal" style="color: #d32f2f; font-size: 1.2rem;">R$ 0,00</strong>
+          </div>
+        </div>
+        
+        <div class="botoes-modal" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
           <button onclick="confirmarPedidoComEndereco()" style="background: #25d366; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
             📱 Enviar Pedido
           </button>
@@ -1260,7 +1341,27 @@
         }
 
         // Mostrar modal de endereço
-        document.getElementById("modal-endereco").style.display = "block";
+        const modal = document.getElementById("modal-endereco");
+        const modalContent = modal.querySelector('.modal-endereco');
+        modal.style.display = "block";
+        
+        // Calcular e exibir totais iniciais
+        atualizarTaxaEntrega();
+        
+        // Verificar se o modal cabe na tela e ajustar posicionamento
+        setTimeout(() => {
+          const modalHeight = modalContent.offsetHeight;
+          const windowHeight = window.innerHeight;
+          
+          if (modalHeight > windowHeight * 0.9) {
+            // Se o modal é muito alto, usar scroll
+            modalContent.style.position = 'absolute';
+            modalContent.style.top = '2%';
+            modalContent.style.transform = 'translateX(-50%)';
+            modalContent.style.maxHeight = '96vh';
+            modalContent.style.overflowY = 'auto';
+          }
+        }, 100);
       }
 
       function fecharModalEndereco() {
@@ -1310,9 +1411,25 @@
             return;
           }
           
-          // Validar endereço
-          if (!validarEndereco()) {
+          // Validar tipo de entrega
+          const tipoEntrega = document.getElementById('tipo-entrega').value;
+          if (!tipoEntrega) {
+            alert('Por favor, selecione o tipo de pedido (entrega ou retirada)!');
             return;
+          }
+          
+          // Validar forma de pagamento
+          const formaPagamento = document.getElementById('forma-pagamento').value;
+          if (!formaPagamento) {
+            alert('Por favor, selecione a forma de pagamento!');
+            return;
+          }
+          
+          // Validar endereço apenas se for entrega
+          if (tipoEntrega === 'entrega') {
+            if (!validarEndereco()) {
+              return;
+            }
           }
 
           const endereco = obterDadosEndereco();
@@ -1328,38 +1445,128 @@
         }
       }
 
+      // Função para atualizar taxa de entrega
+      function atualizarTaxaEntrega() {
+        const tipoEntrega = document.getElementById('tipo-entrega').value;
+        const taxaInfo = document.getElementById('taxa-entrega-info');
+        const subtotalModal = document.getElementById('subtotal-modal');
+        const totalFinalModal = document.getElementById('total-final-modal');
+        
+        // Calcular subtotal dos itens
+        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        let subtotal = 0;
+        carrinho.forEach(item => {
+          subtotal += item.preco * item.quantidade;
+        });
+        
+        // Atualizar subtotal
+        subtotalModal.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+        
+        // Calcular total com taxa
+        let total = subtotal;
+        if (tipoEntrega === 'entrega') {
+          total += 3.00; // Taxa de entrega
+          taxaInfo.style.display = 'flex';
+        } else {
+          taxaInfo.style.display = 'none';
+        }
+        
+        // Atualizar total final
+        totalFinalModal.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+      }
+
+      // Função para mostrar/ocultar campo de troco
+      function mostrarCampoTroco() {
+        const formaPagamento = document.getElementById('forma-pagamento').value;
+        const trocoContainer = document.getElementById('troco-container');
+        
+        if (formaPagamento === 'dinheiro') {
+          trocoContainer.style.display = 'block';
+        } else {
+          trocoContainer.style.display = 'none';
+          document.getElementById('troco-para').value = '';
+        }
+      }
+
       function enviarWhatsAppComEndereco(carrinho, endereco) {
         try {
           const usuario = JSON.parse(localStorage.getItem("usuario")) || {};
+          const tipoEntrega = document.getElementById('tipo-entrega').value;
+          const formaPagamento = document.getElementById('forma-pagamento').value;
+          const trocoValue = document.getElementById('troco-para').value;
+          
+          // Validar campos obrigatórios
+          if (!tipoEntrega) {
+            alert('Por favor, selecione o tipo de pedido (entrega ou retirada)!');
+            return;
+          }
+          
+          if (!formaPagamento) {
+            alert('Por favor, selecione a forma de pagamento!');
+            return;
+          }
           
           // Criar mensagem formatada
           let mensagem = `🍕 *NOVO PEDIDO - JERÔNIMU'S PIZZARIA*
 
 👤 *CLIENTE:*
 Nome: ${usuario.nome || 'Não informado'}
-Telefone: ${usuario.telefone || 'Não informado'}
+Telefone: ${usuario.telefone || 'Não informado'}`;
+
+          // Tipo de pedido
+          if (tipoEntrega === 'entrega') {
+            mensagem += `
 
 📍 *ENDEREÇO DE ENTREGA:*
 ${endereco.rua}, ${endereco.numero}
 ${endereco.bairro} - ${endereco.cidade}
 CEP: ${endereco.cep}`;
 
-          if (endereco.complemento) {
-            mensagem += `\nComplemento: ${endereco.complemento}`;
+            if (endereco.complemento) {
+              mensagem += `\nComplemento: ${endereco.complemento}`;
+            }
+            
+            if (endereco.referencia) {
+              mensagem += `\nReferência: ${endereco.referencia}`;
+            }
+          } else {
+            mensagem += `
+
+🏪 *TIPO DE PEDIDO:* Retirada na Pizzaria`;
           }
-          
-          if (endereco.referencia) {
-            mensagem += `\nReferência: ${endereco.referencia}`;
+
+          // Forma de pagamento
+          mensagem += `
+
+� *FORMA DE PAGAMENTO:*`;
+          switch(formaPagamento) {
+            case 'dinheiro':
+              mensagem += ` 💵 Dinheiro`;
+              if (trocoValue && parseFloat(trocoValue) > 0) {
+                mensagem += ` (Troco para R$ ${parseFloat(trocoValue).toFixed(2).replace('.', ',')})`;
+              } else {
+                mensagem += ` (Troco não necessário)`;
+              }
+              break;
+            case 'cartao-debito':
+              mensagem += ` 💳 Cartão de Débito`;
+              break;
+            case 'cartao-credito':
+              mensagem += ` 💳 Cartão de Crédito`;
+              break;
+            case 'pix':
+              mensagem += ` 📱 PIX`;
+              break;
           }
 
           mensagem += `
 
-📋 *ITENS DO PEDIDO:*`;
+�📋 *ITENS DO PEDIDO:*`;
           
-          let total = 0;
+          let subtotal = 0;
           carrinho.forEach((item, index) => {
-            const subtotal = item.preco * item.quantidade;
-            total += subtotal;
+            const subtotalItem = item.preco * item.quantidade;
+            subtotal += subtotalItem;
             
             mensagem += `
 ${index + 1}. *${item.nome}*`;
@@ -1376,13 +1583,26 @@ ${index + 1}. *${item.nome}*`;
             mensagem += `
    📦 Quantidade: ${item.quantidade}
    💰 Valor unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}
-   🔢 Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+   🔢 Subtotal: R$ ${subtotalItem.toFixed(2).replace('.', ',')}`;
           });
+
+          // Calcular total final
+          let totalFinal = subtotal;
+          const taxaEntrega = (tipoEntrega === 'entrega') ? 3.00 : 0;
+          totalFinal += taxaEntrega;
 
           mensagem += `
 
 ━━━━━━━━━━━━━━━━━━━━━━━━
-💵 *TOTAL GERAL: R$ ${total.toFixed(2).replace('.', ',')}*`;
+💰 Subtotal dos Itens: R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+
+          if (taxaEntrega > 0) {
+            mensagem += `
+🚚 Taxa de Entrega: R$ ${taxaEntrega.toFixed(2).replace('.', ',')}`;
+          }
+
+          mensagem += `
+💵 *TOTAL FINAL: R$ ${totalFinal.toFixed(2).replace('.', ',')}*`;
 
           const obs = document.getElementById("observacao").value.trim();
           if (obs) {
@@ -1417,6 +1637,13 @@ Aguardamos confirmação! 🙏`;
             document.getElementById('endereco-complemento').value = '';
             document.getElementById('endereco-cep').value = '';
             document.getElementById('endereco-referencia').value = '';
+            
+            // Limpar campos de entrega e pagamento
+            document.getElementById('tipo-entrega').value = '';
+            document.getElementById('forma-pagamento').value = '';
+            document.getElementById('troco-para').value = '';
+            document.getElementById('troco-container').style.display = 'none';
+            document.getElementById('taxa-entrega-info').style.display = 'none';
           }
         } catch (error) {
           console.error('Erro ao enviar pedido:', error);
@@ -1517,6 +1744,17 @@ Obrigado pela preferência! 🙏`;
               e.preventDefault();
             }
           });
+        }
+
+        // Eventos para campos de tipo de entrega e forma de pagamento
+        const tipoEntregaSelect = document.getElementById('tipo-entrega');
+        if (tipoEntregaSelect) {
+          tipoEntregaSelect.addEventListener('change', atualizarTaxaEntrega);
+        }
+
+        const formaPagamentoSelect = document.getElementById('forma-pagamento');
+        if (formaPagamentoSelect) {
+          formaPagamentoSelect.addEventListener('change', mostrarCampoTroco);
         }
 
         // Fechar modal ao clicar fora dele
