@@ -141,7 +141,7 @@
         font-weight: bold;
       }
 
-      /* Tabela do carrinho */
+      /* Tabela do carrinho - Desktop */
       .carrinho-table {
         background: #fff;
         border-radius: 15px;
@@ -193,6 +193,131 @@
         border-bottom: none;
         color: #d32f2f;
         font-size: 1.1rem;
+      }
+
+      /* Layout de Cards para Mobile */
+      .carrinho-cards {
+        display: none;
+      }
+
+      .carrinho-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(211, 47, 47, 0.1);
+        margin-bottom: 1rem;
+        padding: 1.5rem;
+        border: 2px solid #f0f0f0;
+        transition: all 0.3s ease;
+      }
+
+      .carrinho-card:hover {
+        box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15);
+        border-color: #d32f2f;
+      }
+
+      .carrinho-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .carrinho-card-title {
+        flex: 1;
+        margin-right: 1rem;
+      }
+
+      .carrinho-card-title h4 {
+        color: #d32f2f;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin: 0 0 0.5rem 0;
+        line-height: 1.3;
+      }
+
+      .carrinho-card-title .card-details {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.4;
+      }
+
+      .carrinho-card-title .card-details .borda-info {
+        color: #d32f2f;
+        font-weight: bold;
+        display: block;
+        margin-top: 0.25rem;
+      }
+
+      .carrinho-card-remove {
+        flex-shrink: 0;
+      }
+
+      .carrinho-card-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .carrinho-card-price {
+        text-align: left;
+      }
+
+      .carrinho-card-price .price-label {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.25rem;
+      }
+
+      .carrinho-card-price .price-unit {
+        font-size: 0.95rem;
+        color: #333;
+        margin-bottom: 0.25rem;
+      }
+
+      .carrinho-card-price .price-total {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #d32f2f;
+      }
+
+      .carrinho-card-quantity {
+        text-align: right;
+      }
+
+      .carrinho-card-quantity .quantity-label {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+        text-align: center;
+      }
+
+      /* Total do carrinho no layout de cards */
+      .carrinho-total-card {
+        background: linear-gradient(135deg, #fff9f0 0%, #fff5e6 100%);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border: 2px solid #d32f2f;
+        box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15);
+      }
+
+      .carrinho-total-card h4 {
+        color: #d32f2f;
+        font-size: 1.3rem;
+        font-weight: bold;
+        text-align: center;
+        margin: 0;
+      }
+
+      .carrinho-total-card .total-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #d32f2f;
+        text-align: center;
+        margin-top: 0.5rem;
       }
 
       /* Botões de quantidade */
@@ -445,47 +570,46 @@
           margin-bottom: 1.5rem;
         }
 
+        /* Esconder tabela e mostrar cards no mobile */
         .carrinho-table {
-          overflow-x: auto;
-          margin-bottom: 1.5rem;
-          border-radius: 10px;
+          display: none;
         }
 
-        .carrinho-table table {
-          min-width: 650px;
-          font-size: 0.9rem;
+        .carrinho-cards {
+          display: block;
         }
 
-        .carrinho-table th,
-        .carrinho-table td {
-          padding: 0.8rem 0.4rem;
+        .carrinho-card {
+          margin-bottom: 1rem;
+          padding: 1rem;
         }
 
-        .carrinho-table th:first-child,
-        .carrinho-table td:first-child {
-          min-width: 180px;
+        .carrinho-card-header {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 1rem;
         }
 
-        .quantidade-container {
-          min-width: 90px;
-          gap: 6px;
-          padding: 3px 6px;
+        .carrinho-card-title {
+          margin-right: 0;
         }
 
-        .quantidade-btn {
-          width: 32px;
-          height: 32px;
-          font-size: 1.1rem;
+        .carrinho-card-title h4 {
+          font-size: 1rem;
         }
 
-        .quantidade-container span {
-          min-width: 24px;
-          font-size: 1.1rem;
+        .carrinho-card-body {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          text-align: center;
         }
 
-        .remover-btn {
-          padding: 6px 10px;
-          font-size: 0.9rem;
+        .carrinho-card-quantity {
+          text-align: center;
+        }
+
+        .carrinho-card-price {
+          text-align: center;
         }
 
         .acoes-carrinho {
@@ -606,36 +730,23 @@
           margin-bottom: 1rem;
         }
 
-        .carrinho-table table {
-          min-width: 550px;
-          font-size: 0.8rem;
+        /* Cards ainda mais compactos no smartphone */
+        .carrinho-card {
+          padding: 1rem;
+          margin-bottom: 0.75rem;
         }
 
-        .carrinho-table th,
-        .carrinho-table td {
-          padding: 0.6rem 0.3rem;
+        .carrinho-card-header {
+          margin-bottom: 0.75rem;
+          padding-bottom: 0.75rem;
         }
 
-        .carrinho-table th:first-child,
-        .carrinho-table td:first-child {
-          min-width: 160px;
+        .carrinho-card-title h4 {
+          font-size: 0.95rem;
         }
 
-        .quantidade-container {
-          min-width: 80px;
-          gap: 4px;
-          padding: 2px 4px;
-        }
-
-        .quantidade-btn {
-          width: 28px;
-          height: 28px;
-          font-size: 1rem;
-        }
-
-        .quantidade-container span {
-          min-width: 20px;
-          font-size: 1rem;
+        .carrinho-card-body {
+          gap: 0.75rem;
         }
 
         .total-carrinho {
@@ -908,6 +1019,11 @@
           </table>
         </div>
 
+        <!-- Layout de Cards para Mobile -->
+        <div class="carrinho-cards" id="carrinho-cards">
+          <!-- Cards serão inseridos aqui via JavaScript -->
+        </div>
+
         <div class="total-carrinho">
           <h3>Total do Pedido</h3>
           <div class="total-valor" id="total">R$ 0,00</div>
@@ -1001,18 +1117,26 @@
         console.log('📦 Itens encontrados:', carrinho);
         
         const tabela = document.getElementById("tabela-carrinho");
+        const cardsContainer = document.getElementById("carrinho-cards");
         const totalEl = document.getElementById("total");
+        
+        // Limpar ambos os containers
         tabela.innerHTML = "";
+        cardsContainer.innerHTML = "";
+        
         let totalGeral = 0;
         
         if (carrinho.length === 0) {
           console.log('⚠️ Carrinho vazio');
           tabela.innerHTML = `<tr><td colspan="5">Seu carrinho está vazio.</td></tr>`;
+          cardsContainer.innerHTML = `<div style="text-align: center; padding: 2rem; color: #666;">Seu carrinho está vazio</div>`;
           totalEl.textContent = "";
           return;
         }
         
         console.log(`✅ Processando ${carrinho.length} itens do carrinho`);
+        
+        // Renderizar tabela (desktop)
         carrinho.forEach((item, index) => {
           const total = item.preco * item.quantidade;
           totalGeral += total;
@@ -1042,12 +1166,67 @@
           </tr>
         `;
         });
+        
         tabela.innerHTML += `
         <tr>
           <td colspan="4"><strong>Total Geral</strong></td>
           <td><strong>R$ ${totalGeral.toFixed(2).replace('.', ',')}</strong></td>
         </tr>
       `;
+
+        // Renderizar cards (mobile)
+        carrinho.forEach((item, index) => {
+          const total = item.preco * item.quantidade;
+          
+          let detalhes = '';
+          if (item.borda_recheada && item.borda_recheada !== "") {
+            detalhes += `<span class="borda-info">com borda ${item.borda_recheada} (+R$ 13,90)</span><br>`;
+          }
+          if (item.tamanho) {
+            detalhes += `<small>Tamanho: ${item.tamanho}</small><br>`;
+          }
+          if (item.observacoes) {
+            detalhes += `<small>Obs: ${item.observacoes}</small>`;
+          }
+          
+          cardsContainer.innerHTML += `
+            <div class="carrinho-card">
+              <div class="carrinho-card-header">
+                <div class="carrinho-card-title">
+                  <h4>${item.nome}</h4>
+                  <div class="card-details">${detalhes}</div>
+                </div>
+                <div class="carrinho-card-remove">
+                  <button class="remover-btn" onclick="removerItemCarrinho(${index})">Remover</button>
+                </div>
+              </div>
+              <div class="carrinho-card-body">
+                <div class="carrinho-card-price">
+                  <div class="price-label">Preços:</div>
+                  <div class="price-unit">Unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}</div>
+                  <div class="price-total">Total: R$ ${total.toFixed(2).replace('.', ',')}</div>
+                </div>
+                <div class="carrinho-card-quantity">
+                  <div class="quantity-label">Quantidade</div>
+                  <div class="quantidade-container">
+                    <button class="quantidade-btn" onclick="alterarQuantidadeCarrinho(${index}, -1)">-</button>
+                    <span>${item.quantidade}</span>
+                    <button class="quantidade-btn quantidade-mais" onclick="alterarQuantidadeCarrinho(${index}, 1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        
+        // Adicionar card do total para mobile
+        cardsContainer.innerHTML += `
+          <div class="carrinho-total-card">
+            <h4>Total do Pedido</h4>
+            <div class="total-value">R$ ${totalGeral.toFixed(2).replace('.', ',')}</div>
+          </div>
+        `;
+        
         totalEl.textContent = "";
       }
 
