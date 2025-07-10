@@ -359,35 +359,9 @@
         </a>
       </div>
     </div>
+    <!-- Incluir configuração da API -->
+    <script src="config/api.js"></script>
     <script>
-      // Importar função API diretamente (sem módulo)
-      async function apiRequest(endpoint, options = {}) {
-        const baseURL = window.location.hostname.includes('azurestaticapps.net')
-          ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api'
-          : 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api';
-        const url = baseURL + endpoint;
-        
-        const defaultOptions = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-        
-        const token = localStorage.getItem('token');
-        if (token) {
-          defaultOptions.headers['Authorization'] = `Bearer ${token}`;
-        }
-        
-        const finalOptions = { ...defaultOptions, ...options };
-        console.log('🌐 Fazendo requisição:', url, finalOptions);
-        
-        const response = await fetch(url, finalOptions);
-        const data = await response.json();
-        
-        console.log('📡 Resposta:', { status: response.status, data });
-        return data;
-      }
-
       function validarEmail(email) {
         // Expressão regular simples para validar e-mail
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Final - Pizzaria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+        .success { background-color: #28a745; }
+        .error { background-color: #dc3545; }
+        .pending { background-color: #ffc107; color: black; }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍕 Teste Final - Integração Frontend/Backend</h1>
+    
+    <div class="test-section">
+        <h2>📡 Configuração da API</h2>
+        <p><strong>URL Base:</strong> <span id="api-url">Carregando...</span></p>
+        <p><strong>Status:</strong> <span id="api-status" class="status pending">Verificando...</span></p>
+        <button onclick="testarConectividade()">Testar Conectividade</button>
+    </div>
+
+    <div class="test-section">
+        <h2>🔒 Teste de Autenticação</h2>
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="login-email" value="test@test.com" placeholder="Digite o email">
+        </div>
+        <div class="form-group">
+            <label>Senha:</label>
+            <input type="password" id="login-senha" value="123456" placeholder="Digite a senha">
+        </div>
+        <button onclick="testarLogin()">Testar Login</button>
+        <p><strong>Status:</strong> <span id="login-status" class="status pending">Aguardando...</span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Teste de Cadastro</h2>
+        <div class="form-group">
+            <label>Nome:</label>
+            <input type="text" id="cadastro-nome" value="Usuario Teste" placeholder="Nome completo">
+        </div>
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="cadastro-email" value="usuarioteste@example.com" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label>Senha:</label>
+            <input type="password" id="cadastro-senha" value="123456" placeholder="Senha">
+        </div>
+        <div class="form-group">
+            <label>Telefone:</label>
+            <input type="text" id="cadastro-telefone" value="(11) 99999-9999" placeholder="Telefone">
+        </div>
+        <button onclick="testarCadastro()">Testar Cadastro</button>
+        <p><strong>Status:</strong> <span id="cadastro-status" class="status pending">Aguardando...</span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>🍕 Teste de Menu</h2>
+        <button onclick="testarMenu()">Carregar Menu</button>
+        <p><strong>Status:</strong> <span id="menu-status" class="status pending">Aguardando...</span></p>
+        <div id="menu-items"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Log de Atividades</h2>
+        <div id="log-output" class="log">Aguardando testes...</div>
+        <button onclick="limparLog()">Limpar Log</button>
+    </div>
+
+    <!-- Incluir o arquivo de configuração da API -->
+    <script src="config/api.js"></script>
+    
+    <script>
+        // Atualizar a URL da API na página
+        document.getElementById('api-url').textContent = API_BASE_URL;
+
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('log-output');
+            logElement.innerHTML += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        function limparLog() {
+            document.getElementById('log-output').innerHTML = 'Log limpo.\n';
+        }
+
+        function updateStatus(elementId, status, message) {
+            const element = document.getElementById(elementId);
+            element.className = `status ${status}`;
+            element.textContent = message;
+        }
+
+        async function testarConectividade() {
+            log('🔍 Testando conectividade com o backend...');
+            updateStatus('api-status', 'pending', 'Testando...');
+            
+            try {
+                const conectividade = await testarConectividade();
+                if (conectividade) {
+                    updateStatus('api-status', 'success', 'Conectado');
+                    log('✅ Backend está respondendo corretamente');
+                } else {
+                    updateStatus('api-status', 'error', 'Erro de conexão');
+                    log('❌ Backend não está respondendo');
+                }
+            } catch (error) {
+                updateStatus('api-status', 'error', 'Erro');
+                log(`❌ Erro de conectividade: ${error.message}`);
+            }
+        }
+
+        async function testarLogin() {
+            const email = document.getElementById('login-email').value;
+            const senha = document.getElementById('login-senha').value;
+            
+            log(`🔐 Testando login com email: ${email}`);
+            updateStatus('login-status', 'pending', 'Fazendo login...');
+            
+            try {
+                const response = await apiRequest('/clientes/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, senha })
+                });
+                
+                if (response.sucesso) {
+                    updateStatus('login-status', 'success', 'Login realizado');
+                    log('✅ Login realizado com sucesso');
+                    if (response.token) {
+                        localStorage.setItem('token', response.token);
+                        log('🔑 Token armazenado no localStorage');
+                    }
+                } else {
+                    updateStatus('login-status', 'error', response.erro || 'Falha no login');
+                    log(`❌ Falha no login: ${response.erro}`);
+                }
+            } catch (error) {
+                updateStatus('login-status', 'error', 'Erro de conexão');
+                log(`❌ Erro no login: ${error.message}`);
+            }
+        }
+
+        async function testarCadastro() {
+            const nome = document.getElementById('cadastro-nome').value;
+            const email = document.getElementById('cadastro-email').value;
+            const senha = document.getElementById('cadastro-senha').value;
+            const telefone = document.getElementById('cadastro-telefone').value;
+            
+            log(`👤 Testando cadastro com email: ${email}`);
+            updateStatus('cadastro-status', 'pending', 'Cadastrando...');
+            
+            try {
+                const response = await apiRequest('/clientes/cadastro', {
+                    method: 'POST',
+                    body: JSON.stringify({ nome, email, senha, telefone })
+                });
+                
+                if (response.sucesso) {
+                    updateStatus('cadastro-status', 'success', 'Cadastro realizado');
+                    log('✅ Cadastro realizado com sucesso');
+                } else {
+                    updateStatus('cadastro-status', 'error', response.erro || 'Falha no cadastro');
+                    log(`❌ Falha no cadastro: ${response.erro}`);
+                }
+            } catch (error) {
+                updateStatus('cadastro-status', 'error', 'Erro de conexão');
+                log(`❌ Erro no cadastro: ${error.message}`);
+            }
+        }
+
+        async function testarMenu() {
+            log('🍕 Carregando menu de produtos...');
+            updateStatus('menu-status', 'pending', 'Carregando...');
+            
+            try {
+                const response = await apiRequest('/produtos', {
+                    method: 'GET'
+                });
+                
+                if (response && Array.isArray(response)) {
+                    updateStatus('menu-status', 'success', `${response.length} produtos carregados`);
+                    log(`✅ Menu carregado com ${response.length} produtos`);
+                    
+                    const menuContainer = document.getElementById('menu-items');
+                    menuContainer.innerHTML = '<h4>Produtos encontrados:</h4>';
+                    response.slice(0, 5).forEach(produto => {
+                        menuContainer.innerHTML += `<p>• ${produto.nome} - R$ ${produto.preco}</p>`;
+                    });
+                    if (response.length > 5) {
+                        menuContainer.innerHTML += `<p><em>... e mais ${response.length - 5} produtos</em></p>`;
+                    }
+                } else {
+                    updateStatus('menu-status', 'error', 'Formato inválido');
+                    log('❌ Resposta do menu em formato inválido');
+                }
+            } catch (error) {
+                updateStatus('menu-status', 'error', 'Erro de conexão');
+                log(`❌ Erro ao carregar menu: ${error.message}`);
+            }
+        }
+
+        // Executar teste inicial de conectividade
+        window.addEventListener('load', () => {
+            log('🚀 Página carregada, iniciando testes...');
+            testarConectividade();
+        });
+    </script>
+</body>
+</html>
