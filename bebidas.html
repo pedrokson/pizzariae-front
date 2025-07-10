@@ -1151,6 +1151,13 @@
           window.location.href = 'login.html';
         }
       }
+
+      // Função sair global para logout
+      function sair() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        window.location.href = 'login.html';
+      }
     </script>
   </body>
 </html>
