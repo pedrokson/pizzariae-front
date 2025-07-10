@@ -1036,7 +1036,7 @@
           <a href="bebidas.html">🥤 Bebidas</a>
           <a href="carrinho.html" class="active">🛒 Carrinho</a>
           <!-- <a href="pedidos.html">📋 Meus Pedidos</a> -->
-          <a href="#" onclick="window.sair()">🚪 Sair</a>
+          <a href="#" onclick="sair(); return false;">🚪 Sair</a>
         </nav>
       </div>
     </header>
@@ -1793,6 +1793,7 @@ Obrigado pela preferência! 🙏`;
   verificarAutenticacao();
   // Função sair global para logout
   function sair() {
+    console.log('Função sair chamada'); // debug
     if (confirm('Deseja realmente sair?')) {
       // Limpa localStorage e redireciona
       localStorage.removeItem('token');
