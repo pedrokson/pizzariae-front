@@ -3,7 +3,7 @@ import { apiRequest, isLoggedIn, getUser, logout } from '../config/api.js';
 // Fazer login
 export async function fazerLogin(email, senha) {
   try {
-    const response = await apiRequest('/clientes/login', {
+    const response = await apiRequest('/api/clientes/login', {
       method: 'POST',
       body: JSON.stringify({ email, senha })
     });
@@ -28,7 +28,7 @@ export async function fazerCadastro(dadosCadastro) {
       return { sucesso: false, erro: 'Endereço deve ser um objeto completo' };
     }
     
-    const response = await apiRequest('/clientes/cadastro', {
+    const response = await apiRequest('/api/clientes/cadastro', {
       method: 'POST',
       body: JSON.stringify(dadosCadastro)
     });

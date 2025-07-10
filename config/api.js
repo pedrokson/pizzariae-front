@@ -1,6 +1,6 @@
 ﻿const API_BASE_URL = window.location.hostname.includes('azurestaticapps.net')
-  ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api'
-  : 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api';
+  ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net'
+  : 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net';
 
 console.log('🌐 API Base URL configurada:', API_BASE_URL);
 

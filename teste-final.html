@@ -180,7 +180,7 @@
             updateStatus('login-status', 'pending', 'Fazendo login...');
             
             try {
-                const response = await apiRequest('/clientes/login', {
+                const response = await apiRequest('/api/clientes/login', {
                     method: 'POST',
                     body: JSON.stringify({ email, senha })
                 });
@@ -212,7 +212,7 @@
             updateStatus('cadastro-status', 'pending', 'Cadastrando...');
             
             try {
-                const response = await apiRequest('/clientes/cadastro', {
+                const response = await apiRequest('/api/clientes/cadastro', {
                     method: 'POST',
                     body: JSON.stringify({ nome, email, senha, telefone })
                 });
@@ -235,7 +235,7 @@
             updateStatus('menu-status', 'pending', 'Carregando...');
             
             try {
-                const response = await apiRequest('/produtos', {
+                const response = await apiRequest('/api/produtos', {
                     method: 'GET'
                 });
                 

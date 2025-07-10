@@ -31,7 +31,7 @@ export async function criarPedido(dadosPedido) {
       observacoes: dadosPedido.observacoes || ""
     };
     
-    return await apiRequest('/pedidos', {
+    return await apiRequest('/api/pedidos', {
       method: 'POST',
       body: JSON.stringify(pedido)
     });

@@ -23,7 +23,7 @@ export async function buscarProdutoPorId(id) {
 
 // Criar novo produto
 export async function criarProduto(produto) {
-  return await apiRequest('/produtos', {
+  return await apiRequest('/api/produtos', {
     method: 'POST',
     body: JSON.stringify(produto)
   });

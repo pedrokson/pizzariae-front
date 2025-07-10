@@ -328,7 +328,7 @@
         async function listarClientes() {
             mostrarLoading('clientes-resultado');
             try {
-                const clientes = await window.dbConsulta.apiRequest('/clientes');
+                const clientes = await window.dbConsulta.apiRequest('/api/clientes');
                 
                 if (Array.isArray(clientes) && clientes.length > 0) {
                     // Criar tabela formatada
@@ -389,7 +389,7 @@
         async function listarPedidos() {
             mostrarLoading('pedidos-resultado');
             try {
-                const pedidos = await window.dbConsulta.apiRequest('/pedidos');
+                const pedidos = await window.dbConsulta.apiRequest('/api/pedidos');
                 
                 if (Array.isArray(pedidos) && pedidos.length > 0) {
                     let html = `<div class="success">✅ ${pedidos.length} pedidos encontrados</div>`;
@@ -421,7 +421,7 @@
         async function pedidosRecentes() {
             mostrarLoading('pedidos-resultado');
             try {
-                const pedidos = await window.dbConsulta.apiRequest('/pedidos/recentes');
+                const pedidos = await window.dbConsulta.apiRequest('/api/pedidos/recentes');
                 mostrarSucesso('pedidos-resultado', pedidos);
             } catch (error) {
                 mostrarErro('pedidos-resultado', error.message);
@@ -432,7 +432,7 @@
         async function pedidosPorStatus() {
             mostrarLoading('pedidos-resultado');
             try {
-                const pedidos = await window.dbConsulta.apiRequest('/pedidos/status');
+                const pedidos = await window.dbConsulta.apiRequest('/api/pedidos/status');
                 mostrarSucesso('pedidos-resultado', pedidos);
             } catch (error) {
                 mostrarErro('pedidos-resultado', error.message);

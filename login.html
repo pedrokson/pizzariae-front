@@ -348,7 +348,7 @@
       console.log('🛒 Carrinho antes do login:', carrinhoAtual ? JSON.parse(carrinhoAtual).length + ' itens' : 'vazio');
 
       try {
-        const response = await apiRequest('/clientes/login', {
+        const response = await apiRequest('/api/clientes/login', {
           method: 'POST',
           body: JSON.stringify({ email, senha })
         });

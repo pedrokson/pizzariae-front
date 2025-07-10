@@ -7,7 +7,7 @@
 
 ### 1. **URL Incorreta do Backend**
 - **Problema:** Frontend estava tentando usar `pizzaria-backend.azurewebsites.net` (URL simplificada)
-- **Solução:** Corrigido para `pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net` (URL real do Azure)
+- **Solução:** Corrigido para `https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net` (URL real do Azure, sem /api no final)
 
 ### 2. **Erros de Sintaxe no config/api.js**
 - **Problema:** Template strings malformadas e tokens de autenticação incompletos
@@ -21,9 +21,9 @@
 
 ### `config/api.js` (Principal)
 ```javascript
-const API_BASE_URL = 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api';
+const API_BASE_URL = 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net';
 ```
-- ✅ URL corrigida para o Azure backend
+- ✅ URL corrigida para o Azure backend (sem /api)
 - ✅ Sintaxe JavaScript corrigida
 - ✅ Template strings e tokens de autenticação funcionais
 
@@ -69,7 +69,6 @@ Invoke-WebRequest -Uri "https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01
 
 ### Backend Principal
 - **URL Base:** `https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net`
-- **API Base:** `https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api`
 
 ### Endpoints Testados
 - ✅ `GET /` - Status do servidor
