@@ -1,9 +1,7 @@
-import { apiRequest, isLoggedIn, getUser, logout } from '../config/api.js';
-
 // Fazer login
 export async function fazerLogin(email, senha) {
   try {
-    const response = await apiRequest('/api/clientes/login', {
+    const response = await window.apiRequest('/api/clientes/login', {
       method: 'POST',
       body: JSON.stringify({ email, senha })
     });
@@ -28,7 +26,7 @@ export async function fazerCadastro(dadosCadastro) {
       return { sucesso: false, erro: 'Endereço deve ser um objeto completo' };
     }
     
-    const response = await apiRequest('/api/clientes/cadastro', {
+    const response = await window.apiRequest('/api/clientes/cadastro', {
       method: 'POST',
       body: JSON.stringify(dadosCadastro)
     });
@@ -46,17 +44,24 @@ export async function fazerCadastro(dadosCadastro) {
 
 // Verificar se está logado
 export function verificarAutenticacao() {
-  return isLoggedIn();
+  return window.isLoggedIn ? window.isLoggedIn() : false;
 }
 
 // Obter dados do usuário logado
 export function obterUsuario() {
-  return getUser();
+  return window.getUser ? window.getUser() : null;
 }
 
 // Fazer logout
 export function sair() {
-  logout();
+  if (window.logout) {
+    window.logout();
+  } else {
+    // fallback: limpar localStorage e redirecionar
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.href = 'login.html';
+  }
 }
 
 // Atualizar dados do usuário
