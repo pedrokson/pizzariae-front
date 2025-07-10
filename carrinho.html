@@ -1792,14 +1792,17 @@ Obrigado pela preferência! 🙏`;
 <script>
   verificarAutenticacao();
   
-  // Importar função sair
-  async function sair() {
+  function sair() {
     if (confirm('Deseja realmente sair?')) {
-      // Importar dinamicamente a função sair
-      const { sair: fazerLogout } = await import('./js/auth.js');
-      fazerLogout();
+      sairAuth();
       window.location.href = 'login.html';
     }
+  }
+  // Garante que a função sair do auth.js está disponível como sairAuth
+  if (typeof window.sair === 'function') {
+    window.sairAuth = window.sair;
+  } else if (typeof sair === 'function') {
+    window.sairAuth = sair;
   }
 </script>
   </body>
