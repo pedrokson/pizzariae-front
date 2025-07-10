@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Banco de Dados - Jerônimu's</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #fff8f0 50%, #f0f8ff 100%);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .consulta-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .consulta-section h3 {
+            color: #d32f2f;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #d32f2f;
+            padding-bottom: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(135deg, #757575 0%, #424242 100%);
+        }
+
+        .resultado {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .resultado pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .error {
+            color: #d32f2f;
+            background: #ffebee;
+            border: 1px solid #ffcdd2;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .success {
+            color: #388e3c;
+            background: #e8f5e8;
+            border: 1px solid #c8e6c9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #4caf50;
+        }
+
+        .status-offline {
+            background: #f44336;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border: 2px solid #d32f2f;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #d32f2f;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #d32f2f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ Consulta Banco de Dados</h1>
+            <p>Jerônimu's Pizzaria - Painel Administrativo</p>
+            <div id="status-api">
+                <span class="status-indicator status-offline"></span>
+                Verificando conexão com API...
+            </div>
+        </div>
+
+        <div class="consulta-section">
+            <h3>📊 Estatísticas Gerais</h3>
+            <button class="btn" onclick="carregarEstatisticas()">Carregar Estatísticas</button>
+            <div id="estatisticas-resultado" class="resultado" style="display: none;"></div>
+        </div>
+
+        <div class="consulta-section">
+            <h3>👥 Clientes Cadastrados</h3>
+            <button class="btn" onclick="listarClientes()">Listar Todos os Clientes</button>
+            <button class="btn secondary" onclick="buscarClientePorId()">Buscar Cliente por ID</button>
+            <button class="btn secondary" onclick="buscarClientePorEmail()">Buscar Cliente por Email</button>
+            <div id="clientes-resultado" class="resultado" style="display: none;"></div>
+        </div>
+
+        <div class="consulta-section">
+            <h3>🍕 Pedidos</h3>
+            <button class="btn" onclick="listarPedidos()">Listar Todos os Pedidos</button>
+            <button class="btn secondary" onclick="pedidosRecentes()">Pedidos Recentes (24h)</button>
+            <button class="btn secondary" onclick="pedidosPorStatus()">Pedidos por Status</button>
+            <div id="pedidos-resultado" class="resultado" style="display: none;"></div>
+        </div>
+
+        <div class="consulta-section">
+            <h3>🔧 Operações de Teste</h3>
+            <button class="btn" onclick="testarConexaoAPI()">Testar Conexão API</button>
+            <button class="btn secondary" onclick="verificarTabelas()">Verificar Estrutura do BD</button>
+            <button class="btn secondary" onclick="limparResultados()">Limpar Resultados</button>
+        </div>
+
+        <a href="index.html" class="back-link">← Voltar ao Início</a>
+    </div>
+
+    <script type="module">
+        import { API_BASE_URL, apiRequest } from './config/api.js';
+
+        // Variável global para armazenar os dados
+        window.dbConsulta = {
+            API_BASE_URL,
+            apiRequest
+        };
+
+        // Verificar status da API ao carregar
+        window.addEventListener('load', async () => {
+            await verificarStatusAPI();
+        });
+
+        async function verificarStatusAPI() {
+            const statusElement = document.getElementById('status-api');
+            try {
+                const response = await fetch(API_BASE_URL + '/health');
+                if (response.ok) {
+                    statusElement.innerHTML = '<span class="status-indicator status-online"></span>API Online';
+                    statusElement.style.color = '#4caf50';
+                } else {
+                    statusElement.innerHTML = '<span class="status-indicator status-offline"></span>API Offline';
+                    statusElement.style.color = '#f44336';
+                }
+            } catch (error) {
+                statusElement.innerHTML = '<span class="status-indicator status-offline"></span>API Offline - ' + error.message;
+                statusElement.style.color = '#f44336';
+            }
+        }
+
+        // Expor função globalmente
+        window.verificarStatusAPI = verificarStatusAPI;
+    </script>
+
+    <script>
+        // Função para mostrar loading
+        function mostrarLoading(elementId) {
+            const elemento = document.getElementById(elementId);
+            elemento.style.display = 'block';
+            elemento.innerHTML = '<div class="loading">⏳ Carregando dados...</div>';
+        }
+
+        // Função para mostrar erro
+        function mostrarErro(elementId, erro) {
+            const elemento = document.getElementById(elementId);
+            elemento.style.display = 'block';
+            elemento.innerHTML = `<div class="error">❌ Erro: ${erro}</div>`;
+        }
+
+        // Função para mostrar sucesso
+        function mostrarSucesso(elementId, dados) {
+            const elemento = document.getElementById(elementId);
+            elemento.style.display = 'block';
+            elemento.innerHTML = `<div class="success">✅ Dados carregados com sucesso!</div><pre>${JSON.stringify(dados, null, 2)}</pre>`;
+        }
+
+        // Testar conexão com API
+        async function testarConexaoAPI() {
+            mostrarLoading('clientes-resultado');
+            try {
+                const response = await fetch(window.dbConsulta.API_BASE_URL + '/health');
+                const data = await response.json();
+                mostrarSucesso('clientes-resultado', {
+                    status: 'API Online',
+                    resposta: data,
+                    url: window.dbConsulta.API_BASE_URL
+                });
+                await verificarStatusAPI();
+            } catch (error) {
+                mostrarErro('clientes-resultado', 'Não foi possível conectar com a API: ' + error.message);
+            }
+        }
+
+        // Carregar estatísticas
+        async function carregarEstatisticas() {
+            mostrarLoading('estatisticas-resultado');
+            try {
+                // Tentar múltiplas rotas para estatísticas
+                const endpoints = ['/stats', '/clientes/count', '/admin/stats'];
+                let dados = {};
+                
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await window.dbConsulta.apiRequest(endpoint);
+                        dados[endpoint] = response;
+                    } catch (error) {
+                        dados[endpoint] = { erro: error.message };
+                    }
+                }
+                
+                mostrarSucesso('estatisticas-resultado', dados);
+            } catch (error) {
+                mostrarErro('estatisticas-resultado', error.message);
+            }
+        }
+
+        // Listar clientes
+        async function listarClientes() {
+            mostrarLoading('clientes-resultado');
+            try {
+                const clientes = await window.dbConsulta.apiRequest('/clientes');
+                
+                if (Array.isArray(clientes) && clientes.length > 0) {
+                    // Criar tabela formatada
+                    let html = `<div class="success">✅ ${clientes.length} clientes encontrados</div>`;
+                    html += '<div class="table-responsive"><table>';
+                    html += '<tr><th>ID</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Data Cadastro</th></tr>';
+                    
+                    clientes.forEach(cliente => {
+                        html += `<tr>
+                            <td>${cliente.id}</td>
+                            <td>${cliente.nome}</td>
+                            <td>${cliente.email}</td>
+                            <td>${cliente.telefone || 'N/A'}</td>
+                            <td>${cliente.data_cadastro ? new Date(cliente.data_cadastro).toLocaleString('pt-BR') : 'N/A'}</td>
+                        </tr>`;
+                    });
+                    
+                    html += '</table></div>';
+                    document.getElementById('clientes-resultado').innerHTML = html;
+                    document.getElementById('clientes-resultado').style.display = 'block';
+                } else {
+                    mostrarSucesso('clientes-resultado', { mensagem: 'Nenhum cliente encontrado', dados: clientes });
+                }
+            } catch (error) {
+                mostrarErro('clientes-resultado', error.message);
+            }
+        }
+
+        // Buscar cliente por ID
+        async function buscarClientePorId() {
+            const id = prompt('Digite o ID do cliente:');
+            if (!id) return;
+            
+            mostrarLoading('clientes-resultado');
+            try {
+                const cliente = await window.dbConsulta.apiRequest(`/clientes/${id}`);
+                mostrarSucesso('clientes-resultado', cliente);
+            } catch (error) {
+                mostrarErro('clientes-resultado', error.message);
+            }
+        }
+
+        // Buscar cliente por email
+        async function buscarClientePorEmail() {
+            const email = prompt('Digite o email do cliente:');
+            if (!email) return;
+            
+            mostrarLoading('clientes-resultado');
+            try {
+                const cliente = await window.dbConsulta.apiRequest(`/clientes/email/${email}`);
+                mostrarSucesso('clientes-resultado', cliente);
+            } catch (error) {
+                mostrarErro('clientes-resultado', error.message);
+            }
+        }
+
+        // Listar pedidos
+        async function listarPedidos() {
+            mostrarLoading('pedidos-resultado');
+            try {
+                const pedidos = await window.dbConsulta.apiRequest('/pedidos');
+                
+                if (Array.isArray(pedidos) && pedidos.length > 0) {
+                    let html = `<div class="success">✅ ${pedidos.length} pedidos encontrados</div>`;
+                    html += '<div class="table-responsive"><table>';
+                    html += '<tr><th>ID</th><th>Cliente</th><th>Total</th><th>Status</th><th>Data</th></tr>';
+                    
+                    pedidos.forEach(pedido => {
+                        html += `<tr>
+                            <td>${pedido.id}</td>
+                            <td>${pedido.cliente_nome || pedido.cliente_id}</td>
+                            <td>R$ ${(pedido.total || 0).toFixed(2).replace('.', ',')}</td>
+                            <td>${pedido.status || 'N/A'}</td>
+                            <td>${pedido.data_pedido ? new Date(pedido.data_pedido).toLocaleString('pt-BR') : 'N/A'}</td>
+                        </tr>`;
+                    });
+                    
+                    html += '</table></div>';
+                    document.getElementById('pedidos-resultado').innerHTML = html;
+                    document.getElementById('pedidos-resultado').style.display = 'block';
+                } else {
+                    mostrarSucesso('pedidos-resultado', { mensagem: 'Nenhum pedido encontrado', dados: pedidos });
+                }
+            } catch (error) {
+                mostrarErro('pedidos-resultado', error.message);
+            }
+        }
+
+        // Pedidos recentes
+        async function pedidosRecentes() {
+            mostrarLoading('pedidos-resultado');
+            try {
+                const pedidos = await window.dbConsulta.apiRequest('/pedidos/recentes');
+                mostrarSucesso('pedidos-resultado', pedidos);
+            } catch (error) {
+                mostrarErro('pedidos-resultado', error.message);
+            }
+        }
+
+        // Pedidos por status
+        async function pedidosPorStatus() {
+            mostrarLoading('pedidos-resultado');
+            try {
+                const pedidos = await window.dbConsulta.apiRequest('/pedidos/status');
+                mostrarSucesso('pedidos-resultado', pedidos);
+            } catch (error) {
+                mostrarErro('pedidos-resultado', error.message);
+            }
+        }
+
+        // Verificar estrutura do banco
+        async function verificarTabelas() {
+            mostrarLoading('clientes-resultado');
+            try {
+                const endpoints = ['/admin/tables', '/schema', '/structure'];
+                let dados = {};
+                
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await window.dbConsulta.apiRequest(endpoint);
+                        dados[endpoint] = response;
+                    } catch (error) {
+                        dados[endpoint] = { erro: error.message };
+                    }
+                }
+                
+                mostrarSucesso('clientes-resultado', dados);
+            } catch (error) {
+                mostrarErro('clientes-resultado', error.message);
+            }
+        }
+
+        // Limpar resultados
+        function limparResultados() {
+            const resultados = ['estatisticas-resultado', 'clientes-resultado', 'pedidos-resultado'];
+            resultados.forEach(id => {
+                const elemento = document.getElementById(id);
+                elemento.style.display = 'none';
+                elemento.innerHTML = '';
+            });
+        }
+
+        // Expor funções globalmente
+        window.testarConexaoAPI = testarConexaoAPI;
+        window.carregarEstatisticas = carregarEstatisticas;
+        window.listarClientes = listarClientes;
+        window.buscarClientePorId = buscarClientePorId;
+        window.buscarClientePorEmail = buscarClientePorEmail;
+        window.listarPedidos = listarPedidos;
+        window.pedidosRecentes = pedidosRecentes;
+        window.pedidosPorStatus = pedidosPorStatus;
+        window.verificarTabelas = verificarTabelas;
+        window.limparResultados = limparResultados;
+    </script>
+</body>
+</html>

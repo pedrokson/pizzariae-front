@@ -144,7 +144,7 @@
             try {
                 const baseURL = window.location.hostname.includes('azurestaticapps.net')
                     ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api'
-                    : 'http://localhost:3001/api';
+                    : 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api';
                 const response = await fetch(baseURL + '/produtos');
                 if (response.ok) {
                     console.log('✅ API conectada com sucesso!');

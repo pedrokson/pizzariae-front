@@ -364,7 +364,7 @@
       async function apiRequest(endpoint, options = {}) {
         const baseURL = window.location.hostname.includes('azurestaticapps.net')
           ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api'
-          : 'http://localhost:3001/api';
+          : 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net/api';
         const url = baseURL + endpoint;
         
         const defaultOptions = {
