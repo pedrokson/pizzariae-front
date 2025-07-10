@@ -1791,6 +1791,15 @@ Obrigado pela preferência! 🙏`;
     <script src="js/auth.js"></script>
 <script>
   verificarAutenticacao();
+  // Função sair global para logout
+  function sair() {
+    if (confirm('Deseja realmente sair?')) {
+      // Limpa localStorage e redireciona
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      window.location.href = 'login.html';
+    }
+  }
 </script>
   </body>
 </html>
