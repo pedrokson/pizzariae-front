@@ -1036,7 +1036,7 @@
           <a href="bebidas.html">🥤 Bebidas</a>
           <a href="carrinho.html" class="active">🛒 Carrinho</a>
           <!-- <a href="pedidos.html">📋 Meus Pedidos</a> -->
-          <a href="#" onclick="sair()">🚪 Sair</a>
+          <a href="#" onclick="window.sair()">🚪 Sair</a>
         </nav>
       </div>
     </header>
@@ -1791,19 +1791,6 @@ Obrigado pela preferência! 🙏`;
     <script src="js/auth.js"></script>
 <script>
   verificarAutenticacao();
-  
-  function sair() {
-    if (confirm('Deseja realmente sair?')) {
-      sairAuth();
-      window.location.href = 'login.html';
-    }
-  }
-  // Garante que a função sair do auth.js está disponível como sairAuth
-  if (typeof window.sair === 'function') {
-    window.sairAuth = window.sair;
-  } else if (typeof sair === 'function') {
-    window.sairAuth = sair;
-  }
 </script>
   </body>
 </html>
