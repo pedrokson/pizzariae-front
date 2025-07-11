@@ -1401,44 +1401,120 @@
         };
       }
 
+      function gerarPDFPedido(carrinho, endereco) {
+        // Carregar jsPDF
+        const doc = new window.jspdf.jsPDF();
+
+        let y = 10;
+        doc.setFontSize(14);
+        doc.text('Jerônimu\'s Pizzaria - Pedido', 10, y);
+        y += 10;
+        doc.setFontSize(11);
+        doc.text(`Data: ${new Date().toLocaleString('pt-BR')}`, 10, y);
+        y += 10;
+        doc.text(`Cliente: ${endereco.nome || ''}`, 10, y);
+        y += 8;
+        doc.text(`Telefone: ${endereco.telefone || ''}`, 10, y);
+        y += 8;
+        doc.text(`Endereço: ${endereco.rua}, ${endereco.numero} - ${endereco.bairro}`, 10, y);
+        y += 8;
+        doc.text(`Cidade: ${endereco.cidade} - CEP: ${endereco.cep}`, 10, y);
+        y += 8;
+        if (endereco.complemento) {
+          doc.text(`Complemento: ${endereco.complemento}`, 10, y);
+          y += 8;
+        }
+        if (endereco.referencia) {
+          doc.text(`Referência: ${endereco.referencia}`, 10, y);
+          y += 8;
+        }
+        y += 4;
+        doc.text('Itens do Pedido:', 10, y);
+        y += 8;
+        let subtotal = 0;
+        carrinho.forEach((item, idx) => {
+          let itemStr = `${idx + 1}. ${item.nome} (${item.quantidade}x) - R$ ${item.preco.toFixed(2)}`;
+          if (item.tamanho) itemStr += ` [${item.tamanho}]`;
+          if (item.borda_recheada) itemStr += ` | Borda: ${item.borda_recheada}`;
+          doc.text(itemStr, 10, y);
+          y += 8;
+          subtotal += item.preco * item.quantidade;
+        });
+        y += 4;
+        doc.text(`Subtotal: R$ ${subtotal.toFixed(2)}`, 10, y);
+        y += 8;
+        let taxaEntrega = (document.getElementById('tipo-entrega').value === 'entrega') ? 3.00 : 0;
+        if (taxaEntrega > 0) {
+          doc.text(`Taxa de entrega: R$ ${taxaEntrega.toFixed(2)}`, 10, y);
+          y += 8;
+        }
+        let totalFinal = subtotal + taxaEntrega;
+        doc.text(`TOTAL: R$ ${totalFinal.toFixed(2)}`, 10, y);
+        y += 10;
+        doc.text(`Pagamento: ${document.getElementById('forma-pagamento').value}`, 10, y);
+        y += 8;
+        let trocoValue = document.getElementById('troco-para').value;
+        if (trocoValue) {
+          doc.text(`Troco para: R$ ${parseFloat(trocoValue).toFixed(2)}`, 10, y);
+          y += 8;
+        }
+        let obs = document.getElementById('observacao').value.trim();
+        if (obs) {
+          doc.text(`Obs: ${obs}`, 10, y);
+          y += 8;
+        }
+        y += 8;
+        doc.text('------------------------------', 10, y);
+        doc.save('pedido-pizzaria.pdf');
+      }
+
       function confirmarPedidoComEndereco() {
         try {
-          // Validar carrinho
           const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
           if (carrinho.length === 0) {
             alert('Seu carrinho está vazio!');
             fecharModalEndereco();
             return;
           }
-          
-          // Validar tipo de entrega
           const tipoEntrega = document.getElementById('tipo-entrega').value;
           if (!tipoEntrega) {
             alert('Por favor, selecione o tipo de pedido (entrega ou retirada)!');
             return;
           }
-          
-          // Validar forma de pagamento
           const formaPagamento = document.getElementById('forma-pagamento').value;
           if (!formaPagamento) {
             alert('Por favor, selecione a forma de pagamento!');
             return;
           }
-          
-          // Validar endereço apenas se for entrega
           if (tipoEntrega === 'entrega') {
             if (!validarEndereco()) {
               return;
             }
           }
-
+          const usuario = JSON.parse(localStorage.getItem("usuario")) || {};
           const endereco = obterDadosEndereco();
-          
-          // Fechar modal
+          endereco.nome = usuario.nome || '';
+          endereco.telefone = usuario.telefone || '';
           fecharModalEndereco();
-          
-          // Enviar para WhatsApp com endereço
-          enviarWhatsAppComEndereco(carrinho, endereco);
+          // Gerar PDF da notinha
+          gerarPDFPedido(carrinho, endereco);
+          // Limpar carrinho após gerar
+          if (confirm("Pedido gerado! Deseja limpar o carrinho?")) {
+            localStorage.removeItem("carrinho");
+            renderCarrinho();
+            document.getElementById("observacao").value = "";
+            document.getElementById('endereco-rua').value = '';
+            document.getElementById('endereco-numero').value = '';
+            document.getElementById('endereco-bairro').value = '';
+            document.getElementById('endereco-complemento').value = '';
+            document.getElementById('endereco-cep').value = '';
+            document.getElementById('endereco-referencia').value = '';
+            document.getElementById('tipo-entrega').value = '';
+            document.getElementById('forma-pagamento').value = '';
+            document.getElementById('troco-para').value = '';
+            document.getElementById('troco-container').style.display = 'none';
+            document.getElementById('taxa-entrega-info').style.display = 'none';
+          }
         } catch (error) {
           console.error('Erro ao confirmar pedido:', error);
           alert('Erro ao processar pedido. Tente novamente.');
@@ -1485,235 +1561,6 @@
         } else {
           trocoContainer.style.display = 'none';
           document.getElementById('troco-para').value = '';
-        }
-      }
-
-      function enviarWhatsAppComEndereco(carrinho, endereco) {
-        try {
-          const usuario = JSON.parse(localStorage.getItem("usuario")) || {};
-          const tipoEntrega = document.getElementById('tipo-entrega').value;
-          const formaPagamento = document.getElementById('forma-pagamento').value;
-          const trocoValue = document.getElementById('troco-para').value;
-          
-          // Validar campos obrigatórios
-          if (!tipoEntrega) {
-            alert('Por favor, selecione o tipo de pedido (entrega ou retirada)!');
-            return;
-          }
-          
-          if (!formaPagamento) {
-            alert('Por favor, selecione a forma de pagamento!');
-            return;
-          }
-          
-          // Criar mensagem formatada
-          let mensagem = `🍕 *NOVO PEDIDO - JERÔNIMU'S PIZZARIA*
-
-👤 *CLIENTE:*
-Nome: ${usuario.nome || 'Não informado'}
-Telefone: ${usuario.telefone || 'Não informado'}`;
-
-          // Tipo de pedido
-          if (tipoEntrega === 'entrega') {
-            mensagem += `
-
-📍 *ENDEREÇO DE ENTREGA:*
-${endereco.rua}, ${endereco.numero}
-${endereco.bairro} - ${endereco.cidade}
-CEP: ${endereco.cep}`;
-
-            if (endereco.complemento) {
-              mensagem += `\nComplemento: ${endereco.complemento}`;
-            }
-            
-            if (endereco.referencia) {
-              mensagem += `\nReferência: ${endereco.referencia}`;
-            }
-          } else {
-            mensagem += `
-
-🏪 *TIPO DE PEDIDO:* Retirada na Pizzaria`;
-          }
-
-          // Forma de pagamento
-          mensagem += `
-
-� *FORMA DE PAGAMENTO:*`;
-          switch(formaPagamento) {
-            case 'dinheiro':
-              mensagem += ` 💵 Dinheiro`;
-              if (trocoValue && parseFloat(trocoValue) > 0) {
-                mensagem += ` (Troco para R$ ${parseFloat(trocoValue).toFixed(2).replace('.', ',')})`;
-              } else {
-                mensagem += ` (Troco não necessário)`;
-              }
-              break;
-            case 'cartao-debito':
-              mensagem += ` 💳 Cartão de Débito`;
-              break;
-            case 'cartao-credito':
-              mensagem += ` 💳 Cartão de Crédito`;
-              break;
-            case 'pix':
-              mensagem += ` 📱 PIX`;
-              break;
-          }
-
-          mensagem += `
-
-�📋 *ITENS DO PEDIDO:*`;
-          
-          let subtotal = 0;
-          carrinho.forEach((item, index) => {
-            const subtotalItem = item.preco * item.quantidade;
-            subtotal += subtotalItem;
-            
-            mensagem += `
-${index + 1}. *${item.nome}*`;
-            
-            if (item.tamanho) {
-              mensagem += ` (${item.tamanho})`;
-            }
-            
-            if (item.borda_recheada && item.borda_recheada !== "") {
-              mensagem += `
-   🧀 Borda: ${item.borda_recheada} (+R$ 13,90)`;
-            }
-            
-            mensagem += `
-   📦 Quantidade: ${item.quantidade}
-   💰 Valor unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}
-   🔢 Subtotal: R$ ${subtotalItem.toFixed(2).replace('.', ',')}`;
-          });
-
-          // Calcular total final
-          let totalFinal = subtotal;
-          const taxaEntrega = (tipoEntrega === 'entrega') ? 3.00 : 0;
-          totalFinal += taxaEntrega;
-
-          mensagem += `
-
-━━━━━━━━━━━━━━━━━━━━━━━━
-💰 Subtotal dos Itens: R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-
-          if (taxaEntrega > 0) {
-            mensagem += `
-🚚 Taxa de Entrega: R$ ${taxaEntrega.toFixed(2).replace('.', ',')}`;
-          }
-
-          mensagem += `
-💵 *TOTAL FINAL: R$ ${totalFinal.toFixed(2).replace('.', ',')}*`;
-
-          const obs = document.getElementById("observacao").value.trim();
-          if (obs) {
-            mensagem += `
-
-📝 *OBSERVAÇÕES DO PEDIDO:*
-${obs}`;
-          }
-
-          mensagem += `
-
-⏰ Pedido feito em: ${new Date().toLocaleString('pt-BR')}
-
-Aguardamos confirmação! 🙏`;
-
-          const numeroDono = "5543991310616";
-          window.open(
-            `https://wa.me/${numeroDono}?text=${encodeURIComponent(mensagem)}`,
-            "_blank"
-          );
-          
-          // Limpar carrinho após enviar
-          if (confirm("Pedido enviado com sucesso! Deseja limpar o carrinho?")) {
-            localStorage.removeItem("carrinho");
-            renderCarrinho();
-            document.getElementById("observacao").value = "";
-            
-            // Limpar campos de endereço
-            document.getElementById('endereco-rua').value = '';
-            document.getElementById('endereco-numero').value = '';
-            document.getElementById('endereco-bairro').value = '';
-            document.getElementById('endereco-complemento').value = '';
-            document.getElementById('endereco-cep').value = '';
-            document.getElementById('endereco-referencia').value = '';
-            
-            // Limpar campos de entrega e pagamento
-            document.getElementById('tipo-entrega').value = '';
-            document.getElementById('forma-pagamento').value = '';
-            document.getElementById('troco-para').value = '';
-            document.getElementById('troco-container').style.display = 'none';
-            document.getElementById('taxa-entrega-info').style.display = 'none';
-          }
-        } catch (error) {
-          console.error('Erro ao enviar pedido:', error);
-          alert('Erro ao enviar pedido. Tente novamente.');
-        }
-      }
-
-      function enviarWhatsApp(carrinho) {
-        // Criar mensagem formatada primeiro
-        let mensagem = `🍕 *NOVO PEDIDO - JERÔNIMU'S PIZZARIA*
-
-📋 *ITENS DO PEDIDO:*
-`;
-        
-        let total = 0;
-        carrinho.forEach((item, index) => {
-          const subtotal = item.preco * item.quantidade;
-          total += subtotal;
-          
-          mensagem += `
-${index + 1}. *${item.nome}*`;
-          
-          if (item.tamanho) {
-            mensagem += ` (${item.tamanho})`;
-          }
-          
-          if (item.borda_recheada) {
-            mensagem += `
-   🧀 Borda: ${item.borda_recheada} (+R$ 13,90)`;
-          }
-          
-          mensagem += `
-   📦 Quantidade: ${item.quantidade}
-   💰 Valor unitário: R$ ${item.preco.toFixed(2)}
-   🔢 Subtotal: R$ ${subtotal.toFixed(2)}
-`;
-        });
-
-        mensagem += `
-━━━━━━━━━━━━━━━━━━━━━━━━
-💵 *TOTAL GERAL: R$ ${total.toFixed(2)}*`;
-
-        const obs = document.getElementById("observacao").value.trim();
-        if (obs) {
-          mensagem += `
-
-📝 *OBSERVAÇÕES:*
-${obs}`;
-        }
-
-        mensagem += `
-
-📍 *Dados do Cliente:*
-Entre em contato para confirmar endereço e forma de pagamento.
-
-⏰ Pedido feito em: ${new Date().toLocaleString()}
-
-Obrigado pela preferência! 🙏`;
-
-        const numeroDono = "5543991310616";
-        window.open(
-          `https://wa.me/${numeroDono}?text=${encodeURIComponent(mensagem)}`,
-          "_blank"
-        );
-        
-        // Limpar carrinho após enviar
-        if (confirm("Pedido enviado! Deseja limpar o carrinho?")) {
-          localStorage.removeItem("carrinho");
-          renderCarrinho();
-          document.getElementById("observacao").value = "";
         }
       }
 
