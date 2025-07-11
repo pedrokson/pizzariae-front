@@ -1417,8 +1417,6 @@ function gerarPDFPedido(carrinho, endereco) {
   const trocoValue = document.getElementById('troco-para').value;
   const obs = document.getElementById('observacao').value;
 
-  // NÃO ADICIONA LOGO
-
   // Cabeçalho
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(14);
@@ -1456,59 +1454,57 @@ function gerarPDFPedido(carrinho, endereco) {
   doc.setLineWidth(0.2);
   doc.line(7, y, largura - 7, y); y += 2.5;
 
-  // Tabela de itens - MELHOR ALINHAMENTO
+  // Tabela de itens - desenhando células
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
-  doc.text('Qnt', 8, y, {align: 'left'});
-  doc.text('Sabor', 22, y, {align: 'left'});
-  doc.text('Tam.', 52, y, {align: 'center'});
-  doc.text('Valor', largura - 8, y, {align: 'right'}); y += 4;
+  // Definir larguras das colunas
+  const colQnt = 10, colSabor = 32, colTam = 15, colValor = 16;
+  const xQnt = 7, xSabor = xQnt + colQnt, xTam = xSabor + colSabor, xValor = xTam + colTam;
 
-  doc.setLineWidth(0.1);
-  doc.line(7, y, largura - 7, y); y += 2;
+  // Cabeçalho da tabela
+  doc.rect(xQnt, y, colQnt, 7); doc.text('Qnt', xQnt + colQnt/2, y + 4, {align: 'center'});
+  doc.rect(xSabor, y, colSabor, 7); doc.text('Sabor', xSabor + colSabor/2, y + 4, {align: 'center'});
+  doc.rect(xTam, y, colTam, 7); doc.text('Tam.', xTam + colTam/2, y + 4, {align: 'center'});
+  doc.rect(xValor, y, colValor, 7); doc.text('Valor', xValor + colValor/2, y + 4, {align: 'center'});
+  y += 7;
 
-  let subtotal = 0;
   doc.setFont(undefined, 'normal');
-
+  let subtotal = 0;
+  // Linhas dos itens
   carrinho.forEach((item) => {
-    // Sabor pode ser longo, então limita largura
     let sabor = item.nome;
     let tamanho = item.tamanho || '-';
-    // Se vier tamanho junto no nome, separa
     const tamanhoRegex = /\(([^)]+)\)$/;
     const match = sabor.match(tamanhoRegex);
     if (match) {
       tamanho = match[1];
       sabor = sabor.replace(tamanhoRegex, '').trim();
     }
-    // Qnt (8), Sabor (22 até 45), Tam. (52), Valor (72)
-    doc.text(String(item.quantidade), 8, y, {align: 'left'});
-    doc.text(doc.splitTextToSize(sabor, 22), 22, y, {align: 'left', maxWidth: 23});
-    doc.text(tamanho, 52, y, {align: 'center'});
-    doc.text(`R$ ${item.preco.toFixed(2)}`, largura - 8, y, {align: 'right'});
-    y += 4;
+    doc.rect(xQnt, y, colQnt, 7); doc.text(String(item.quantidade), xQnt + colQnt/2, y + 4, {align: 'center'});
+    doc.rect(xSabor, y, colSabor, 7); doc.text(doc.splitTextToSize(sabor, colSabor-2), xSabor + 2, y + 4);
+    doc.rect(xTam, y, colTam, 7); doc.text(tamanho, xTam + colTam/2, y + 4, {align: 'center'});
+    doc.rect(xValor, y, colValor, 7); doc.text(`R$ ${item.preco.toFixed(2)}`, xValor + colValor/2, y + 4, {align: 'center'});
+    y += 7;
     if (item.borda_recheada) {
       doc.setFontSize(9);
-      doc.text(`Borda: ${item.borda_recheada}`, 22, y, {align: 'left', maxWidth: 23});
+      doc.text(`Borda: ${item.borda_recheada}`, xSabor + 2, y + 3);
       doc.setFontSize(10);
-      y += 3.5;
+      y += 5;
     }
     subtotal += item.preco * item.quantidade;
   });
-
   // Linhas em branco até 5
   for (let i = carrinho.length; i < 5; i++) {
-    doc.text('-', 8, y, {align: 'left'});
-    doc.text('-', 22, y, {align: 'left'});
-    doc.text('-', 52, y, {align: 'center'});
-    doc.text('-', largura - 8, y, {align: 'right'});
-    y += 4;
+    doc.rect(xQnt, y, colQnt, 7); doc.text('-', xQnt + colQnt/2, y + 4, {align: 'center'});
+    doc.rect(xSabor, y, colSabor, 7); doc.text('-', xSabor + colSabor/2, y + 4, {align: 'center'});
+    doc.rect(xTam, y, colTam, 7); doc.text('-', xTam + colTam/2, y + 4, {align: 'center'});
+    doc.rect(xValor, y, colValor, 7); doc.text('-', xValor + colValor/2, y + 4, {align: 'center'});
+    y += 7;
   }
 
   doc.setLineWidth(0.2);
   doc.line(7, y, largura - 7, y); y += 2.5;
 
-  // Totais
   doc.setFontSize(11);
   doc.setFont(undefined, 'bold');
   doc.text('Subtotal:', 8, y);
