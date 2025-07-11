@@ -1444,157 +1444,139 @@ function gerarPDFPedido(carrinho, endereco) {
     }
   }, 1500);
 
-  function drawComanda() {
-    y = img.complete ? y : 8;
+ function drawComanda() {
+  y = img.complete ? y : 8;
 
-    doc.setFontSize(14);
-    doc.setFont(undefined, 'bold');
-    doc.text('JERONIMU\'S PIZZARIA', largura / 2, y, { align: 'center' }); y += 8;
+  doc.setFontSize(14);
+  doc.setFont(undefined, 'bold');
+  doc.text("JERONIMU'S PIZZARIA", largura / 2, y, { align: 'center' }); y += 8;
 
-    doc.setFontSize(11);
-    doc.setFont(undefined, 'normal');
-    doc.text('COMANDA DE PEDIDO', largura / 2, y, { align: 'center' }); y += 6;
+  doc.setFontSize(11);
+  doc.setFont(undefined, 'normal');
+  doc.text('COMANDA DE PEDIDO', largura / 2, y, { align: 'center' }); y += 6;
 
-    doc.setFont(undefined, 'bold');
-    doc.text(tipoEntrega === 'entrega' ? 'ENTREGA' : 'RETIRAR NA PIZZARIA', largura / 2, y, { align: 'center' }); y += 7;
+  doc.setFont(undefined, 'bold');
+  doc.text(tipoEntrega === 'entrega' ? 'ENTREGA' : 'RETIRAR NA PIZZARIA', largura / 2, y, { align: 'center' }); y += 7;
 
-    doc.setFont(undefined, 'normal');
-    doc.setLineWidth(0.3);
-    doc.line(7, y, largura - 7, y); y += 2.5;
+  doc.setFont(undefined, 'normal');
+  doc.setLineWidth(0.3);
+  doc.line(7, y, largura - 7, y); y += 2.5;
 
-    doc.setFontSize(9.5);
-    doc.text(`Cliente: ${endereco.nome || ''}`, 8, y); y += 4.2;
-    doc.text(`Fone: ${endereco.telefone || ''}`, 8, y); y += 4.2;
+  doc.setFontSize(9.5);
+  doc.text(`Cliente: ${endereco.nome || ''}`, 8, y); y += 4;
+  doc.text(`Fone: ${endereco.telefone || ''}`, 8, y); y += 4;
 
-    if (tipoEntrega === 'entrega') {
-      const enderecoLinha = `Endereço: ${endereco.rua || ''}, ${endereco.numero || ''} - ${endereco.bairro || ''}`;
-      doc.text(enderecoLinha, 8, y, { maxWidth: largura - 16 }); y += 4.2;
-      if (endereco.complemento) {
-        doc.text(`Compl.: ${endereco.complemento}`, 8, y, { maxWidth: largura - 16 }); y += 4.2;
-      }
-      const cidadeCep = `Cidade: ${endereco.cidade || ''} - CEP: ${endereco.cep || ''}`;
-      doc.text(cidadeCep, 8, y, { maxWidth: largura - 16 }); y += 4.2;
-      if (endereco.referencia) {
-        doc.text(`Ref.: ${endereco.referencia}`, 8, y, { maxWidth: largura - 16 }); y += 4.2;
-      }
+  if (tipoEntrega === 'entrega') {
+    doc.text(`Endereço: ${endereco.rua || ''}, ${endereco.numero || ''}`, 8, y); y += 4;
+    doc.text(`Bairro: ${endereco.bairro || ''}`, 8, y); y += 4;
+    doc.text(`Cidade: ${endereco.cidade || ''}`, 8, y); y += 4;
+    doc.text(`CEP: ${endereco.cep || ''}`, 8, y); y += 4;
+    if (endereco.referencia) {
+      doc.text(`Ref.: ${endereco.referencia}`, 8, y); y += 4;
     }
-
-    doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 8, y);
-    doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0, 5)}`, largura - 8, y, { align: 'right' }); y += 4.2;
-
-    doc.setLineWidth(0.2);
-    doc.line(7, y, largura - 7, y); y += 2.5;
-
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'bold');
-    doc.text('Qnt', 8, y);
-    doc.text('Sabor', 22, y);
-    doc.text('Tam.', 52, y, { align: 'center' });
-    doc.text('Valor', largura - 8, y, { align: 'right' });
-    doc.setFont(undefined, 'normal');
-    y += 4.2;
-
-    doc.setLineWidth(0.1);
-    doc.line(7, y, largura - 7, y); y += 2.2;
-
-    let subtotal = 0;
-    carrinho.forEach((item) => {
-      doc.text(String(item.quantidade), 8, y);
-      let sabor = item.nome;
-      if (item.observacoes) sabor += ` (${item.observacoes})`;
-      doc.text(sabor, 22, y, { maxWidth: 28 });
-      doc.text(item.tamanho || '-', 52, y, { align: 'center' });
-      doc.text(`R$ ${item.preco.toFixed(2)}`, largura - 8, y, { align: 'right' });
-      y += 4.2;
-
-      if (item.borda_recheada) {
-        doc.setFontSize(9);
-        doc.text(`Borda: ${item.borda_recheada}`, 22, y, { maxWidth: 28 });
-        y += 3.5;
-        doc.setFontSize(10);
-      }
-
-      subtotal += item.preco * item.quantidade;
-    });
-
-    // Linhas vazias
-    for (let i = carrinho.length; i < 5; i++) {
-      doc.text('-', 8, y);
-      doc.text('-', 22, y);
-      doc.text('-', 52, y, { align: 'center' });
-      doc.text('-', largura - 8, y, { align: 'right' });
-      y += 4.2;
-    }
-
-    doc.setLineWidth(0.2);
-    doc.line(7, y, largura - 7, y); y += 2.5;
-
-    // Verifica se há bebidas no carrinho
-    const temBebidas = carrinho.some(item => item.categoria === 'bebida' || item.tipo === 'bebida');
-    if (temBebidas) {
-      doc.setFontSize(10);
-      doc.setFont(undefined, 'bold');
-      doc.text('Bebidas:', 8, y); y += 4.2;
-
-      doc.setLineWidth(0.1);
-      doc.line(7, y, largura - 7, y); y += 2.5;
-    }
-
-    // Totais
-    doc.setFontSize(11);
-    doc.setFont(undefined, 'bold');
-    doc.text('Subtotal:', 8, y);
-    doc.text(`R$ ${subtotal.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 5;
-
-    const taxaEntrega = tipoEntrega === 'entrega' ? 3.00 : 0;
-    if (taxaEntrega > 0) {
-      doc.setFontSize(10);
-      doc.setFont(undefined, 'normal');
-      doc.text('Taxa entrega:', 8, y);
-      doc.text(`R$ ${taxaEntrega.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 4.2;
-    }
-
-    const totalFinal = subtotal + taxaEntrega;
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('TOTAL GERAL:', 8, y);
-    doc.text(`R$ ${totalFinal.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 7;
-
-    doc.setLineWidth(0.2);
-    doc.line(7, y, largura - 7, y); y += 2.5;
-
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'bold');
-    doc.text('Pagamento:', 8, y);
-    doc.setFont(undefined, 'normal');
-    doc.text(formaPagamento, largura - 8, y, { align: 'right' });
-
-    if (trocoValue) {
-      y += 4.2;
-      doc.setFont(undefined, 'bold');
-      doc.text('Troco para:', 8, y);
-      doc.setFont(undefined, 'normal');
-      doc.text(`R$ ${parseFloat(trocoValue).toFixed(2)}`, largura - 8, y, { align: 'right' });
-    }
-
-    y += 5.5;
-    doc.setLineWidth(0.1);
-    doc.line(7, y, largura - 7, y); y += 2.5;
-
-    if (obs && obs.trim().length > 0) {
-      doc.setFontSize(9.5);
-      doc.setFont(undefined, 'italic');
-      doc.text('Obs:', largura / 2, y, { align: 'center' }); y += 3.5;
-      doc.setFont(undefined, 'normal');
-      doc.text(obs, largura / 2, y, { align: 'center', maxWidth: largura - 16 }); y += 6;
-    }
-
-    doc.setFontSize(8.5);
-    doc.setFont(undefined, 'italic');
-    doc.text('Obrigado pela preferência!', largura / 2, y, { align: 'center' });
-
-    doc.save('pedido-pizzaria.pdf');
   }
+
+  doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 8, y);
+  doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0, 5)}`, largura - 8, y, { align: 'right' }); y += 5;
+
+  doc.setLineWidth(0.2);
+  doc.line(7, y, largura - 7, y); y += 2.5;
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Qnt', 8, y);
+  doc.text('Sabor', 20, y);
+  doc.text('Tam.', 52, y, { align: 'center' });
+  doc.text('Valor', largura - 8, y, { align: 'right' });
+  doc.setFont(undefined, 'normal');
+  y += 4;
+  doc.line(7, y, largura - 7, y); y += 2;
+
+  let subtotal = 0;
+  carrinho.forEach((item) => {
+    doc.text(String(item.quantidade), 8, y);
+
+    // Nome do item com quebra se for grande
+    let sabor = item.nome;
+    if (item.observacoes) sabor += ` (${item.observacoes})`;
+
+    let linhasSabor = doc.splitTextToSize(sabor, 30);
+    doc.text(linhasSabor, 20, y);
+
+    doc.text(item.tamanho || '-', 52, y, { align: 'center' });
+    doc.text(`R$ ${item.preco.toFixed(2)}`, largura - 8, y, { align: 'right' });
+    y += linhasSabor.length * 4;
+
+    if (item.borda_recheada) {
+      doc.setFontSize(9);
+      doc.text(`Borda: ${item.borda_recheada}`, 20, y);
+      doc.setFontSize(10);
+      y += 3.5;
+    }
+
+    subtotal += item.preco * item.quantidade;
+  });
+
+  for (let i = carrinho.length; i < 5; i++) {
+    doc.text('-', 8, y);
+    doc.text('-', 20, y);
+    doc.text('-', 52, y, { align: 'center' });
+    doc.text('-', largura - 8, y, { align: 'right' });
+    y += 4;
+  }
+
+  doc.line(7, y, largura - 7, y); y += 2;
+
+  doc.setFontSize(11);
+  doc.setFont(undefined, 'bold');
+  doc.text('Subtotal:', 8, y);
+  doc.text(`R$ ${subtotal.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 5;
+
+  const taxaEntrega = tipoEntrega === 'entrega' ? 3.00 : 0;
+  if (taxaEntrega > 0) {
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text('Taxa entrega:', 8, y);
+    doc.text(`R$ ${taxaEntrega.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 4.2;
+  }
+
+  const totalFinal = subtotal + taxaEntrega;
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
+  doc.text('TOTAL GERAL:', 8, y);
+  doc.text(`R$ ${totalFinal.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 6;
+
+  doc.line(7, y, largura - 7, y); y += 2.5;
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Pagamento:', 8, y);
+  doc.setFont(undefined, 'normal');
+  doc.text(formaPagamento, largura - 8, y, { align: 'right' });
+
+  if (trocoValue) {
+    y += 4;
+    doc.setFont(undefined, 'bold');
+    doc.text('Troco para:', 8, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(`R$ ${parseFloat(trocoValue).toFixed(2)}`, largura - 8, y, { align: 'right' });
+  }
+
+  y += 5;
+  if (obs && obs.trim()) {
+    doc.setFontSize(9.5);
+    doc.setFont(undefined, 'italic');
+    doc.text('Obs:', largura / 2, y, { align: 'center' }); y += 3.5;
+    doc.setFont(undefined, 'normal');
+    doc.text(doc.splitTextToSize(obs, largura - 16), largura / 2, y, { align: 'center' }); y += 6;
+  }
+
+  doc.setFontSize(8.5);
+  doc.setFont(undefined, 'italic');
+  doc.text('Obrigado pela preferência!', largura / 2, y, { align: 'center' });
+
+  doc.save('pedido-pizzaria.pdf');
+}
 }
 
       function enviarPedidoWhatsApp() {
