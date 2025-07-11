@@ -1495,25 +1495,33 @@ function gerarPDFPedido(carrinho, endereco) {
     doc.setFont(undefined, 'normal');
 
     carrinho.forEach((item) => {
-      doc.text(String(item.quantidade), 8, y);
-      const nome = item.nome + (item.observacoes ? ` (${item.observacoes})` : '');
-      const nomeFormatado = doc.splitTextToSize(nome, 28);
-      doc.text(nomeFormatado, 20, y);
+  // Separar nome e tamanho, se vier junto
+  let sabor = item.nome;
+  let tamanho = item.tamanho || '-';
 
-      doc.text(item.tamanho || '-', 52, y, { align: 'center' });
-      doc.text(`R$ ${item.preco.toFixed(2)}`, largura - 8, y, { align: 'right' });
+  const tamanhoRegex = /\(([^)]+)\)$/;
+  const match = sabor.match(tamanhoRegex);
+  if (match) {
+    tamanho = match[1];
+    sabor = sabor.replace(tamanhoRegex, '').trim();
+  }
 
-      y += nomeFormatado.length * 4;
+  doc.text(String(item.quantidade), 8, y); // Qnt
+  doc.text(doc.splitTextToSize(sabor, 28), 20, y); // Sabor
+  doc.text(tamanho, 52, y, { align: 'center' });   // Tam.
+  doc.text(`R$ ${item.preco.toFixed(2)}`, largura - 8, y, { align: 'right' }); // Valor
 
-      if (item.borda_recheada) {
-        doc.setFontSize(9);
-        doc.text(`Borda: ${item.borda_recheada}`, 20, y);
-        doc.setFontSize(10);
-        y += 3.5;
-      }
+  y += 4;
 
-      subtotal += item.preco * item.quantidade;
-    });
+  if (item.borda_recheada) {
+    doc.setFontSize(9);
+    doc.text(`Borda: ${item.borda_recheada}`, 20, y);
+    y += 3.5;
+    doc.setFontSize(10);
+  }
+
+  subtotal += item.preco * item.quantidade;
+});
 
     // Linhas em branco até 5
     for (let i = carrinho.length; i < 5; i++) {
