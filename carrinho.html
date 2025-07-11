@@ -1403,97 +1403,112 @@
       }
 
       function gerarPDFPedido(carrinho, endereco) {
-        // Carregar jsPDF
-        const doc = new window.jspdf.jsPDF();
+        // PDF formato recibo: 80mm x 200mm (largura x altura)
+        const doc = new window.jspdf.jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: [80, 200]
+        });
 
-        // Logo (se existir)
-        const logoUrl = 'img/logo.png'; // ajuste se necessário
-        let y = 12;
-        // Tenta adicionar logo
+        // Margens e layout
+        let y = 10;
+        const largura = 80;
+        doc.setFont('helvetica', 'normal');
+
+        // Logo centralizado
+        const logoUrl = 'img/logo.png';
         var img = new Image();
         img.src = logoUrl;
         img.onload = function() {
-          doc.addImage(img, 'PNG', 10, 6, 20, 20);
+          doc.addImage(img, 'PNG', largura/2-10, y, 20, 20);
+          y += 22;
           drawComanda();
         };
         img.onerror = function() {
           drawComanda();
         };
-        // Se não carregar, desenha sem logo
+
         function drawComanda() {
-          y = 12;
-          doc.setFontSize(16);
-          doc.text('JERONIMU\'S PIZZARIA', 35, y);
-          y += 8;
-          doc.setFontSize(13);
-          doc.text('COMANDA', 80, y);
-          y += 8;
-          doc.setFontSize(11);
-          doc.text('ENTREGA ( )   RETIRAR ( )', 35, y);
-          y += 10;
-          doc.setLineWidth(0.2);
-          doc.line(10, y, 200, y); y += 4;
-          doc.text(`Nome: ${endereco.nome || ''}`, 12, y); y += 7;
-          doc.text(`Fone: ${endereco.telefone || ''}`, 12, y); y += 7;
-          // Exibir endereço completo apenas se for entrega
-          const tipoEntrega = document.getElementById('tipo-entrega').value;
+          y = img.complete ? y : 10;
+          doc.setFontSize(15);
+          doc.text('JERONIMU\'S PIZZARIA', largura/2, y, {align: 'center'}); y += 8;
+          doc.setFontSize(12);
+          doc.text('COMANDA', largura/2, y, {align: 'center'}); y += 7;
+          // Tipo de pedido destacado
+          let tipoLabel = '';
           if (tipoEntrega === 'entrega') {
-            doc.text(`End.: ${endereco.rua || ''}, ${endereco.numero || ''} - ${endereco.bairro || ''}`, 12, y); y += 7;
+            tipoLabel = 'ENTREGA';
+          } else if (tipoEntrega === 'retirada') {
+            tipoLabel = 'RETIRAR NA PIZZARIA';
+          } else {
+            tipoLabel = 'Tipo não informado';
+          }
+          doc.setFontSize(11);
+          doc.text(tipoLabel, largura/2, y, {align: 'center'}); y += 7;
+          doc.setLineWidth(0.2);
+          doc.line(5, y, largura-5, y); y += 3;
+          doc.setFontSize(10);
+          doc.text(`Nome: ${endereco.nome || ''}`, 7, y); y += 5.5;
+          doc.text(`Fone: ${endereco.telefone || ''}`, 7, y); y += 5.5;
+          if (tipoEntrega === 'entrega') {
+            doc.text(`End.: ${endereco.rua || ''}, ${endereco.numero || ''} - ${endereco.bairro || ''}`, 7, y); y += 5.5;
             if (endereco.complemento) {
-              doc.text(`Compl.: ${endereco.complemento}`, 12, y); y += 7;
+              doc.text(`Compl.: ${endereco.complemento}`, 7, y); y += 5.5;
             }
-            doc.text(`Cidade: ${endereco.cidade || ''} - CEP: ${endereco.cep || ''}`, 12, y); y += 7;
+            doc.text(`Cidade: ${endereco.cidade || ''} - CEP: ${endereco.cep || ''}`, 7, y); y += 5.5;
             if (endereco.referencia) {
-              doc.text(`Ref.: ${endereco.referencia}`, 12, y); y += 7;
+              doc.text(`Ref.: ${endereco.referencia}`, 7, y); y += 5.5;
             }
           }
-          doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 12, y);
-          doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0,5)}`, 60, y); y += 7;
-          doc.line(10, y, 200, y); y += 4;
+          doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 7, y);
+          doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0,5)}`, largura-35, y); y += 5.5;
+          doc.line(5, y, largura-5, y); y += 3;
           // Tabela de itens
-          doc.text('Quant', 12, y);
-          doc.text('Tam', 28, y);
-          doc.text('Sabor', 45, y);
-          doc.text('Valor', 170, y);
-          y += 5;
-          doc.line(10, y, 200, y); y += 4;
+          doc.setFontSize(10);
+          doc.text('Qnt', 7, y);
+          doc.text('Tam', 18, y);
+          doc.text('Sabor', 30, y);
+          doc.text('Valor', largura-25, y);
+          y += 4.5;
+          doc.line(5, y, largura-5, y); y += 2.5;
           let subtotal = 0;
           carrinho.forEach((item, idx) => {
-            doc.text(String(item.quantidade), 12, y);
-            doc.text(item.tamanho || '', 28, y);
+            doc.text(String(item.quantidade), 7, y);
+            doc.text(item.tamanho || '', 18, y);
             let sabor = item.nome;
             if (item.borda_recheada) sabor += ` | Borda: ${item.borda_recheada}`;
-            doc.text(sabor, 45, y);
-            doc.text(`R$ ${item.preco.toFixed(2)}`, 170, y);
-            y += 6;
+            doc.text(sabor, 30, y);
+            doc.text(`R$ ${item.preco.toFixed(2)}`, largura-25, y);
+            y += 5;
             subtotal += item.preco * item.quantidade;
           });
-          // Linhas extras para preencher
           for (let i = carrinho.length; i < 5; i++) {
-            doc.text('-', 12, y);
-            doc.text('-', 28, y);
-            doc.text('-', 45, y);
-            doc.text('-', 170, y);
-            y += 6;
+            doc.text('-', 7, y);
+            doc.text('-', 18, y);
+            doc.text('-', 30, y);
+            doc.text('-', largura-25, y);
+            y += 5;
           }
-          doc.line(10, y, 200, y); y += 4;
-          doc.text('Bebidas:', 12, y); y += 6;
-          doc.line(10, y, 200, y); y += 4;
-          doc.text(`TOTAL: R$ ${subtotal.toFixed(2)}`, 150, y); y += 8;
-          let taxaEntrega = (document.getElementById('tipo-entrega').value === 'entrega') ? 3.00 : 0;
+          doc.line(5, y, largura-5, y); y += 3;
+          doc.text('Bebidas:', 7, y); y += 5;
+          doc.line(5, y, largura-5, y); y += 3;
+          doc.setFontSize(11);
+          doc.text(`TOTAL: R$ ${subtotal.toFixed(2)}`, largura-35, y); y += 6;
+          let taxaEntrega = (tipoEntrega === 'entrega') ? 3.00 : 0;
           let totalFinal = subtotal + taxaEntrega;
           if (taxaEntrega > 0) {
-            doc.text(`Taxa de entrega: R$ ${taxaEntrega.toFixed(2)}`, 150, y); y += 8;
+            doc.text(`Taxa entrega: R$ ${taxaEntrega.toFixed(2)}`, largura-35, y); y += 6;
           }
-          doc.text(`TOTAL GERAL: R$ ${totalFinal.toFixed(2)}`, 130, y); y += 8;
-          doc.line(10, y, 200, y); y += 4;
-          doc.text('Pagamento:', 12, y);
-          doc.text(document.getElementById('forma-pagamento').value, 45, y);
+          doc.text(`TOTAL GERAL: R$ ${totalFinal.toFixed(2)}`, largura-40, y); y += 7;
+          doc.line(5, y, largura-5, y); y += 3;
+          doc.setFontSize(10);
+          doc.text('Pagamento:', 7, y);
+          doc.text(document.getElementById('forma-pagamento').value, 30, y);
           let trocoValue = document.getElementById('troco-para').value;
           if (trocoValue) {
-            doc.text(`Troco para: R$ ${parseFloat(trocoValue).toFixed(2)}`, 120, y);
+            doc.text(`Troco para: R$ ${parseFloat(trocoValue).toFixed(2)}`, largura-35, y);
           }
-          y += 8;
+          y += 7;
           doc.save('pedido-pizzaria.pdf');
         }
       }
