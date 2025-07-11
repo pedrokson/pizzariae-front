@@ -1403,173 +1403,196 @@
       }
 
       function gerarPDFPedido(carrinho, endereco) {
-        const doc = new window.jspdf.jsPDF({
-          orientation: 'portrait',
-          unit: 'mm',
-          format: [80, 200]
-        });
-        let y = 8;
-        const largura = 80;
-        doc.setFont('helvetica', 'normal');
-        const tipoEntrega = document.getElementById('tipo-entrega').value;
-        const formaPagamento = document.getElementById('forma-pagamento').value;
-        const trocoValue = document.getElementById('troco-para').value;
-        const obs = document.getElementById('observacao').value;
+  const doc = new window.jspdf.jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: [80, 200]
+  });
+  let y = 8;
+  const largura = 80;
+  let renderizado = false; // ← Evita chamada dupla
 
-        // Logo ajustado (menor e com mais espaço)
-        const logoUrl = 'img/logo.png';
-        var img = new Image();
-        img.src = logoUrl;
-        img.onload = function() {
-          doc.addImage(img, 'PNG', largura/2-10, y, 20, 20);
-          y += 22;
-          drawComanda();
-        };
-        img.onerror = function() {
-          drawComanda();
-        };
+  doc.setFont('helvetica', 'normal');
+  const tipoEntrega = document.getElementById('tipo-entrega').value;
+  const formaPagamento = document.getElementById('forma-pagamento').value;
+  const trocoValue = document.getElementById('troco-para').value;
+  const obs = document.getElementById('observacao').value;
 
-        function drawComanda() {
-          y = img.complete ? y : 8;
-          // Cabeçalho centralizado
-          doc.setFontSize(14);
-          doc.setFont(undefined, 'bold');
-          doc.text('JERONIMU\'S PIZZARIA', largura/2, y, {align: 'center'}); y += 8;
-          doc.setFontSize(11);
-          doc.setFont(undefined, 'normal');
-          doc.text('COMANDA DE PEDIDO', largura/2, y, {align: 'center'}); y += 6;
-          doc.setFontSize(11);
-          doc.setFont(undefined, 'bold');
-          doc.text(tipoEntrega === 'entrega' ? 'ENTREGA' : 'RETIRAR NA PIZZARIA', largura/2, y, {align: 'center'}); y += 7;
-          doc.setFont(undefined, 'normal');
-          doc.setLineWidth(0.3);
-          doc.line(7, y, largura-7, y); y += 2.5;
+  const logoUrl = 'img/logo.png';
+  const img = new Image();
+  img.src = logoUrl;
 
-          // Dados do cliente/entrega agrupados
-          doc.setFontSize(9.5);
-          doc.text(`Cliente: ${endereco.nome || ''}`, 8, y, {align: 'left'}); y += 4.2;
-          doc.text(`Fone: ${endereco.telefone || ''}`, 8, y, {align: 'left'}); y += 4.2;
-          if (tipoEntrega === 'entrega') {
-            doc.text(`Endereço: ${endereco.rua || ''}, ${endereco.numero || ''} - ${endereco.bairro || ''}`, 8, y, {align: 'left', maxWidth: largura-16}); y += 4.2;
-            if (endereco.complemento) {
-              doc.text(`Compl.: ${endereco.complemento}`, 8, y, {align: 'left', maxWidth: largura-16}); y += 4.2;
-            }
-            doc.text(`Cidade: ${endereco.cidade || ''} - CEP: ${endereco.cep || ''}`, 8, y, {align: 'left', maxWidth: largura-16}); y += 4.2;
-            if (endereco.referencia) {
-              doc.text(`Ref.: ${endereco.referencia}`, 8, y, {align: 'left', maxWidth: largura-16}); y += 4.2;
-            }
-          }
-          // Data e hora na mesma linha
-          doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 8, y, {align: 'left'});
-          doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0,5)}`, largura-8, y, {align: 'right'}); y += 4.2;
-          doc.setLineWidth(0.2);
-          doc.line(7, y, largura-7, y); y += 2.5;
+  img.onload = function () {
+    if (renderizado) return;
+    doc.addImage(img, 'PNG', largura / 2 - 10, y, 20, 20);
+    y += 22;
+    renderizado = true;
+    drawComanda();
+  };
 
-          // Tabela de itens com colunas alinhadas
-          doc.setFontSize(10);
-          doc.setFont(undefined, 'bold');
-          doc.text('Qnt', 8, y, {align: 'left'});
-          doc.text('Sabor', 22, y, {align: 'left'});
-          doc.text('Tam.', 52, y, {align: 'center'});
-          doc.text('Valor', largura-8, y, {align: 'right'});
-          doc.setFont(undefined, 'normal');
-          y += 4.2;
-          doc.setLineWidth(0.1);
-          doc.line(7, y, largura-7, y); y += 2.2;
-          let subtotal = 0;
-          carrinho.forEach((item, idx) => {
-            doc.text(String(item.quantidade), 8, y, {align: 'left'});
-            let sabor = item.nome;
-            if (item.observacoes) sabor += ` (${item.observacoes})`;
-            doc.text(sabor, 22, y, {maxWidth: 28, align: 'left'});
-            doc.text(item.tamanho || '-', 52, y, {align: 'center'});
-            doc.text(`R$ ${item.preco.toFixed(2)}`, largura-8, y, {align: 'right'});
-            y += 4.2;
-            if (item.borda_recheada) {
-              doc.setFontSize(9);
-              doc.text(`Borda: ${item.borda_recheada}`, 22, y, {align: 'left', maxWidth: 28});
-              doc.setFontSize(10);
-              y += 3.5;
-            }
-            subtotal += item.preco * item.quantidade;
-          });
-          for (let i = carrinho.length; i < 5; i++) {
-            doc.text('-', 8, y, {align: 'left'});
-            doc.text('-', 22, y, {align: 'left'});
-            doc.text('-', 52, y, {align: 'center'});
-            doc.text('-', largura-8, y, {align: 'right'});
-            y += 4.2;
-          }
-          doc.setLineWidth(0.2);
-          doc.line(7, y, largura-7, y); y += 2.5;
+  img.onerror = function () {
+    if (renderizado) return;
+    renderizado = true;
+    drawComanda();
+  };
 
-          // Bebidas (se houver)
-          doc.setFontSize(10);
-          doc.setFont(undefined, 'bold');
-          doc.text('Bebidas:', 8, y, {align: 'left'}); y += 4.2;
-          doc.setFont(undefined, 'normal');
-          doc.setLineWidth(0.1);
-          doc.line(7, y, largura-7, y); y += 2.5;
+  setTimeout(() => {
+    if (!renderizado) {
+      renderizado = true;
+      drawComanda();
+    }
+  }, 1500);
 
-          // Totais alinhados à direita
-          doc.setFontSize(11);
-          doc.setFont(undefined, 'bold');
-          doc.text(`Subtotal:`, 8, y, {align: 'left'});
-          doc.text(`R$ ${subtotal.toFixed(2)}`, largura-8, y, {align: 'right'});
-          y += 5;
-          let taxaEntrega = (tipoEntrega === 'entrega') ? 3.00 : 0;
-          if (taxaEntrega > 0) {
-            doc.setFontSize(10);
-            doc.setFont(undefined, 'normal');
-            doc.text(`Taxa entrega:`, 8, y, {align: 'left'});
-            doc.text(`R$ ${taxaEntrega.toFixed(2)}`, largura-8, y, {align: 'right'});
-            y += 4.2;
-          }
-          let totalFinal = subtotal + taxaEntrega;
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'bold');
-          doc.text(`TOTAL GERAL:`, 8, y, {align: 'left'});
-          doc.text(`R$ ${totalFinal.toFixed(2)}`, largura-8, y, {align: 'right'});
-          y += 7;
-          doc.setLineWidth(0.2);
-          doc.line(7, y, largura-7, y); y += 2.5;
+  function drawComanda() {
+    y = img.complete ? y : 8;
 
-          // Pagamento/troco alinhados
-          doc.setFontSize(10);
-          doc.setFont(undefined, 'bold');
-          doc.text('Pagamento:', 8, y, {align: 'left'});
-          doc.setFont(undefined, 'normal');
-          doc.text(formaPagamento, largura-8, y, {align: 'right'});
-          if (trocoValue) {
-            y += 4.2;
-            doc.setFont(undefined, 'bold');
-            doc.text('Troco para:', 8, y, {align: 'left'});
-            doc.setFont(undefined, 'normal');
-            doc.text(`R$ ${parseFloat(trocoValue).toFixed(2)}`, largura-8, y, {align: 'right'});
-          }
-          y += 5.5;
-          doc.setLineWidth(0.1);
-          doc.line(7, y, largura-7, y); y += 2.5;
+    doc.setFontSize(14);
+    doc.setFont(undefined, 'bold');
+    doc.text('JERONIMU\'S PIZZARIA', largura / 2, y, { align: 'center' }); y += 8;
 
-          // Observação centralizada
-          if (obs && obs.trim().length > 0) {
-            doc.setFontSize(9.5);
-            doc.setFont(undefined, 'italic');
-            doc.text('Obs:', largura/2, y, {align: 'center'}); y += 3.5;
-            doc.setFont(undefined, 'normal');
-            doc.text(obs, largura/2, y, {align: 'center', maxWidth: largura-16});
-            y += 6;
-          }
-          // Rodapé centralizado
-          doc.setFontSize(8.5);
-          doc.setFont(undefined, 'italic');
-          doc.text('Obrigado pela preferência!', largura/2, y, {align: 'center'});
-          doc.save('pedido-pizzaria.pdf');
-        }
-        setTimeout(() => {
-          if (!img.complete) drawComanda();
-        }, 1500);
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'normal');
+    doc.text('COMANDA DE PEDIDO', largura / 2, y, { align: 'center' }); y += 6;
+
+    doc.setFont(undefined, 'bold');
+    doc.text(tipoEntrega === 'entrega' ? 'ENTREGA' : 'RETIRAR NA PIZZARIA', largura / 2, y, { align: 'center' }); y += 7;
+
+    doc.setFont(undefined, 'normal');
+    doc.setLineWidth(0.3);
+    doc.line(7, y, largura - 7, y); y += 2.5;
+
+    doc.setFontSize(9.5);
+    doc.text(`Cliente: ${endereco.nome || ''}`, 8, y); y += 4.2;
+    doc.text(`Fone: ${endereco.telefone || ''}`, 8, y); y += 4.2;
+
+    if (tipoEntrega === 'entrega') {
+      doc.text(`Endereço: ${endereco.rua || ''}, ${endereco.numero || ''} - ${endereco.bairro || ''}`, 8, y, { maxWidth: largura - 16 }); y += 4.2;
+      if (endereco.complemento) {
+        doc.text(`Compl.: ${endereco.complemento}`, 8, y, { maxWidth: largura - 16 }); y += 4.2;
       }
+      doc.text(`Cidade: ${endereco.cidade || ''} - CEP: ${endereco.cep || ''}`, 8, y, { maxWidth: largura - 16 }); y += 4.2;
+      if (endereco.referencia) {
+        doc.text(`Ref.: ${endereco.referencia}`, 8, y, { maxWidth: largura - 16 }); y += 4.2;
+      }
+    }
+
+    doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 8, y);
+    doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0, 5)}`, largura - 8, y, { align: 'right' }); y += 4.2;
+
+    doc.setLineWidth(0.2);
+    doc.line(7, y, largura - 7, y); y += 2.5;
+
+    // Cabeçalho tabela
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'bold');
+    doc.text('Qnt', 8, y);
+    doc.text('Sabor', 22, y);
+    doc.text('Tam.', 52, y, { align: 'center' });
+    doc.text('Valor', largura - 8, y, { align: 'right' });
+    doc.setFont(undefined, 'normal');
+    y += 4.2;
+
+    doc.setLineWidth(0.1);
+    doc.line(7, y, largura - 7, y); y += 2.2;
+
+    let subtotal = 0;
+    carrinho.forEach((item) => {
+      doc.text(String(item.quantidade), 8, y);
+      let sabor = item.nome;
+      if (item.observacoes) sabor += ` (${item.observacoes})`;
+      doc.text(sabor, 22, y, { maxWidth: 28 });
+      doc.text(item.tamanho || '-', 52, y, { align: 'center' });
+      doc.text(`R$ ${item.preco.toFixed(2)}`, largura - 8, y, { align: 'right' });
+      y += 4.2;
+
+      if (item.borda_recheada) {
+        doc.setFontSize(9);
+        doc.text(`Borda: ${item.borda_recheada}`, 22, y, { maxWidth: 28 });
+        y += 3.5;
+        doc.setFontSize(10);
+      }
+
+      subtotal += item.preco * item.quantidade;
+    });
+
+    // Preencher linhas se tiver poucos itens
+    for (let i = carrinho.length; i < 5; i++) {
+      doc.text('-', 8, y);
+      doc.text('-', 22, y);
+      doc.text('-', 52, y, { align: 'center' });
+      doc.text('-', largura - 8, y, { align: 'right' });
+      y += 4.2;
+    }
+
+    doc.setLineWidth(0.2);
+    doc.line(7, y, largura - 7, y); y += 2.5;
+
+    // Bebidas (pode adicionar lógica de exibição dinâmica se quiser)
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'bold');
+    doc.text('Bebidas:', 8, y); y += 4.2;
+
+    doc.setLineWidth(0.1);
+    doc.line(7, y, largura - 7, y); y += 2.5;
+
+    // Totais
+    doc.setFontSize(11);
+    doc.setFont(undefined, 'bold');
+    doc.text('Subtotal:', 8, y);
+    doc.text(`R$ ${subtotal.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 5;
+
+    let taxaEntrega = tipoEntrega === 'entrega' ? 3.00 : 0;
+    if (taxaEntrega > 0) {
+      doc.setFontSize(10);
+      doc.setFont(undefined, 'normal');
+      doc.text('Taxa entrega:', 8, y);
+      doc.text(`R$ ${taxaEntrega.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 4.2;
+    }
+
+    const totalFinal = subtotal + taxaEntrega;
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'bold');
+    doc.text('TOTAL GERAL:', 8, y);
+    doc.text(`R$ ${totalFinal.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 7;
+
+    doc.setLineWidth(0.2);
+    doc.line(7, y, largura - 7, y); y += 2.5;
+
+    // Pagamento
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'bold');
+    doc.text('Pagamento:', 8, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(formaPagamento, largura - 8, y, { align: 'right' });
+
+    if (trocoValue) {
+      y += 4.2;
+      doc.setFont(undefined, 'bold');
+      doc.text('Troco para:', 8, y);
+      doc.setFont(undefined, 'normal');
+      doc.text(`R$ ${parseFloat(trocoValue).toFixed(2)}`, largura - 8, y, { align: 'right' });
+    }
+
+    y += 5.5;
+    doc.setLineWidth(0.1);
+    doc.line(7, y, largura - 7, y); y += 2.5;
+
+    if (obs && obs.trim().length > 0) {
+      doc.setFontSize(9.5);
+      doc.setFont(undefined, 'italic');
+      doc.text('Obs:', largura / 2, y, { align: 'center' }); y += 3.5;
+      doc.setFont(undefined, 'normal');
+      doc.text(obs, largura / 2, y, { align: 'center', maxWidth: largura - 16 }); y += 6;
+    }
+
+    doc.setFontSize(8.5);
+    doc.setFont(undefined, 'italic');
+    doc.text('Obrigado pela preferência!', largura / 2, y, { align: 'center' });
+
+    // Salva PDF
+    doc.save('pedido-pizzaria.pdf');
+  }
+}
 
       function enviarPedidoWhatsApp() {
         const numeroLoja = '43991310616';
