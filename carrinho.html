@@ -1415,6 +1415,9 @@
         const largura = 80;
         doc.setFont('helvetica', 'normal');
 
+        // Captura o tipo de entrega ANTES do escopo da função drawComanda
+        const tipoEntrega = document.getElementById('tipo-entrega').value;
+
         // Logo centralizado
         const logoUrl = 'img/logo.png';
         var img = new Image();
@@ -1511,6 +1514,10 @@
           y += 7;
           doc.save('pedido-pizzaria.pdf');
         }
+        // Garante que drawComanda seja chamado mesmo se a imagem não carregar
+        setTimeout(() => {
+          if (!img.complete) drawComanda();
+        }, 1500);
       }
 
       function enviarPedidoWhatsApp() {
