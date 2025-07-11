@@ -1429,13 +1429,24 @@
           doc.text('COMANDA', 80, y);
           y += 8;
           doc.setFontSize(11);
-          doc.text('ENTREGA ( )   MESA ( )   RETIRAR ( )', 35, y);
+          doc.text('ENTREGA ( )   RETIRAR ( )', 35, y);
           y += 10;
           doc.setLineWidth(0.2);
           doc.line(10, y, 200, y); y += 4;
           doc.text(`Nome: ${endereco.nome || ''}`, 12, y); y += 7;
-          doc.text(`End.: ${endereco.rua || ''}, ${endereco.numero || ''} - ${endereco.bairro || ''}`, 12, y); y += 7;
           doc.text(`Fone: ${endereco.telefone || ''}`, 12, y); y += 7;
+          // Exibir endereço completo apenas se for entrega
+          const tipoEntrega = document.getElementById('tipo-entrega').value;
+          if (tipoEntrega === 'entrega') {
+            doc.text(`End.: ${endereco.rua || ''}, ${endereco.numero || ''} - ${endereco.bairro || ''}`, 12, y); y += 7;
+            if (endereco.complemento) {
+              doc.text(`Compl.: ${endereco.complemento}`, 12, y); y += 7;
+            }
+            doc.text(`Cidade: ${endereco.cidade || ''} - CEP: ${endereco.cep || ''}`, 12, y); y += 7;
+            if (endereco.referencia) {
+              doc.text(`Ref.: ${endereco.referencia}`, 12, y); y += 7;
+            }
+          }
           doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 12, y);
           doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0,5)}`, 60, y); y += 7;
           doc.line(10, y, 200, y); y += 4;
