@@ -1406,67 +1406,92 @@
         // Carregar jsPDF
         const doc = new window.jspdf.jsPDF();
 
-        let y = 10;
-        doc.setFontSize(14);
-        doc.text('Jerônimu\'s Pizzaria - Pedido', 10, y);
-        y += 10;
-        doc.setFontSize(11);
-        doc.text(`Data: ${new Date().toLocaleString('pt-BR')}`, 10, y);
-        y += 10;
-        doc.text(`Cliente: ${endereco.nome || ''}`, 10, y);
-        y += 8;
-        doc.text(`Telefone: ${endereco.telefone || ''}`, 10, y);
-        y += 8;
-        doc.text(`Endereço: ${endereco.rua}, ${endereco.numero} - ${endereco.bairro}`, 10, y);
-        y += 8;
-        doc.text(`Cidade: ${endereco.cidade} - CEP: ${endereco.cep}`, 10, y);
-        y += 8;
-        if (endereco.complemento) {
-          doc.text(`Complemento: ${endereco.complemento}`, 10, y);
+        // Logo (se existir)
+        const logoUrl = 'img/logo.png'; // ajuste se necessário
+        let y = 12;
+        // Tenta adicionar logo
+        var img = new Image();
+        img.src = logoUrl;
+        img.onload = function() {
+          doc.addImage(img, 'PNG', 10, 6, 20, 20);
+          drawComanda();
+        };
+        img.onerror = function() {
+          drawComanda();
+        };
+        // Se não carregar, desenha sem logo
+        function drawComanda() {
+          y = 12;
+          doc.setFontSize(16);
+          doc.text('JERONIMU\'S PIZZARIA', 35, y);
           y += 8;
+          doc.setFontSize(13);
+          doc.text('COMANDA', 80, y);
+          y += 8;
+          doc.setFontSize(11);
+          doc.text('ENTREGA ( )   MESA ( )   RETIRAR ( )', 35, y);
+          y += 10;
+          doc.setLineWidth(0.2);
+          doc.line(10, y, 200, y); y += 4;
+          doc.text(`Nome: ${endereco.nome || ''}`, 12, y); y += 7;
+          doc.text(`End.: ${endereco.rua || ''}, ${endereco.numero || ''} - ${endereco.bairro || ''}`, 12, y); y += 7;
+          doc.text(`Fone: ${endereco.telefone || ''}`, 12, y); y += 7;
+          doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 12, y);
+          doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0,5)}`, 60, y); y += 7;
+          doc.line(10, y, 200, y); y += 4;
+          // Tabela de itens
+          doc.text('Quant', 12, y);
+          doc.text('Tam', 28, y);
+          doc.text('Sabor', 45, y);
+          doc.text('Valor', 170, y);
+          y += 5;
+          doc.line(10, y, 200, y); y += 4;
+          let subtotal = 0;
+          carrinho.forEach((item, idx) => {
+            doc.text(String(item.quantidade), 12, y);
+            doc.text(item.tamanho || '', 28, y);
+            let sabor = item.nome;
+            if (item.borda_recheada) sabor += ` | Borda: ${item.borda_recheada}`;
+            doc.text(sabor, 45, y);
+            doc.text(`R$ ${item.preco.toFixed(2)}`, 170, y);
+            y += 6;
+            subtotal += item.preco * item.quantidade;
+          });
+          // Linhas extras para preencher
+          for (let i = carrinho.length; i < 5; i++) {
+            doc.text('-', 12, y);
+            doc.text('-', 28, y);
+            doc.text('-', 45, y);
+            doc.text('-', 170, y);
+            y += 6;
+          }
+          doc.line(10, y, 200, y); y += 4;
+          doc.text('Bebidas:', 12, y); y += 6;
+          doc.line(10, y, 200, y); y += 4;
+          doc.text(`TOTAL: R$ ${subtotal.toFixed(2)}`, 150, y); y += 8;
+          let taxaEntrega = (document.getElementById('tipo-entrega').value === 'entrega') ? 3.00 : 0;
+          let totalFinal = subtotal + taxaEntrega;
+          if (taxaEntrega > 0) {
+            doc.text(`Taxa de entrega: R$ ${taxaEntrega.toFixed(2)}`, 150, y); y += 8;
+          }
+          doc.text(`TOTAL GERAL: R$ ${totalFinal.toFixed(2)}`, 130, y); y += 8;
+          doc.line(10, y, 200, y); y += 4;
+          doc.text('Pagamento:', 12, y);
+          doc.text(document.getElementById('forma-pagamento').value, 45, y);
+          let trocoValue = document.getElementById('troco-para').value;
+          if (trocoValue) {
+            doc.text(`Troco para: R$ ${parseFloat(trocoValue).toFixed(2)}`, 120, y);
+          }
+          y += 8;
+          doc.save('pedido-pizzaria.pdf');
         }
-        if (endereco.referencia) {
-          doc.text(`Referência: ${endereco.referencia}`, 10, y);
-          y += 8;
-        }
-        y += 4;
-        doc.text('Itens do Pedido:', 10, y);
-        y += 8;
-        let subtotal = 0;
-        carrinho.forEach((item, idx) => {
-          let itemStr = `${idx + 1}. ${item.nome} (${item.quantidade}x) - R$ ${item.preco.toFixed(2)}`;
-          if (item.tamanho) itemStr += ` [${item.tamanho}]`;
-          if (item.borda_recheada) itemStr += ` | Borda: ${item.borda_recheada}`;
-          doc.text(itemStr, 10, y);
-          y += 8;
-          subtotal += item.preco * item.quantidade;
-        });
-        y += 4;
-        doc.text(`Subtotal: R$ ${subtotal.toFixed(2)}`, 10, y);
-        y += 8;
-        let taxaEntrega = (document.getElementById('tipo-entrega').value === 'entrega') ? 3.00 : 0;
-        if (taxaEntrega > 0) {
-          doc.text(`Taxa de entrega: R$ ${taxaEntrega.toFixed(2)}`, 10, y);
-          y += 8;
-        }
-        let totalFinal = subtotal + taxaEntrega;
-        doc.text(`TOTAL: R$ ${totalFinal.toFixed(2)}`, 10, y);
-        y += 10;
-        doc.text(`Pagamento: ${document.getElementById('forma-pagamento').value}`, 10, y);
-        y += 8;
-        let trocoValue = document.getElementById('troco-para').value;
-        if (trocoValue) {
-          doc.text(`Troco para: R$ ${parseFloat(trocoValue).toFixed(2)}`, 10, y);
-          y += 8;
-        }
-        let obs = document.getElementById('observacao').value.trim();
-        if (obs) {
-          doc.text(`Obs: ${obs}`, 10, y);
-          y += 8;
-        }
-        y += 8;
-        doc.text('------------------------------', 10, y);
-        doc.save('pedido-pizzaria.pdf');
+      }
+
+      function enviarPedidoWhatsApp() {
+        const numeroLoja = '43991310616';
+        const mensagem = encodeURIComponent('Pedido gerado! PDF em anexo.');
+        const url = `https://wa.me/${numeroLoja}?text=${mensagem}`;
+        window.open(url, '_blank');
       }
 
       function confirmarPedidoComEndereco() {
@@ -1499,6 +1524,10 @@
           fecharModalEndereco();
           // Gerar PDF da notinha
           gerarPDFPedido(carrinho, endereco);
+          // Abrir WhatsApp Web para envio
+          setTimeout(() => {
+            enviarPedidoWhatsApp();
+          }, 1000);
           // Limpar carrinho após gerar
           if (confirm("Pedido gerado! Deseja limpar o carrinho?")) {
             localStorage.removeItem("carrinho");
