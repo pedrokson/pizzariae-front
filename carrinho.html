@@ -1033,6 +1033,7 @@
           <a href="index.html">🏠 Início</a>
           <a href="menu.html">🍕 Pizzas Salgadas</a>
           <a href="doces.html">🍰 Pizzas Doces</a>
+          <a href="personalizar.html">🧩 Personalizar Pizza</a>
           <a href="bebidas.html">🥤 Bebidas</a>
           <a href="carrinho.html" class="active">🛒 Carrinho</a>
           <!-- <a href="pedidos.html">📋 Meus Pedidos</a> -->
@@ -1220,13 +1221,21 @@
         
         // Renderizar tabela (desktop)
         carrinho.forEach((item, index) => {
-          const total = item.preco * item.quantidade;
+          let nomePizza = item.nome || '';
+          let precoPizza = item.preco || 0;
+          let detalhesPersonalizada = '';
+          if (item.tipo === 'personalizada') {
+            nomePizza = 'Pizza Personalizada';
+            detalhesPersonalizada = `<br><small>Metade 1: ${item.metade1}</small><br><small>Metade 2: ${item.metade2}</small>`;
+            precoPizza = 49.90; // preço fixo para pizza personalizada
+          }
+          const total = precoPizza * item.quantidade;
           totalGeral += total;
-          console.log(`   ${index + 1}. ${item.quantidade}x ${item.nome} - R$ ${item.preco}`);
           tabela.innerHTML += `
           <tr>
             <td>
-              ${item.nome}
+              ${nomePizza}
+              ${detalhesPersonalizada}
               ${
                 item.borda_recheada && item.borda_recheada !== ""
                   ? `<br><span class="borda-info">com borda ${item.borda_recheada} (+R$ 13,90)</span>`
@@ -1242,7 +1251,7 @@
                 <button class="quantidade-btn quantidade-mais" onclick="alterarQuantidadeCarrinho(${index}, 1)">+</button>
               </div>
             </td>
-            <td>R$ ${item.preco.toFixed(2).replace('.', ',')}</td>
+            <td>R$ ${precoPizza.toFixed(2).replace('.', ',')}</td>
             <td>R$ ${total.toFixed(2).replace('.', ',')}</td>
             <td><button class="remover-btn" onclick="removerItemCarrinho(${index})">Remover</button></td>
           </tr>
@@ -1258,9 +1267,16 @@
 
         // Renderizar cards (mobile)
         carrinho.forEach((item, index) => {
-          const total = item.preco * item.quantidade;
-          
-          let detalhes = '';
+          let nomePizza = item.nome || '';
+          let precoPizza = item.preco || 0;
+          let detalhesPersonalizada = '';
+          if (item.tipo === 'personalizada') {
+            nomePizza = 'Pizza Personalizada';
+            detalhesPersonalizada = `<br><small>Metade 1: ${item.metade1}</small><br><small>Metade 2: ${item.metade2}</small>`;
+            precoPizza = 49.90;
+          }
+          const total = precoPizza * item.quantidade;
+          let detalhes = detalhesPersonalizada;
           if (item.borda_recheada && item.borda_recheada !== "") {
             detalhes += `<span class="borda-info">com borda ${item.borda_recheada} (+R$ 13,90)</span><br>`;
           }
@@ -1270,12 +1286,11 @@
           if (item.observacoes) {
             detalhes += `<small>Obs: ${item.observacoes}</small>`;
           }
-          
           cardsContainer.innerHTML += `
             <div class="carrinho-card">
               <div class="carrinho-card-header">
                 <div class="carrinho-card-title">
-                  <h4>${item.nome}</h4>
+                  <h4>${nomePizza}</h4>
                   <div class="card-details">${detalhes}</div>
                 </div>
                 <div class="carrinho-card-remove">
@@ -1285,7 +1300,7 @@
               <div class="carrinho-card-body">
                 <div class="carrinho-card-price">
                   <div class="price-label">Preços:</div>
-                  <div class="price-unit">Unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}</div>
+                  <div class="price-unit">Unitário: R$ ${precoPizza.toFixed(2).replace('.', ',')}</div>
                   <div class="price-total">Total: R$ ${total.toFixed(2).replace('.', ',')}</div>
                 </div>
                 <div class="carrinho-card-quantity">

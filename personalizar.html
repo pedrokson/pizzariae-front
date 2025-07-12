@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Personalizar Pizza - Jerônimu's</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f5f5 0%, #fff8f0 50%, #f0f8ff 100%);
+    }
+    .personalizar-container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      padding: 2rem;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #d32f2f;
+    }
+    .metade-select {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .metade {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    select {
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: 100%;
+    }
+    .btn-adicionar {
+      display: block;
+      margin: 0 auto;
+      padding: 0.8rem 2rem;
+      background: #d32f2f;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-adicionar:hover {
+      background: #ff6b35;
+    }
+  </style>
+</head>
+<body>
+  <div class="personalizar-container">
+    <h2>Personalizar Pizza</h2>
+    <form id="form-personalizar">
+      <div class="metade-select">
+        <div style="text-align:center; margin-bottom:1.5rem;">
+          <label for="tamanho" style="font-weight:bold;">Tamanho</label><br>
+          <select id="tamanho" name="tamanho" style="width:180px; padding:0.5rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; text-align:center;">
+            <option value="">Selecione o tamanho</option>
+            <option value="Média">Média</option>
+            <option value="Grande">Grande</option>
+          </select>
+        </div>
+        <div style="text-align:center; margin-bottom:1.5rem;">
+          <label for="borda" style="font-weight:bold;">Borda recheada</label><br>
+          <select id="borda" name="borda" style="width:180px; padding:0.5rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; text-align:center;">
+            <option value="">Sem borda</option>
+            <option value="Catupiry">Catupiry</option>
+            <option value="Cheddar">Cheddar</option>
+            <option value="Chocolate">Chocolate</option>
+            <option value="Cream Cheese">Cream Cheese</option>
+          </select>
+        </div>
+        <div class="metade">
+          <label for="metade1">Metade 1</label>
+          <select id="metade1" name="metade1">
+            <option value="">Selecione o sabor</option>
+            <optgroup label="Salgadas">
+              <option value="bacon">Bacon</option>
+              <option value="portuguesa">Portuguesa</option>
+              <option value="4queijos">4 Queijos</option>
+              <option value="calabresa">Calabresa</option>
+              <option value="palmito">Palmito</option>
+              <option value="frango">Frango com Catupiry ou Cheddar</option>
+              <option value="baiana">Baiana</option>
+              <option value="americana">Americana</option>
+              <option value="catubresa">Catubresa</option>
+              <option value="marguerita">Marguerita</option>
+              <option value="napolitana">Napolitana</option>
+              <option value="dacasa">Da Casa</option>
+              <option value="canadense">Canadense</option>
+              <option value="brocolis">Brócolis com Bacon</option>
+              <option value="rucula">Rúcula com Tomate Seco</option>
+              <option value="jeronimus">Jerônimus</option>
+              <option value="caipira">Caipira</option>
+              <option value="garden">Garden</option>
+              <option value="padoguesa">Padoguesa</option>
+              <option value="pizzaiolo">Pizzaiolo</option>
+              <option value="pepperoni">Pepperoni</option>
+            </optgroup>
+            <optgroup label="Doces">
+              <option value="romeujulieta">Romeu e Julieta</option>
+              <option value="sonhovalsa">Sonho de Valsa</option>
+              <option value="mm">M & M</option>
+              <option value="prestigio">Prestígio</option>
+              <option value="doisamores">Dois Amores</option>
+              <option value="bananachocobranco">Banana com Chocolate Branco</option>
+              <option value="banoffe">Banoffe</option>
+              <option value="bis">Bis ao Leite</option>
+              <option value="abacaxi">Abacaxi</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="metade">
+          <label for="metade2">Metade 2</label>
+          <select id="metade2" name="metade2">
+            <option value="">Selecione o sabor</option>
+            <optgroup label="Salgadas">
+              <option value="bacon">Bacon</option>
+              <option value="portuguesa">Portuguesa</option>
+              <option value="4queijos">4 Queijos</option>
+              <option value="calabresa">Calabresa</option>
+              <option value="palmito">Palmito</option>
+              <option value="frango">Frango com Catupiry ou Cheddar</option>
+              <option value="baiana">Baiana</option>
+              <option value="americana">Americana</option>
+              <option value="catubresa">Catubresa</option>
+              <option value="marguerita">Marguerita</option>
+              <option value="napolitana">Napolitana</option>
+              <option value="dacasa">Da Casa</option>
+              <option value="canadense">Canadense</option>
+              <option value="brocolis">Brócolis com Bacon</option>
+              <option value="rucula">Rúcula com Tomate Seco</option>
+              <option value="jeronimus">Jerônimus</option>
+              <option value="caipira">Caipira</option>
+              <option value="garden">Garden</option>
+              <option value="padoguesa">Padoguesa</option>
+              <option value="pizzaiolo">Pizzaiolo</option>
+              <option value="pepperoni">Pepperoni</option>
+            </optgroup>
+            <optgroup label="Doces">
+              <option value="romeujulieta">Romeu e Julieta</option>
+              <option value="sonhovalsa">Sonho de Valsa</option>
+              <option value="mm">M & M</option>
+              <option value="prestigio">Prestígio</option>
+              <option value="doisamores">Dois Amores</option>
+              <option value="bananachocobranco">Banana com Chocolate Branco</option>
+              <option value="banoffe">Banoffe</option>
+              <option value="bis">Bis ao Leite</option>
+              <option value="abacaxi">Abacaxi</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <label for="quantidade" style="font-weight:bold;">Quantidade</label><br>
+        <input type="number" id="quantidade" name="quantidade" min="1" value="1" style="width:80px; padding:0.5rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; text-align:center;">
+      </div>
+      <button type="submit" class="btn-adicionar">Adicionar ao Carrinho</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById('form-personalizar').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const metade1 = document.getElementById('metade1').value;
+      const metade2 = document.getElementById('metade2').value;
+      const quantidade = parseInt(document.getElementById('quantidade').value) || 1;
+      const tamanho = document.getElementById('tamanho').value;
+      const borda = document.getElementById('borda').value;
+      if (!metade1 || !metade2) {
+        alert('Selecione os dois sabores para personalizar sua pizza!');
+        return;
+      }
+      if (!tamanho) {
+        alert('Selecione o tamanho da pizza!');
+        return;
+      }
+      if (quantidade < 1) {
+        alert('Quantidade deve ser pelo menos 1!');
+        return;
+      }
+      // Adiciona pizza personalizada ao carrinho no localStorage
+      let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const itemPersonalizado = {
+        id: Date.now(),
+        tipo: 'personalizada',
+        metade1,
+        metade2,
+        tamanho,
+        borda,
+        quantidade,
+        observacoes: '',
+        timestamp: new Date().toISOString()
+      };
+      carrinho.push(itemPersonalizado);
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+      alert(`Pizza personalizada adicionada ao carrinho!`);
+      window.location.href = 'carrinho.html';
+    });
+  </script>
+</body>
+</html>
