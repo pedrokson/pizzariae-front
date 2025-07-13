@@ -75,31 +75,29 @@ class CarrinhoManager {
     let total = 0;
     const itensHTML = [];
 
-    // Buscar dados dos produtos
-    for (const item of this.carrinho) {
-      try {
-        const produto = await buscarProdutoPorId(item.produtoId);
-        
-        let preco = produto.preco;
-        
-        // Se tem tamanho específico, buscar preço do tamanho
-        if (item.tamanho && produto.tamanhos && produto.tamanhos.length > 0) {
-          const tamanhoInfo = produto.tamanhos.find(t => t.nome === item.tamanho);
-          if (tamanhoInfo) {
-            preco = tamanhoInfo.preco;
-          }
-        }
-        
-        const subtotalItem = preco * item.quantidade;
-        total += subtotalItem;
 
+    // Buscar dados dos produtos e renderizar
+    for (const item of this.carrinho) {
+      // Pizza personalizada
+      if (item.tipo === 'personalizada') {
+        // Buscar preço das duas metades
+        let precoMetade1 = await this.buscarPrecoSabor(item.metade1, item.tamanho);
+        let precoMetade2 = await this.buscarPrecoSabor(item.metade2, item.tamanho);
+        // Valor da borda
+        let precoBorda = await this.buscarPrecoBorda(item.borda, item.tamanho);
+        // Preço final: metade de cada sabor + borda
+        let precoPizza = (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
+        let subtotalItem = precoPizza * item.quantidade;
+        total += subtotalItem;
         itensHTML.push(`
           <li class="carrinho-item" data-item-id="${item.id}">
             <div class="item-info">
-              <h4>${produto.nome}</h4>
-              ${item.tamanho ? `<p class="tamanho">Tamanho: ${item.tamanho}</p>` : ''}
-              ${item.observacoes ? `<p class="observacoes">Obs: ${item.observacoes}</p>` : ''}
-              <p class="preco">R$ ${preco.toFixed(2)} x ${item.quantidade} = R$ ${subtotalItem.toFixed(2)}</p>
+              <h4>Pizza Personalizada</h4>
+              <p>Metade 1: ${this.formatarNomeSabor(item.metade1)}</p>
+              <p>Metade 2: ${this.formatarNomeSabor(item.metade2)}</p>
+              <p>Tamanho: ${item.tamanho}</p>
+              ${item.borda ? `<p>Borda: ${item.borda}</p>` : ''}
+              <p class="preco">R$ ${precoPizza.toFixed(2)} x ${item.quantidade} = R$ ${subtotalItem.toFixed(2)}</p>
             </div>
             <div class="item-controles">
               <button onclick="carrinhoManager.atualizarQuantidade(${item.id}, ${item.quantidade - 1})" ${item.quantidade <= 1 ? 'disabled' : ''}>-</button>
@@ -109,14 +107,112 @@ class CarrinhoManager {
             </div>
           </li>
         `);
-      } catch (error) {
-        console.error('Erro ao buscar produto:', error);
-        // Remover item inválido do carrinho
-        this.removerItem(item.id);
+      } else {
+        // Produto normal
+        try {
+          const produto = await buscarProdutoPorId(item.produtoId);
+          let preco = produto.preco;
+          if (item.tamanho && produto.tamanhos && produto.tamanhos.length > 0) {
+            const tamanhoInfo = produto.tamanhos.find(t => t.nome === item.tamanho);
+            if (tamanhoInfo) {
+              preco = tamanhoInfo.preco;
+            }
+          }
+          const subtotalItem = preco * item.quantidade;
+          total += subtotalItem;
+          itensHTML.push(`
+            <li class="carrinho-item" data-item-id="${item.id}">
+              <div class="item-info">
+                <h4>${produto.nome}</h4>
+                ${item.tamanho ? `<p class="tamanho">Tamanho: ${item.tamanho}</p>` : ''}
+                ${item.observacoes ? `<p class="observacoes">Obs: ${item.observacoes}</p>` : ''}
+                <p class="preco">R$ ${preco.toFixed(2)} x ${item.quantidade} = R$ ${subtotalItem.toFixed(2)}</p>
+              </div>
+              <div class="item-controles">
+                <button onclick="carrinhoManager.atualizarQuantidade(${item.id}, ${item.quantidade - 1})" ${item.quantidade <= 1 ? 'disabled' : ''}>-</button>
+                <span class="quantidade">${item.quantidade}</span>
+                <button onclick="carrinhoManager.atualizarQuantidade(${item.id}, ${item.quantidade + 1})">+</button>
+                <button class="remover" onclick="carrinhoManager.removerItem(${item.id})">🗑️</button>
+              </div>
+            </li>
+          `);
+        } catch (error) {
+          console.error('Erro ao buscar produto:', error);
+          this.removerItem(item.id);
+        }
       }
     }
 
     lista.innerHTML = itensHTML.join('');
+
+  // Buscar preço do sabor pelo nome e tamanho
+  buscarPrecoSabor = async (nomeSabor, tamanho) => {
+    // Mapeamento dos nomes para IDs ou busca por nome
+    let produtos = [];
+    if (window.listarProdutos) {
+      produtos = await window.listarProdutos();
+    }
+    let produto = produtos.find(p => p.nome.toLowerCase().includes(nomeSabor.toLowerCase()));
+    if (!produto) {
+      // fallback: preço padrão
+      return 49.9;
+    }
+    if (tamanho && produto.tamanhos && produto.tamanhos.length > 0) {
+      const tamanhoInfo = produto.tamanhos.find(t => t.nome === tamanho);
+      if (tamanhoInfo) return tamanhoInfo.preco;
+    }
+    return produto.preco;
+  }
+
+  // Buscar preço da borda
+  buscarPrecoBorda = async (borda, tamanho) => {
+    if (!borda || borda === '' || borda === 'Sem borda') return 0;
+    // Defina os valores das bordas aqui
+    const precosBorda = {
+      'Catupiry': 7,
+      'Cheddar': 7,
+      'Chocolate': 8,
+      'Cream Cheese': 8
+    };
+    return precosBorda[borda] || 7;
+  }
+
+  // Formatar nome do sabor para exibição
+  formatarNomeSabor = (sabor) => {
+    const nomes = {
+      'bacon': 'Bacon',
+      'portuguesa': 'Portuguesa',
+      '4queijos': '4 Queijos',
+      'calabresa': 'Calabresa',
+      'palmito': 'Palmito',
+      'frango': 'Frango com Catupiry ou Cheddar',
+      'baiana': 'Baiana',
+      'americana': 'Americana',
+      'catubresa': 'Catubresa',
+      'marguerita': 'Marguerita',
+      'napolitana': 'Napolitana',
+      'dacasa': 'Da Casa',
+      'canadense': 'Canadense',
+      'brocolis': 'Brócolis com Bacon',
+      'rucula': 'Rúcula com Tomate Seco',
+      'jeronimus': 'Jerônimus',
+      'caipira': 'Caipira',
+      'garden': 'Garden',
+      'padoguesa': 'Padoguesa',
+      'pizzaiolo': 'Pizzaiolo',
+      'pepperoni': 'Pepperoni',
+      'romeujulieta': 'Romeu e Julieta',
+      'sonhovalsa': 'Sonho de Valsa',
+      'mm': 'M & M',
+      'prestigio': 'Prestígio',
+      'doisamores': 'Dois Amores',
+      'bananachocobranco': 'Banana com Chocolate Branco',
+      'banoffe': 'Banoffe',
+      'bis': 'Bis ao Leite',
+      'abacaxi': 'Abacaxi'
+    };
+    return nomes[sabor] || sabor;
+  }
     
     // Calcular valores com taxa de entrega
     const valores = calcularValoresPedido(this.carrinho.map(item => ({
