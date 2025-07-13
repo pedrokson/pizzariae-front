@@ -96,7 +96,7 @@ class CarrinhoManager {
               <p>Metade 1: ${this.formatarNomeSabor(item.metade1)}</p>
               <p>Metade 2: ${this.formatarNomeSabor(item.metade2)}</p>
               <p>Tamanho: ${item.tamanho}</p>
-              ${item.borda ? `<p>Borda: ${item.borda}</p>` : ''}
+              <p>Borda: ${item.borda && item.borda !== '' ? item.borda : 'Sem borda'}</p>
               <p class="preco">R$ ${precoPizza.toFixed(2)} x ${item.quantidade} = R$ ${subtotalItem.toFixed(2)}</p>
             </div>
             <div class="item-controles">
