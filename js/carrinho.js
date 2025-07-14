@@ -45,8 +45,27 @@ class CarrinhoManager {
       'Chocolate': 8,
       'Cream Cheese': 8
     };
-    const precoMetade1 = precosSabores[metade1] ? precosSabores[metade1][tamanho] : 51.90;
-    const precoMetade2 = precosSabores[metade2] ? precosSabores[metade2][tamanho] : 51.90;
+    // Normaliza nomes para garantir que batem com a tabela
+    const normalizar = v => (v ? v.toString().trim().toLowerCase() : '');
+    const metade1Key = normalizar(metade1);
+    const metade2Key = normalizar(metade2);
+    // Tamanho deve ser 'Media' ou 'Grande' exatamente
+    let tamanhoKey = tamanho;
+    if (tamanhoKey) {
+      tamanhoKey = tamanhoKey.charAt(0).toUpperCase() + tamanhoKey.slice(1).toLowerCase();
+      if (tamanhoKey === 'Média') tamanhoKey = 'Media';
+    }
+    // Busca preço ou alerta se não encontrar
+    let precoMetade1 = precosSabores[metade1Key] ? precosSabores[metade1Key][tamanhoKey] : null;
+    let precoMetade2 = precosSabores[metade2Key] ? precosSabores[metade2Key][tamanhoKey] : null;
+    if (precoMetade1 === null) {
+      alert(`Sabor metade 1 não encontrado: ${metade1} (${metade1Key})`);
+      precoMetade1 = Math.min(...Object.values(precosSabores).map(s => s[tamanhoKey] || 51.90));
+    }
+    if (precoMetade2 === null) {
+      alert(`Sabor metade 2 não encontrado: ${metade2} (${metade2Key})`);
+      precoMetade2 = Math.min(...Object.values(precosSabores).map(s => s[tamanhoKey] || 51.90));
+    }
     const precoBorda = borda && borda !== '' && borda !== 'Sem borda' ? (precosBorda[borda] || 0) : 0;
     return (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
   }
