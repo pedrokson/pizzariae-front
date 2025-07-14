@@ -111,7 +111,7 @@ class CarrinhoManager {
               <p>Metade 1: ${this.formatarNomeSabor(item.metade1)}</p>
               <p>Metade 2: ${this.formatarNomeSabor(item.metade2)}</p>
               <p>Tamanho: ${item.tamanho}</p>
-              <p>Borda: ${item.borda && item.borda !== '' && item.borda !== 'Sem borda' ? item.borda : 'Sem borda'}</p>
+              <p><strong>Borda:</strong> ${item.borda && item.borda !== '' ? item.borda : 'Sem borda'}</p>
               <p class="preco">R$ ${precoPizza.toFixed(2)} x ${item.quantidade} = R$ ${subtotalItem.toFixed(2)}</p>
             </div>
             <div class="item-controles">
@@ -365,8 +365,20 @@ window.adicionarAoCarrinho = (produtoId, tamanho = null, quantidade = 1, observa
   if (!carrinhoManager) {
     carrinhoManager = new CarrinhoManager();
   }
+  // Adiciona o item normalmente
   carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
-  alert('Item adicionado ao carrinho!');
+  // Se for pizza personalizada, calcula o preço e mostra no alerta
+  if (tipo === 'personalizada') {
+    (async () => {
+      let precoMetade1 = await carrinhoManager.buscarPrecoSabor(metade1, tamanho);
+      let precoMetade2 = await carrinhoManager.buscarPrecoSabor(metade2, tamanho);
+      let precoBorda = await carrinhoManager.buscarPrecoBorda(borda, tamanho);
+      let precoPizza = (parseFloat(precoMetade1) / 2) + (parseFloat(precoMetade2) / 2) + parseFloat(precoBorda);
+      alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${precoPizza.toFixed(2)}`);
+    })();
+  } else {
+    alert('Item adicionado ao carrinho!');
+  }
 };
 
 // Exportar para uso em outros módulos
