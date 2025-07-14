@@ -233,7 +233,7 @@
           <label for="metade1">Metade 1</label>
           <select id="metade1" name="metade1">
             <option value="">Selecione o sabor</option>
-            <optgroup label="Salgadas">
+            <optgroup label="Tradicionais (Média: R$ 51,90 | Grande: R$ 59,90)">
               <option value="bacon">Bacon</option>
               <option value="portuguesa">Portuguesa</option>
               <option value="4queijos">4 Queijos</option>
@@ -242,9 +242,11 @@
               <option value="frango">Frango com Catupiry ou Cheddar</option>
               <option value="baiana">Baiana</option>
               <option value="americana">Americana</option>
+              <option value="napolitana">Napolitana</option>
+            </optgroup>
+            <optgroup label="Especiais (Média: R$ 56,90 | Grande: R$ 64,90)">
               <option value="catubresa">Catubresa</option>
               <option value="marguerita">Marguerita</option>
-              <option value="napolitana">Napolitana</option>
               <option value="dacasa">Da Casa</option>
               <option value="canadense">Canadense</option>
               <option value="brocolis">Brócolis com Bacon</option>
@@ -256,7 +258,7 @@
               <option value="pizzaiolo">Pizzaiolo</option>
               <option value="pepperoni">Pepperoni</option>
             </optgroup>
-            <optgroup label="Doces">
+            <optgroup label="Doces (Média: R$ 51,90 | Grande: R$ 59,90)">
               <option value="romeujulieta">Romeu e Julieta</option>
               <option value="sonhovalsa">Sonho de Valsa</option>
               <option value="mm">M & M</option>
@@ -273,7 +275,7 @@
           <label for="metade2">Metade 2</label>
           <select id="metade2" name="metade2">
             <option value="">Selecione o sabor</option>
-            <optgroup label="Salgadas">
+            <optgroup label="Tradicionais (Média: R$ 51,90 | Grande: R$ 59,90)">
               <option value="bacon">Bacon</option>
               <option value="portuguesa">Portuguesa</option>
               <option value="4queijos">4 Queijos</option>
@@ -282,9 +284,11 @@
               <option value="frango">Frango com Catupiry ou Cheddar</option>
               <option value="baiana">Baiana</option>
               <option value="americana">Americana</option>
+              <option value="napolitana">Napolitana</option>
+            </optgroup>
+            <optgroup label="Especiais (Média: R$ 56,90 | Grande: R$ 64,90)">
               <option value="catubresa">Catubresa</option>
               <option value="marguerita">Marguerita</option>
-              <option value="napolitana">Napolitana</option>
               <option value="dacasa">Da Casa</option>
               <option value="canadense">Canadense</option>
               <option value="brocolis">Brócolis com Bacon</option>
@@ -296,7 +300,7 @@
               <option value="pizzaiolo">Pizzaiolo</option>
               <option value="pepperoni">Pepperoni</option>
             </optgroup>
-            <optgroup label="Doces">
+            <optgroup label="Doces (Média: R$ 51,90 | Grande: R$ 59,90)">
               <option value="romeujulieta">Romeu e Julieta</option>
               <option value="sonhovalsa">Sonho de Valsa</option>
               <option value="mm">M & M</option>
@@ -337,7 +341,40 @@
         alert('Quantidade deve ser pelo menos 1!');
         return;
       }
-      // Adiciona pizza personalizada ao carrinho no localStorage
+
+      // Preços por tipo
+      const precos = {
+        tradicional: { Media: 51.90, Grande: 59.90 },
+        especial: { Media: 56.90, Grande: 64.90 },
+        doce: { Media: 51.90, Grande: 59.90 }
+      };
+
+      // Função para identificar o tipo da pizza
+      function tipoPizza(sabor) {
+        const tradicionais = [
+          'bacon','portuguesa','4queijos','calabresa','palmito','frango','baiana','americana','napolitana'
+        ];
+        const especiais = [
+          'catubresa','marguerita','dacasa','canadense','brocolis','rucula','jeronimus','caipira','garden','padoguesa','pizzaiolo','pepperoni'
+        ];
+        const doces = [
+          'romeujulieta','sonhovalsa','mm','prestigio','doisamores','bananachocobranco','banoffe','bis','abacaxi'
+        ];
+        if (tradicionais.includes(sabor)) return 'tradicional';
+        if (especiais.includes(sabor)) return 'especial';
+        if (doces.includes(sabor)) return 'doce';
+        return 'tradicional'; // fallback
+      }
+
+      // Descobre o tipo de cada metade
+      const tipo1 = tipoPizza(metade1);
+      const tipo2 = tipoPizza(metade2);
+      // Descobre o preço de cada metade
+      const preco1 = precos[tipo1][tamanho === 'Média' ? 'Media' : 'Grande'];
+      const preco2 = precos[tipo2][tamanho === 'Média' ? 'Media' : 'Grande'];
+      // O preço final é o maior entre as duas metades
+      const precoFinal = Math.max(preco1, preco2);
+
       let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
       const itemPersonalizado = {
         id: Date.now(),
@@ -347,12 +384,13 @@
         tamanho,
         borda,
         quantidade,
+        preco: precoFinal,
         observacoes: '',
         timestamp: new Date().toISOString()
       };
       carrinho.push(itemPersonalizado);
       localStorage.setItem('carrinho', JSON.stringify(carrinho));
-      alert(`Pizza personalizada adicionada ao carrinho!`);
+      alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${precoFinal.toFixed(2)}`);
       window.location.href = 'carrinho.html';
     });
   </script>
