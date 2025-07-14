@@ -4,6 +4,16 @@ import { getUser, verificarAutenticacao } from './auth.js';
 
 // Gerenciar carrinho
 class CarrinhoManager {
+  // Função centralizada para calcular preço da pizza personalizada
+  async calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho) {
+    let precoMetade1 = await this.buscarPrecoSabor(metade1, tamanho);
+    let precoMetade2 = await this.buscarPrecoSabor(metade2, tamanho);
+    let precoBorda = await this.buscarPrecoBorda(borda, tamanho);
+    precoMetade1 = isNaN(parseFloat(precoMetade1)) ? 0 : parseFloat(precoMetade1);
+    precoMetade2 = isNaN(parseFloat(precoMetade2)) ? 0 : parseFloat(precoMetade2);
+    precoBorda = isNaN(parseFloat(precoBorda)) ? 0 : parseFloat(precoBorda);
+    return (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
+  }
   constructor() {
     this.carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
     this.init();
@@ -95,13 +105,7 @@ class CarrinhoManager {
     for (const item of this.carrinho) {
       // Pizza personalizada
       if (item.tipo === 'personalizada') {
-        // Buscar preço das duas metades
-        let precoMetade1 = await this.buscarPrecoSabor(item.metade1, item.tamanho);
-        let precoMetade2 = await this.buscarPrecoSabor(item.metade2, item.tamanho);
-        // Valor da borda
-        let precoBorda = await this.buscarPrecoBorda(item.borda, item.tamanho);
-        // Preço final: metade de cada sabor + borda
-        let precoPizza = (parseFloat(precoMetade1) / 2) + (parseFloat(precoMetade2) / 2) + parseFloat(precoBorda);
+        let precoPizza = await this.calcularPrecoPizzaPersonalizada(item.metade1, item.metade2, item.borda, item.tamanho);
         let subtotalItem = precoPizza * item.quantidade;
         total += subtotalItem;
         itensHTML.push(`
@@ -367,13 +371,10 @@ window.adicionarAoCarrinho = (produtoId, tamanho = null, quantidade = 1, observa
   }
   // Adiciona o item normalmente
   carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
-  // Se for pizza personalizada, calcula o preço e mostra no alerta
+  // Se for pizza personalizada, calcula o preço e mostra no alerta usando a função centralizada
   if (tipo === 'personalizada') {
     (async () => {
-      let precoMetade1 = await carrinhoManager.buscarPrecoSabor(metade1, tamanho);
-      let precoMetade2 = await carrinhoManager.buscarPrecoSabor(metade2, tamanho);
-      let precoBorda = await carrinhoManager.buscarPrecoBorda(borda, tamanho);
-      let precoPizza = (parseFloat(precoMetade1) / 2) + (parseFloat(precoMetade2) / 2) + parseFloat(precoBorda);
+      let precoPizza = await carrinhoManager.calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho);
       alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${precoPizza.toFixed(2)}`);
     })();
   } else {
