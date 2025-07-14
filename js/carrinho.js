@@ -6,12 +6,48 @@ import { getUser, verificarAutenticacao } from './auth.js';
 class CarrinhoManager {
   // Função centralizada para calcular preço da pizza personalizada
   async calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho) {
-    let precoMetade1 = await this.buscarPrecoSabor(metade1, tamanho);
-    let precoMetade2 = await this.buscarPrecoSabor(metade2, tamanho);
-    let precoBorda = await this.buscarPrecoBorda(borda, tamanho);
-    precoMetade1 = isNaN(parseFloat(precoMetade1)) ? 0 : parseFloat(precoMetade1);
-    precoMetade2 = isNaN(parseFloat(precoMetade2)) ? 0 : parseFloat(precoMetade2);
-    precoBorda = isNaN(parseFloat(precoBorda)) ? 0 : parseFloat(precoBorda);
+    // Importa a tabela fixa de preços
+    const precosSabores = {
+      bacon: { Media: 51.90, Grande: 59.90 },
+      portuguesa: { Media: 51.90, Grande: 59.90 },
+      '4queijos': { Media: 54.90, Grande: 64.90 },
+      calabresa: { Media: 51.90, Grande: 59.90 },
+      palmito: { Media: 51.90, Grande: 59.90 },
+      frango: { Media: 51.90, Grande: 59.90 },
+      baiana: { Media: 51.90, Grande: 59.90 },
+      americana: { Media: 51.90, Grande: 59.90 },
+      napolitana: { Media: 51.90, Grande: 59.90 },
+      catubresa: { Media: 56.90, Grande: 64.90 },
+      marguerita: { Media: 56.90, Grande: 64.90 },
+      dacasa: { Media: 56.90, Grande: 64.90 },
+      canadense: { Media: 56.90, Grande: 64.90 },
+      brocolis: { Media: 56.90, Grande: 64.90 },
+      rucula: { Media: 56.90, Grande: 64.90 },
+      jeronimus: { Media: 56.90, Grande: 64.90 },
+      caipira: { Media: 56.90, Grande: 64.90 },
+      garden: { Media: 56.90, Grande: 64.90 },
+      padoguesa: { Media: 56.90, Grande: 64.90 },
+      pizzaiolo: { Media: 56.90, Grande: 64.90 },
+      pepperoni: { Media: 56.90, Grande: 64.90 },
+      romeujulieta: { Media: 51.90, Grande: 59.90 },
+      sonhovalsa: { Media: 51.90, Grande: 59.90 },
+      mm: { Media: 51.90, Grande: 59.90 },
+      prestigio: { Media: 51.90, Grande: 59.90 },
+      doisamores: { Media: 51.90, Grande: 59.90 },
+      bananachocobranco: { Media: 51.90, Grande: 59.90 },
+      banoffe: { Media: 51.90, Grande: 59.90 },
+      bis: { Media: 51.90, Grande: 59.90 },
+      abacaxi: { Media: 51.90, Grande: 59.90 }
+    };
+    const precosBorda = {
+      'Catupiry': 7,
+      'Cheddar': 7,
+      'Chocolate': 8,
+      'Cream Cheese': 8
+    };
+    const precoMetade1 = precosSabores[metade1] ? precosSabores[metade1][tamanho] : 51.90;
+    const precoMetade2 = precosSabores[metade2] ? precosSabores[metade2][tamanho] : 51.90;
+    const precoBorda = borda && borda !== '' && borda !== 'Sem borda' ? (precosBorda[borda] || 0) : 0;
     return (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
   }
   constructor() {
@@ -25,30 +61,22 @@ class CarrinhoManager {
   }
 
   // Adicionar item ao carrinho
-  adicionarItem(produtoId, tamanho = null, quantidade = 1, observacoes = '', tipo = null, metade1 = null, metade2 = null, borda = null) {
-    // Se for pizza personalizada, salva todos os dados necessários
+  async adicionarItem(produtoId, tamanho = null, quantidade = 1, observacoes = '', tipo = null, metade1 = null, metade2 = null, borda = null) {
     let item;
     if (tipo === 'personalizada') {
-      // Calcula o preço e salva no item
-      (async () => {
-        const preco = await this.calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho);
-        item = {
-          id: Date.now(),
-          tipo,
-          metade1,
-          metade2,
-          borda: borda && borda !== '' ? borda : 'Sem borda',
-          tamanho,
-          quantidade,
-          observacoes,
-          preco,
-          timestamp: new Date().toISOString()
-        };
-        this.carrinho.push(item);
-        this.salvarCarrinho();
-        this.renderizarCarrinho();
-      })();
-      return;
+      const preco = await this.calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho);
+      item = {
+        id: Date.now(),
+        tipo,
+        metade1,
+        metade2,
+        borda: borda && borda !== '' ? borda : 'Sem borda',
+        tamanho,
+        quantidade,
+        observacoes,
+        preco,
+        timestamp: new Date().toISOString()
+      };
     } else {
       item = {
         id: Date.now(),
@@ -58,10 +86,11 @@ class CarrinhoManager {
         observacoes,
         timestamp: new Date().toISOString()
       };
-      this.carrinho.push(item);
-      this.salvarCarrinho();
-      this.renderizarCarrinho();
     }
+    this.carrinho.push(item);
+    this.salvarCarrinho();
+    this.renderizarCarrinho();
+    return item;
   }
 
   // Remover item do carrinho
@@ -272,7 +301,8 @@ class CarrinhoManager {
             tamanho: item.tamanho,
             borda: item.borda,
             quantidade: item.quantidade,
-            observacoes: item.observacoes
+            observacoes: item.observacoes,
+            preco: item.preco // Garante que o preço correto vai para o pedido
           });
         } else {
           const produto = await buscarProdutoPorId(item.produtoId);
@@ -342,7 +372,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // Função global para adicionar ao carrinho (chamada pelos botões dos produtos)
-// Função global para adicionar ao carrinho (chamada pelos botões dos produtos)
 // Agora aceita argumentos extras para pizza personalizada
 window.adicionarAoCarrinho = (produtoId, tamanho = null, quantidade = 1, observacoes = '', tipo = null, metade1 = null, metade2 = null, borda = null) => {
   if (!carrinhoManager) {
@@ -350,10 +379,7 @@ window.adicionarAoCarrinho = (produtoId, tamanho = null, quantidade = 1, observa
   }
   if (tipo === 'personalizada') {
     (async () => {
-      await carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
-      // Aguarda o item ser adicionado e pega o último do carrinho
-      const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-      const item = carrinho[carrinho.length - 1];
+      const item = await carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
       alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${item.preco ? item.preco.toFixed(2) : 'Erro ao calcular preço'}`);
     })();
   } else {
