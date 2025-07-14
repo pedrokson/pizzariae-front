@@ -15,16 +15,31 @@ class CarrinhoManager {
   }
 
   // Adicionar item ao carrinho
-  adicionarItem(produtoId, tamanho = null, quantidade = 1, observacoes = '') {
-    const item = {
-      id: Date.now(), // ID único do item no carrinho
-      produtoId,
-      tamanho,
-      quantidade,
-      observacoes,
-      timestamp: new Date().toISOString()
-    };
-    
+  adicionarItem(produtoId, tamanho = null, quantidade = 1, observacoes = '', tipo = null, metade1 = null, metade2 = null, borda = null) {
+    // Se for pizza personalizada, salva todos os dados necessários
+    let item;
+    if (tipo === 'personalizada') {
+      item = {
+        id: Date.now(),
+        tipo,
+        metade1,
+        metade2,
+        borda,
+        tamanho,
+        quantidade,
+        observacoes,
+        timestamp: new Date().toISOString()
+      };
+    } else {
+      item = {
+        id: Date.now(),
+        produtoId,
+        tamanho,
+        quantidade,
+        observacoes,
+        timestamp: new Date().toISOString()
+      };
+    }
     this.carrinho.push(item);
     this.salvarCarrinho();
     this.renderizarCarrinho();
@@ -334,11 +349,13 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // Função global para adicionar ao carrinho (chamada pelos botões dos produtos)
-window.adicionarAoCarrinho = (produtoId, tamanho = null, quantidade = 1) => {
+// Função global para adicionar ao carrinho (chamada pelos botões dos produtos)
+// Agora aceita argumentos extras para pizza personalizada
+window.adicionarAoCarrinho = (produtoId, tamanho = null, quantidade = 1, observacoes = '', tipo = null, metade1 = null, metade2 = null, borda = null) => {
   if (!carrinhoManager) {
     carrinhoManager = new CarrinhoManager();
   }
-  carrinhoManager.adicionarItem(produtoId, tamanho, quantidade);
+  carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
   alert('Item adicionado ao carrinho!');
 };
 
