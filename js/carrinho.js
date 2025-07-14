@@ -29,17 +29,26 @@ class CarrinhoManager {
     // Se for pizza personalizada, salva todos os dados necessários
     let item;
     if (tipo === 'personalizada') {
-      item = {
-        id: Date.now(),
-        tipo,
-        metade1,
-        metade2,
-        borda: borda && borda !== '' ? borda : 'Sem borda',
-        tamanho,
-        quantidade,
-        observacoes,
-        timestamp: new Date().toISOString()
-      };
+      // Calcula o preço e salva no item
+      (async () => {
+        const preco = await this.calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho);
+        item = {
+          id: Date.now(),
+          tipo,
+          metade1,
+          metade2,
+          borda: borda && borda !== '' ? borda : 'Sem borda',
+          tamanho,
+          quantidade,
+          observacoes,
+          preco,
+          timestamp: new Date().toISOString()
+        };
+        this.carrinho.push(item);
+        this.salvarCarrinho();
+        this.renderizarCarrinho();
+      })();
+      return;
     } else {
       item = {
         id: Date.now(),
@@ -49,10 +58,10 @@ class CarrinhoManager {
         observacoes,
         timestamp: new Date().toISOString()
       };
+      this.carrinho.push(item);
+      this.salvarCarrinho();
+      this.renderizarCarrinho();
     }
-    this.carrinho.push(item);
-    this.salvarCarrinho();
-    this.renderizarCarrinho();
   }
 
   // Remover item do carrinho
@@ -105,7 +114,8 @@ class CarrinhoManager {
     for (const item of this.carrinho) {
       // Pizza personalizada
       if (item.tipo === 'personalizada') {
-        let precoPizza = await this.calcularPrecoPizzaPersonalizada(item.metade1, item.metade2, item.borda, item.tamanho);
+        // Usa o preço salvo no item
+        let precoPizza = item.preco;
         let subtotalItem = precoPizza * item.quantidade;
         total += subtotalItem;
         itensHTML.push(`
@@ -164,41 +174,6 @@ class CarrinhoManager {
 
     lista.innerHTML = itensHTML.join('');
 
-  // Buscar preço do sabor pelo nome e tamanho
-  buscarPrecoSabor = async (nomeSabor, tamanho) => {
-    let produtos = [];
-    if (window.listarProdutos) {
-      produtos = await window.listarProdutos();
-    }
-    // Busca exata pelo nome do sabor
-    let produto = produtos.find(p => p.nome.toLowerCase() === nomeSabor.toLowerCase());
-    if (!produto) {
-      // fallback: busca parcial
-      produto = produtos.find(p => p.nome.toLowerCase().includes(nomeSabor.toLowerCase()));
-    }
-    if (!produto) {
-      // fallback: preço padrão
-      return 49.9;
-    }
-    if (tamanho && produto.tamanhos && produto.tamanhos.length > 0) {
-      const tamanhoInfo = produto.tamanhos.find(t => t.nome === tamanho);
-      if (tamanhoInfo) return tamanhoInfo.preco;
-    }
-    return produto.preco;
-  }
-
-  // Buscar preço da borda
-  buscarPrecoBorda = async (borda, tamanho) => {
-    if (!borda || borda === '' || borda === 'Sem borda') return 0;
-    // Defina os valores das bordas aqui
-    const precosBorda = {
-      'Catupiry': 7,
-      'Cheddar': 7,
-      'Chocolate': 8,
-      'Cream Cheese': 8
-    };
-    return precosBorda[borda] || 7;
-  }
 
   // Formatar nome do sabor para exibição
   formatarNomeSabor = (sabor) => {
@@ -243,7 +218,8 @@ class CarrinhoManager {
     for (const item of this.carrinho) {
       let precoUnitario = 0;
       if (item.tipo === 'personalizada') {
-        precoUnitario = await this.calcularPrecoPizzaPersonalizada(item.metade1, item.metade2, item.borda, item.tamanho);
+        // Usa o preço salvo no item
+        precoUnitario = item.preco;
       } else {
         try {
           const produto = await buscarProdutoPorId(item.produtoId);
@@ -311,40 +287,42 @@ class CarrinhoManager {
             produto: item.produtoId,
             tamanho: item.tamanho,
             quantidade: item.quantidade,
-            precoUnitario: preco,
-            observacoes: item.observacoes
-          });
-        }
-      }
 
-      const dadosPedido = {
-        itens,
-        endereco: dadosEntrega,
-        formaPagamento,
-        entrega: {
-          tipo: 'delivery',
-          tempoEstimado: 45
-        }
-      };
-
-      const resultado = await criarPedido(dadosPedido);
-      
-      if (resultado && !resultado.error) {
-        alert('Pedido criado com sucesso! Número: ' + resultado.numero);
-        this.limparCarrinho();
-        window.location.href = '/pedidos.html';
-      } else {
-        alert('Erro ao criar pedido: ' + (resultado.error || 'Erro desconhecido'));
-      }
-    } catch (error) {
-      console.error('Erro ao finalizar pedido:', error);
-      alert('Erro ao finalizar pedido. Tente novamente.');
+  // Buscar preço do sabor pelo nome e tamanho
+  async buscarPrecoSabor(nomeSabor, tamanho) {
+    let produtos = [];
+    if (window.listarProdutos) {
+      produtos = await window.listarProdutos();
     }
-  }
+    // Busca exata pelo nome do sabor
+    let produto = produtos.find(p => p.nome.toLowerCase() === nomeSabor.toLowerCase());
+    if (!produto) {
+      // fallback: busca parcial
+      produto = produtos.find(p => p.nome.toLowerCase().includes(nomeSabor.toLowerCase()));
+    }
+    if (!produto) {
+      // fallback: preço padrão
+      return 49.9;
+    }
+    if (tamanho && produto.tamanhos && produto.tamanhos.length > 0) {
+      const tamanhoInfo = produto.tamanhos.find(t => t.nome === tamanho);
+      if (tamanhoInfo) return tamanhoInfo.preco;
+    }
+    return produto.preco;
+  },
 
-  setupEventListeners() {
-    // Botão limpar carrinho
-    const btnLimpar = document.getElementById('limpar-carrinho');
+  // Buscar preço da borda
+  async buscarPrecoBorda(borda, tamanho) {
+    if (!borda || borda === '' || borda === 'Sem borda') return 0;
+    // Defina os valores das bordas aqui
+    const precosBorda = {
+      'Catupiry': 7,
+      'Cheddar': 7,
+      'Chocolate': 8,
+      'Cream Cheese': 8
+    };
+    return precosBorda[borda] || 7;
+  },
     if (btnLimpar) {
       btnLimpar.addEventListener('click', () => {
         if (confirm('Tem certeza que deseja limpar o carrinho?')) {
