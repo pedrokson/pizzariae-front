@@ -348,15 +348,16 @@ window.adicionarAoCarrinho = (produtoId, tamanho = null, quantidade = 1, observa
   if (!carrinhoManager) {
     carrinhoManager = new CarrinhoManager();
   }
-  // Adiciona o item normalmente
-  carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
-  // Se for pizza personalizada, calcula o preço e mostra no alerta usando a função centralizada
   if (tipo === 'personalizada') {
     (async () => {
-      let precoPizza = await carrinhoManager.calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho);
-      alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${precoPizza.toFixed(2)}`);
+      await carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
+      // Aguarda o item ser adicionado e pega o último do carrinho
+      const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const item = carrinho[carrinho.length - 1];
+      alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${item.preco ? item.preco.toFixed(2) : 'Erro ao calcular preço'}`);
     })();
   } else {
+    carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
     alert('Item adicionado ao carrinho!');
   }
 };
