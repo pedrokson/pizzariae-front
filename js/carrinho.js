@@ -166,12 +166,16 @@ class CarrinhoManager {
 
   // Buscar preço do sabor pelo nome e tamanho
   buscarPrecoSabor = async (nomeSabor, tamanho) => {
-    // Mapeamento dos nomes para IDs ou busca por nome
     let produtos = [];
     if (window.listarProdutos) {
       produtos = await window.listarProdutos();
     }
-    let produto = produtos.find(p => p.nome.toLowerCase().includes(nomeSabor.toLowerCase()));
+    // Busca exata pelo nome do sabor
+    let produto = produtos.find(p => p.nome.toLowerCase() === nomeSabor.toLowerCase());
+    if (!produto) {
+      // fallback: busca parcial
+      produto = produtos.find(p => p.nome.toLowerCase().includes(nomeSabor.toLowerCase()));
+    }
     if (!produto) {
       // fallback: preço padrão
       return 49.9;
