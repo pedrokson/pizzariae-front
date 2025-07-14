@@ -24,7 +24,7 @@ class CarrinhoManager {
         tipo,
         metade1,
         metade2,
-        borda,
+        borda: borda && borda !== '' ? borda : 'Sem borda',
         tamanho,
         quantidade,
         observacoes,
@@ -101,7 +101,7 @@ class CarrinhoManager {
         // Valor da borda
         let precoBorda = await this.buscarPrecoBorda(item.borda, item.tamanho);
         // Preço final: metade de cada sabor + borda
-        let precoPizza = (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
+        let precoPizza = (parseFloat(precoMetade1) / 2) + (parseFloat(precoMetade2) / 2) + parseFloat(precoBorda);
         let subtotalItem = precoPizza * item.quantidade;
         total += subtotalItem;
         itensHTML.push(`
@@ -111,7 +111,7 @@ class CarrinhoManager {
               <p>Metade 1: ${this.formatarNomeSabor(item.metade1)}</p>
               <p>Metade 2: ${this.formatarNomeSabor(item.metade2)}</p>
               <p>Tamanho: ${item.tamanho}</p>
-              <p>Borda: ${item.borda && item.borda !== '' ? item.borda : 'Sem borda'}</p>
+              <p>Borda: ${item.borda && item.borda !== '' && item.borda !== 'Sem borda' ? item.borda : 'Sem borda'}</p>
               <p class="preco">R$ ${precoPizza.toFixed(2)} x ${item.quantidade} = R$ ${subtotalItem.toFixed(2)}</p>
             </div>
             <div class="item-controles">
@@ -283,23 +283,33 @@ class CarrinhoManager {
       const itens = [];
       
       for (const item of this.carrinho) {
-        const produto = await buscarProdutoPorId(item.produtoId);
-        
-        let preco = produto.preco;
-        if (item.tamanho && produto.tamanhos && produto.tamanhos.length > 0) {
-          const tamanhoInfo = produto.tamanhos.find(t => t.nome === item.tamanho);
-          if (tamanhoInfo) {
-            preco = tamanhoInfo.preco;
+        if (item.tipo === 'personalizada') {
+          itens.push({
+            tipo: 'personalizada',
+            metade1: item.metade1,
+            metade2: item.metade2,
+            tamanho: item.tamanho,
+            borda: item.borda,
+            quantidade: item.quantidade,
+            observacoes: item.observacoes
+          });
+        } else {
+          const produto = await buscarProdutoPorId(item.produtoId);
+          let preco = produto.preco;
+          if (item.tamanho && produto.tamanhos && produto.tamanhos.length > 0) {
+            const tamanhoInfo = produto.tamanhos.find(t => t.nome === item.tamanho);
+            if (tamanhoInfo) {
+              preco = tamanhoInfo.preco;
+            }
           }
+          itens.push({
+            produto: item.produtoId,
+            tamanho: item.tamanho,
+            quantidade: item.quantidade,
+            precoUnitario: preco,
+            observacoes: item.observacoes
+          });
         }
-        
-        itens.push({
-          produto: item.produtoId,
-          tamanho: item.tamanho,
-          quantidade: item.quantidade,
-          precoUnitario: preco,
-          observacoes: item.observacoes
-        });
       }
 
       const dadosPedido = {
