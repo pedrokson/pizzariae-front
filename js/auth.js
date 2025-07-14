@@ -46,6 +46,8 @@ export async function fazerCadastro(dadosCadastro) {
 export function verificarAutenticacao() {
   return window.isLoggedIn ? window.isLoggedIn() : false;
 }
+// Expor para escopo global
+window.verificarAutenticacao = verificarAutenticacao;
 
 // Obter dados do usuário logado
 export function obterUsuario() {

@@ -223,7 +223,7 @@ class CarrinhoManager {
         let precoMetade1 = await this.buscarPrecoSabor(item.metade1, item.tamanho);
         let precoMetade2 = await this.buscarPrecoSabor(item.metade2, item.tamanho);
         let precoBorda = await this.buscarPrecoBorda(item.borda, item.tamanho);
-        precoUnitario = (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
+        precoUnitario = (parseFloat(precoMetade1) / 2) + (parseFloat(precoMetade2) / 2) + parseFloat(precoBorda);
       } else {
         try {
           const produto = await buscarProdutoPorId(item.produtoId);
@@ -238,6 +238,7 @@ class CarrinhoManager {
           precoUnitario = 0;
         }
       }
+      precoUnitario = isNaN(precoUnitario) ? 0 : precoUnitario;
       itensValores.push({ quantidade: item.quantidade, precoUnitario });
     }
     const valores = calcularValoresPedido(itensValores, 'delivery');
