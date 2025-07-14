@@ -48,16 +48,55 @@
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
     .nav-group {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
       background: rgba(255,255,255,0.07);
       border-radius: 30px;
-      padding: 12px 8px;
-      max-width: 600px;
-      margin: 0 auto 0.2rem auto;
+      padding: 1rem;
+      max-width: 800px;
+      margin: 1.2rem auto 0;
       box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    nav {
+      margin-top: 0;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0;
+      border-radius: 15px;
+      max-width: 800px;
+      margin: 0 auto;
+      backdrop-filter: blur(10px);
+      width: 100%;
+    }
+    nav a {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      font-size: 0.95rem;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav a:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      border-color: rgba(255,255,255,0.3);
+    }
+    nav a.active {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+      border-color: rgba(255,255,255,0.5);
     }
     .nav-btn {
       display: flex;
@@ -151,16 +190,16 @@
     </div>
     <div class="header-content">
       <h1>🍕 Jerônimu's Pizzaria</h1>
-      <div class="header-btns-row" style="display: flex; justify-content: center; gap: 32px; margin-bottom: 18px;">
-        <a href="index.html" class="nav-btn">🏠 Início</a>
-        <a href="menu.html" class="nav-btn">🍕 Pizzas Salgadas</a>
-        <a href="doces.html" class="nav-btn">🍰 Pizzas Doces</a>
-        <a href="personalizar.html" class="nav-btn">🧩 Personalizar Pizza</a>
-      </div>
-      <div class="header-btns-row" style="display: flex; justify-content: center; gap: 32px;">
-        <a href="bebidas.html" class="nav-btn">🥤 Bebidas</a>
-        <a href="carrinho.html" class="nav-btn">🛒 Carrinho</a>
-        <a href="#" class="nav-btn" onclick="sair(); return false;">🚪 Sair</a>
+      <div class="nav-group">
+        <nav>
+          <a href="index.html">🏠 Início</a>
+          <a href="menu.html">🍕 Pizzas Salgadas</a>
+          <a href="doces.html">🍰 Pizzas Doces</a>
+          <a href="personalizar.html" class="active">🧩 Personalizar Pizza</a>
+          <a href="bebidas.html">🥤 Bebidas</a>
+          <a href="carrinho.html">🛒 Carrinho</a>
+          <a href="#" onclick="sair(); return false;">🚪 Sair</a>
+        </nav>
       </div>
     </div>
   </header>
