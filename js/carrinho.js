@@ -239,10 +239,7 @@ class CarrinhoManager {
     for (const item of this.carrinho) {
       let precoUnitario = 0;
       if (item.tipo === 'personalizada') {
-        let precoMetade1 = await this.buscarPrecoSabor(item.metade1, item.tamanho);
-        let precoMetade2 = await this.buscarPrecoSabor(item.metade2, item.tamanho);
-        let precoBorda = await this.buscarPrecoBorda(item.borda, item.tamanho);
-        precoUnitario = (parseFloat(precoMetade1) / 2) + (parseFloat(precoMetade2) / 2) + parseFloat(precoBorda);
+        precoUnitario = await this.calcularPrecoPizzaPersonalizada(item.metade1, item.metade2, item.borda, item.tamanho);
       } else {
         try {
           const produto = await buscarProdutoPorId(item.produtoId);
