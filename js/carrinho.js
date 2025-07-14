@@ -215,19 +215,37 @@ class CarrinhoManager {
   }
     
     // Calcular valores com taxa de entrega
-    const valores = calcularValoresPedido(this.carrinho.map(item => ({
-      quantidade: item.quantidade,
-      precoUnitario: 0 // Será calculado no backend
-    })), 'delivery');
-    
-    if (totalElement) {
-      totalElement.innerHTML = `
-        <div class="resumo-valores">
-          <p>Subtotal: R$ ${total.toFixed(2)}</p>
-          <p>Taxa de entrega: R$ 5.00</p>
-          <p class="total-final"><strong>Total: R$ ${(total + 5).toFixed(2)}</strong></p>
-        </div>
-      `;
+    // Calcular valores reais dos itens para o modal
+    const itensValores = [];
+    for (const item of this.carrinho) {
+      let precoUnitario = 0;
+      if (item.tipo === 'personalizada') {
+        let precoMetade1 = await this.buscarPrecoSabor(item.metade1, item.tamanho);
+        let precoMetade2 = await this.buscarPrecoSabor(item.metade2, item.tamanho);
+        let precoBorda = await this.buscarPrecoBorda(item.borda, item.tamanho);
+        precoUnitario = (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
+      } else {
+        try {
+          const produto = await buscarProdutoPorId(item.produtoId);
+          precoUnitario = produto.preco;
+          if (item.tamanho && produto.tamanhos && produto.tamanhos.length > 0) {
+            const tamanhoInfo = produto.tamanhos.find(t => t.nome === item.tamanho);
+            if (tamanhoInfo) {
+              precoUnitario = tamanhoInfo.preco;
+            }
+          }
+        } catch (error) {
+          precoUnitario = 0;
+        }
+      }
+      itensValores.push({ quantidade: item.quantidade, precoUnitario });
+    }
+    const valores = calcularValoresPedido(itensValores, 'delivery');
+    if (document.getElementById('subtotal-modal')) {
+      document.getElementById('subtotal-modal').textContent = `R$ ${valores.subtotal}`;
+    }
+    if (document.getElementById('total-final-modal')) {
+      document.getElementById('total-final-modal').textContent = `R$ ${valores.total}`;
     }
   }
 
