@@ -22,7 +22,7 @@ function mostrarTamanhos(botao) {
   }
 }
 
-function adicionarCarrinho(nome, tamanho, preco, btn) {
+async function adicionarCarrinho(nome, tamanho, preco, btn) {
   try {
     let quantidade = 1;
     let borda = "";
@@ -35,9 +35,25 @@ function adicionarCarrinho(nome, tamanho, preco, btn) {
       if (bordaSelect) borda = bordaSelect.value;
     }
     
-    // Soma o preço da borda, se houver
+    // Corrigir cálculo para pizza personalizada
     let precoFinal = preco;
-    if (borda) precoFinal += 13.90;
+    // Detecta se é pizza personalizada (nome contém "Personalizada" ou similar)
+    if (nome && nome.toLowerCase().includes('personalizada')) {
+      // Tenta obter os sabores das metades do nome, ex: "Pizza Personalizada (Frango/Bacon)"
+      let metade1 = '', metade2 = '';
+      const match = nome.match(/\(([^\/]+)\/([^\)]+)\)/);
+      if (match) {
+        metade1 = match[1].trim();
+        metade2 = match[2].trim();
+      }
+      // Importa a função de cálculo do carrinho.js
+      if (window.CarrinhoManager && typeof window.CarrinhoManager.prototype.calcularPrecoPizzaPersonalizada === 'function') {
+        const cm = new window.CarrinhoManager();
+        precoFinal = await cm.calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho);
+      }
+    } else {
+      if (borda) precoFinal += 13.90;
+    }
     
     // Pegar carrinho atual
     let carrinho = [];
