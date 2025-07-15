@@ -87,35 +87,32 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
       carrinho = [];
     }
     
-    const item = {
-      nome: nome + " (" + tamanho + ")",
-      preco: precoFinal,
-      quantidade: quantidade,
-      borda_recheada: borda,
-      id: Date.now(),
-      timestamp: new Date().toISOString()
-    };
-    
-    carrinho.push(item);
-    
-    // Salvar no localStorage
-    const carrinhoString = JSON.stringify(carrinho);
-    localStorage.setItem("carrinho", carrinhoString);
-    
-    // Atualizar contador
-    atualizarContadorCarrinho();
-    
-    // Feedback visual
-    btn.style.background = '#228b22';
-    btn.textContent = '✓ Adicionado!';
-    
-    setTimeout(() => {
-      btn.style.background = '#b22222';
-      btn.textContent = 'Adicionar';
-    }, 2000);
-    
-    // Mostrar alerta de sucesso
-    alert(`✅ ${quantidade}x ${nome} (${tamanho}) adicionado ao carrinho!`);
+    // Só adiciona ao carrinho se não for pizza personalizada com preço fallback
+    if (!(nome && nome.toLowerCase().includes('personalizada') && precoFinal === 49.9)) {
+      const item = {
+        nome: nome + " (" + tamanho + ")",
+        preco: precoFinal,
+        quantidade: quantidade,
+        borda_recheada: borda,
+        id: Date.now(),
+        timestamp: new Date().toISOString()
+      };
+      carrinho.push(item);
+      // Salvar no localStorage
+      const carrinhoString = JSON.stringify(carrinho);
+      localStorage.setItem("carrinho", carrinhoString);
+      // Atualizar contador
+      atualizarContadorCarrinho();
+      // Feedback visual
+      btn.style.background = '#228b22';
+      btn.textContent = '✓ Adicionado!';
+      setTimeout(() => {
+        btn.style.background = '#b22222';
+        btn.textContent = 'Adicionar';
+      }, 2000);
+      // Mostrar alerta de sucesso
+      alert(`✅ ${quantidade}x ${nome} (${tamanho}) adicionado ao carrinho!`);
+    }
     
   } catch (error) {
     alert('❌ Erro ao adicionar item ao carrinho: ' + error.message);
