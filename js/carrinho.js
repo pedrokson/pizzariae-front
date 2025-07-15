@@ -45,10 +45,46 @@ class CarrinhoManager {
       'Chocolate': 8,
       'Cream Cheese': 8
     };
-    // Normaliza nomes para garantir que batem com a tabela
-    const normalizar = v => (v ? v.toString().trim().toLowerCase() : '');
-    const metade1Key = normalizar(metade1);
-    const metade2Key = normalizar(metade2);
+    // Mapeamento de nomes compostos para nomes da tabela
+    const mapNomeSabor = (nome) => {
+      if (!nome) return '';
+      const n = nome.toString().trim().toLowerCase();
+      if (n.includes('frango')) return 'frango';
+      if (n.includes('bacon')) return 'bacon';
+      if (n.includes('portuguesa')) return 'portuguesa';
+      if (n.includes('catupiry')) return 'catubresa';
+      if (n.includes('cheddar') && n.includes('frango')) return 'frango';
+      if (n.includes('cheddar')) return 'cheddar';
+      if (n.includes('calabresa')) return 'calabresa';
+      if (n.includes('palmito')) return 'palmito';
+      if (n.includes('baiana')) return 'baiana';
+      if (n.includes('americana')) return 'americana';
+      if (n.includes('napolitana')) return 'napolitana';
+      if (n.includes('canadense')) return 'canadense';
+      if (n.includes('brocolis')) return 'brocolis';
+      if (n.includes('rucula')) return 'rucula';
+      if (n.includes('jeronimus')) return 'jeronimus';
+      if (n.includes('caipira')) return 'caipira';
+      if (n.includes('garden')) return 'garden';
+      if (n.includes('padoguesa')) return 'padoguesa';
+      if (n.includes('pizzaiolo')) return 'pizzaiolo';
+      if (n.includes('pepperoni')) return 'pepperoni';
+      if (n.includes('romeu')) return 'romeujulieta';
+      if (n.includes('sonho')) return 'sonhovalsa';
+      if (n.includes('mm')) return 'mm';
+      if (n.includes('prestigio')) return 'prestigio';
+      if (n.includes('dois amores')) return 'doisamores';
+      if (n.includes('banana') && n.includes('chocolate')) return 'bananachocobranco';
+      if (n.includes('banoffe')) return 'banoffe';
+      if (n.includes('bis')) return 'bis';
+      if (n.includes('abacaxi')) return 'abacaxi';
+      if (n.includes('marguerita')) return 'marguerita';
+      if (n.includes('dacasa')) return 'dacasa';
+      if (n.includes('4 queijos') || n.includes('quatro queijos') || n.includes('4queijos')) return '4queijos';
+      return n;
+    };
+    const metade1Key = mapNomeSabor(metade1);
+    const metade2Key = mapNomeSabor(metade2);
     // Tamanho deve ser 'Media' ou 'Grande' exatamente
     let tamanhoKey = tamanho;
     if (tamanhoKey) {
