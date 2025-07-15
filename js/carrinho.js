@@ -123,6 +123,7 @@ class CarrinhoManager {
 
   // Adicionar item ao carrinho
   async adicionarItem(produtoId, tamanho = null, quantidade = 1, observacoes = '', tipo = null, metade1 = null, metade2 = null, borda = null) {
+    console.log('[adicionarItem] chamada:', { produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda });
     let item;
     if (tipo === 'personalizada') {
       const preco = await this.calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho);
