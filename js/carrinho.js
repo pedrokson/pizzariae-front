@@ -453,27 +453,24 @@ class CarrinhoManager {
 } // <-- Adiciona o fechamento da classe CarrinhoManager
 
 // Instanciar gerenciador do carrinho
-let carrinhoManager;
-
-// Inicializar quando a página carregar
+// Inicializar quando a página carregar e garantir global
 window.addEventListener('DOMContentLoaded', () => {
-  carrinhoManager = new CarrinhoManager();
-  window.carrinhoManager = carrinhoManager;
+  window.carrinhoManager = new CarrinhoManager();
 });
 
 // Função global para adicionar ao carrinho (chamada pelos botões dos produtos)
 // Agora aceita argumentos extras para pizza personalizada
 window.adicionarAoCarrinho = (produtoId, tamanho = null, quantidade = 1, observacoes = '', tipo = null, metade1 = null, metade2 = null, borda = null) => {
-  if (!carrinhoManager) {
-    carrinhoManager = new CarrinhoManager();
+  if (!window.carrinhoManager) {
+    window.carrinhoManager = new CarrinhoManager();
   }
   if (tipo === 'personalizada') {
     (async () => {
-      const item = await carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
+      const item = await window.carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
       alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${item.preco ? item.preco.toFixed(2) : 'Erro ao calcular preço'}`);
     })();
   } else {
-    carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
+    window.carrinhoManager.adicionarItem(produtoId, tamanho, quantidade, observacoes, tipo, metade1, metade2, borda);
     alert('Item adicionado ao carrinho!');
   }
 };
