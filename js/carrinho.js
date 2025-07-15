@@ -458,6 +458,7 @@ let carrinhoManager;
 // Inicializar quando a página carregar
 window.addEventListener('DOMContentLoaded', () => {
   carrinhoManager = new CarrinhoManager();
+  window.carrinhoManager = carrinhoManager;
 });
 
 // Função global para adicionar ao carrinho (chamada pelos botões dos produtos)
