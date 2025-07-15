@@ -379,6 +379,30 @@ class CarrinhoManager {
             produto: item.produtoId,
             tamanho: item.tamanho,
             quantidade: item.quantidade,
+            observacoes: item.observacoes,
+            preco: preco
+          });
+        }
+      }
+
+      // Criar pedido usando função importada
+      const pedido = await criarPedido({
+        itens,
+        entrega: dadosEntrega,
+        pagamento: formaPagamento,
+        usuario: getUser()
+      });
+
+      // Limpar carrinho após pedido
+      this.limparCarrinho();
+
+      alert('Pedido realizado com sucesso!');
+      window.location.href = '/pedido-confirmado.html';
+    } catch (error) {
+      console.error('Erro ao finalizar pedido:', error);
+      alert('Erro ao finalizar pedido. Tente novamente.');
+    }
+  }
 
   // Buscar preço do sabor pelo nome e tamanho
   async buscarPrecoSabor(nomeSabor, tamanho) {
@@ -401,7 +425,7 @@ class CarrinhoManager {
       if (tamanhoInfo) return tamanhoInfo.preco;
     }
     return produto.preco;
-  },
+  }
 
   // Buscar preço da borda
   async buscarPrecoBorda(borda, tamanho) {
@@ -414,7 +438,10 @@ class CarrinhoManager {
       'Cream Cheese': 8
     };
     return precosBorda[borda] || 7;
-  },
+  }
+
+  setupEventListeners() {
+    const btnLimpar = document.getElementById('limpar-carrinho');
     if (btnLimpar) {
       btnLimpar.addEventListener('click', () => {
         if (confirm('Tem certeza que deseja limpar o carrinho?')) {
@@ -423,7 +450,7 @@ class CarrinhoManager {
       });
     }
   }
-}
+} // <-- Adiciona o fechamento da classe CarrinhoManager
 
 // Instanciar gerenciador do carrinho
 let carrinhoManager;
