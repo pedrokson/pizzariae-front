@@ -49,7 +49,30 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
       // Importa a função de cálculo do carrinho.js
       if (window.CarrinhoManager && typeof window.CarrinhoManager.prototype.calcularPrecoPizzaPersonalizada === 'function') {
         const cm = new window.CarrinhoManager();
+        // Adiciona log detalhado do cálculo
+        let logDetalhado = {};
+        const originalConsoleLog = console.log;
+        console.log = function(...args) {
+          if (args[0] && typeof args[0] === 'string' && args[0].includes('[calcularPrecoPizzaPersonalizada] Dados:')) {
+            logDetalhado = args[1];
+          }
+          originalConsoleLog.apply(console, args);
+        };
         precoFinal = await cm.calcularPrecoPizzaPersonalizada(metade1, metade2, borda, tamanho);
+        console.log = originalConsoleLog;
+        if (precoFinal === 49.9) {
+          let msg = '❌ Erro: Não foi possível encontrar o preço correto para essa combinação.\n';
+          msg += `Sabores: ${metade1} / ${metade2}\n`;
+          msg += `Tamanho: ${tamanho}\n`;
+          msg += `Borda: ${borda}\n`;
+          if (logDetalhado) {
+            if (logDetalhado.precoMetade1 === null) msg += `Sabor metade 1 não encontrado: ${metade1} (${logDetalhado.metade1Key})\n`;
+            if (logDetalhado.precoMetade2 === null) msg += `Sabor metade 2 não encontrado: ${metade2} (${logDetalhado.metade2Key})\n`;
+            if (!['Media','Grande'].includes(logDetalhado.tamanhoKey)) msg += `Tamanho não reconhecido: ${logDetalhado.tamanhoKey}\n`;
+          }
+          alert(msg);
+          return;
+        }
       }
     } else {
       if (borda) precoFinal += 13.90;
