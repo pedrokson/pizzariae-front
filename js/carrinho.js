@@ -103,7 +103,13 @@ class CarrinhoManager {
       precoMetade2 = Math.min(...Object.values(precosSabores).map(s => s[tamanhoKey] || 51.90));
     }
     const precoBorda = borda && borda !== '' && borda !== 'Sem borda' ? (precosBorda[borda] || 0) : 0;
-    return (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
+    const precoFinal = (precoMetade1 / 2) + (precoMetade2 / 2) + precoBorda;
+    console.log('[calcularPrecoPizzaPersonalizada] Dados:', {
+      metade1, metade2, borda, tamanho,
+      metade1Key, metade2Key, tamanhoKey,
+      precoMetade1, precoMetade2, precoBorda, precoFinal
+    });
+    return precoFinal;
   }
   constructor() {
     this.carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
