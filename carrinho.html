@@ -1417,7 +1417,7 @@
         };
       }
 
-function gerarPDFPedido(carrinho, endereco) {
+      function gerarPDFPedido(carrinho, endereco) {
   const doc = new window.jspdf.jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -1469,10 +1469,10 @@ function gerarPDFPedido(carrinho, endereco) {
   doc.setLineWidth(0.2);
   doc.line(7, y, largura - 7, y); y += 2.5;
 
-  // Tabela de itens - desenhando células
+  // Tabela de itens
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
-  // Definir larguras das colunas
+
   const colQnt = 10, colSabor = 32, colTam = 15, colValor = 16;
   const xQnt = 7, xSabor = xQnt + colQnt, xTam = xSabor + colSabor, xValor = xTam + colTam;
 
@@ -1485,41 +1485,55 @@ function gerarPDFPedido(carrinho, endereco) {
 
   doc.setFont(undefined, 'normal');
   let subtotal = 0;
-  // Linhas dos itens
+
   carrinho.forEach((item) => {
-   let sabor = '';
-  let tamanho = item.tamanho || '-';
+    let sabor = '';
+    let tamanho = item.tamanho || '-';
+
     if (item.tipo === 'personalizada') {
-  sabor = `Personalizada: ${item.metade1} / ${item.metade2}`;
-} else {
-  sabor = item.nome || '';
-  const tamanhoRegex = /\\(([^)]+)\\)$/;
-  const match = typeof sabor === 'string' ? sabor.match(tamanhoRegex) : null;
-  if (match) {
-    tamanho = match[1];
-    sabor = sabor.replace(tamanhoRegex, '').trim();
-  }
-}
-    doc.rect(xQnt, y, colQnt, 7); doc.text(String(item.quantidade), xQnt + colQnt/2, y + 4, {align: 'center'});
-    doc.rect(xSabor, y, colSabor, 7); doc.text(doc.splitTextToSize(sabor, colSabor-2), xSabor + 2, y + 4);
-    doc.rect(xTam, y, colTam, 7); doc.text(tamanho, xTam + colTam/2, y + 4, {align: 'center'});
-    doc.rect(xValor, y, colValor, 7); doc.text(`R$ ${item.preco.toFixed(2)}`, xValor + colValor/2, y + 4, {align: 'center'});
-    y += 7;
-    if (item.borda_recheada) {
-      doc.setFontSize(9);
-      doc.text(`Borda: ${item.borda_recheada}`, xSabor + 2, y + 3);
-      doc.setFontSize(10);
-      y += 5;
+      sabor = `Personalizada: ${item.metade1} / ${item.metade2}`;
+    } else {
+      sabor = item.nome || '';
+      const tamanhoRegex = /\(([^)]+)\)$/;
+      const match = typeof sabor === 'string' ? sabor.match(tamanhoRegex) : null;
+      if (match) {
+        tamanho = match[1];
+        sabor = sabor.replace(tamanhoRegex, '').trim();
+      }
     }
+
+    if (item.borda_recheada) {
+      sabor += ` (Borda: ${item.borda_recheada})`;
+    }
+
+    const saborTexto = doc.splitTextToSize(sabor, colSabor - 2);
+    const alturaLinha = 4;
+    const alturaTotal = saborTexto.length * alturaLinha;
+
+    doc.rect(xQnt, y, colQnt, alturaTotal);
+    doc.text(String(item.quantidade), xQnt + colQnt/2, y + 4, {align: 'center'});
+
+    doc.rect(xSabor, y, colSabor, alturaTotal);
+    doc.text(saborTexto, xSabor + 2, y + 4);
+
+    doc.rect(xTam, y, colTam, alturaTotal);
+    doc.text(tamanho, xTam + colTam/2, y + 4, {align: 'center'});
+
+    doc.rect(xValor, y, colValor, alturaTotal);
+    doc.text(`R$ ${item.preco.toFixed(2)}`, xValor + colValor/2, y + 4, {align: 'center'});
+
+    y += alturaTotal;
     subtotal += item.preco * item.quantidade;
   });
+
   // Linhas em branco até 5
   for (let i = carrinho.length; i < 5; i++) {
-    doc.rect(xQnt, y, colQnt, 7); doc.text('-', xQnt + colQnt/2, y + 4, {align: 'center'});
-    doc.rect(xSabor, y, colSabor, 7); doc.text('-', xSabor + colSabor/2, y + 4, {align: 'center'});
-    doc.rect(xTam, y, colTam, 7); doc.text('-', xTam + colTam/2, y + 4, {align: 'center'});
-    doc.rect(xValor, y, colValor, 7); doc.text('-', xValor + colValor/2, y + 4, {align: 'center'});
-    y += 7;
+    const alturaVazia = 7;
+    doc.rect(xQnt, y, colQnt, alturaVazia); doc.text('-', xQnt + colQnt/2, y + 4, {align: 'center'});
+    doc.rect(xSabor, y, colSabor, alturaVazia); doc.text('-', xSabor + colSabor/2, y + 4, {align: 'center'});
+    doc.rect(xTam, y, colTam, alturaVazia); doc.text('-', xTam + colTam/2, y + 4, {align: 'center'});
+    doc.rect(xValor, y, colValor, alturaVazia); doc.text('-', xValor + colValor/2, y + 4, {align: 'center'});
+    y += alturaVazia;
   }
 
   doc.setLineWidth(0.2);
@@ -1577,6 +1591,7 @@ function gerarPDFPedido(carrinho, endereco) {
 
   doc.save('pedido-pizzaria.pdf');
 }
+
       function enviarPedidoWhatsApp() {
         const numeroLoja = '43991310616';
         const mensagem = encodeURIComponent('Pedido gerado! PDF em anexo.');
