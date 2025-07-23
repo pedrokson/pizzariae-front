@@ -1227,7 +1227,9 @@
           if (item.tipo === 'personalizada') {
             nomePizza = 'Pizza Personalizada';
             detalhesPersonalizada = `<br><small>Metade 1: ${item.metade1}</small><br><small>Metade 2: ${item.metade2}</small>`;
-            precoPizza = 49.90; // preço fixo para pizza personalizada
+            if (item.borda) {
+              detalhesPersonalizada += `<br><span class="borda-info">com borda ${item.borda} (+R$ 13,90)</span>`;
+            }
           }
           const total = precoPizza * item.quantidade;
           totalGeral += total;
@@ -1273,7 +1275,9 @@
           if (item.tipo === 'personalizada') {
             nomePizza = 'Pizza Personalizada';
             detalhesPersonalizada = `<br><small>Metade 1: ${item.metade1}</small><br><small>Metade 2: ${item.metade2}</small>`;
-            precoPizza = 49.90;
+           if (item.borda) {
+              detalhesPersonalizada += `<br><span class="borda-info">com borda ${item.borda} (+R$ 13,90)</span>`;
+            }
           }
           const total = precoPizza * item.quantidade;
           let detalhes = detalhesPersonalizada;
