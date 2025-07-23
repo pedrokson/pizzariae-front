@@ -1487,14 +1487,19 @@ function gerarPDFPedido(carrinho, endereco) {
   let subtotal = 0;
   // Linhas dos itens
   carrinho.forEach((item) => {
-    let sabor = item.nome;
-    let tamanho = item.tamanho || '-';
-    const tamanhoRegex = /\(([^)]+)\)$/;
-    const match = sabor.match(tamanhoRegex);
-    if (match) {
-      tamanho = match[1];
-      sabor = sabor.replace(tamanhoRegex, '').trim();
-    }
+   let sabor = '';
+  let tamanho = item.tamanho || '-';
+    if (item.tipo === 'personalizada') {
+  sabor = `Personalizada: ${item.metade1} / ${item.metade2}`;
+} else {
+  sabor = item.nome || '';
+  const tamanhoRegex = /\\(([^)]+)\\)$/;
+  const match = typeof sabor === 'string' ? sabor.match(tamanhoRegex) : null;
+  if (match) {
+    tamanho = match[1];
+    sabor = sabor.replace(tamanhoRegex, '').trim();
+  }
+}
     doc.rect(xQnt, y, colQnt, 7); doc.text(String(item.quantidade), xQnt + colQnt/2, y + 4, {align: 'center'});
     doc.rect(xSabor, y, colSabor, 7); doc.text(doc.splitTextToSize(sabor, colSabor-2), xSabor + 2, y + 4);
     doc.rect(xTam, y, colTam, 7); doc.text(tamanho, xTam + colTam/2, y + 4, {align: 'center'});
