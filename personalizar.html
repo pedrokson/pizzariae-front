@@ -408,6 +408,16 @@
       alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${precoFinal.toFixed(2)}`);
       window.location.href = 'carrinho.html';
     });
+     // Função sair global para logout
+  function sair() {
+    console.log('Função sair chamada'); // debug
+    if (confirm('Deseja realmente sair?')) {
+      // Limpa localStorage e redireciona
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      window.location.href = 'login.html';
+    }
+  }
   </script>
 </body>
 </html>
