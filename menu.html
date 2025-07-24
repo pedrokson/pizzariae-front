@@ -429,42 +429,6 @@
         box-shadow: 0 6px 20px rgba(31, 166, 75, 0.6);
       }
 
-      /* WhatsApp responsivo melhorado */
-      .whatsapp-float {
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        z-index: 999;
-        width: 60px;
-        height: 60px;
-        box-shadow: 0 4px 16px rgba(44, 62, 80, 0.18);
-        border-radius: 50%;
-        background: #25d366;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: box-shadow 0.2s;
-      }
-      .whatsapp-float:hover {
-        box-shadow: 0 8px 32px rgba(44, 62, 80, 0.28);
-        background: #1fa64b;
-      }
-      .whatsapp-float img {
-        width: 36px;
-        height: 36px;
-      }
-      @media (max-width: 768px) {
-        .whatsapp-float {
-          bottom: 16px;
-          right: 16px;
-          width: 50px;
-          height: 50px;
-        }
-        .whatsapp-float img {
-          width: 28px;
-          height: 28px;
-        }
-      }
       @media (max-width: 768px) {
         .menu-group {
           grid-template-columns: 1fr;
@@ -1814,16 +1778,6 @@
         </div>
       </section>
     </main>
-
-    <!-- Botão flutuante do WhatsApp -->
-    <a
-      href="https://wa.me/5511999999999?text=Olá! Gostaria de fazer um pedido na Pizzaria Jerônimu's"
-      class="whatsapp-float"
-      target="_blank"
-      title="Fale conosco no WhatsApp"
-    >
-      <img src="img/whatsapp.png" alt="WhatsApp" />
-    </a>
 
     <script>
       if ("serviceWorker" in navigator) {
