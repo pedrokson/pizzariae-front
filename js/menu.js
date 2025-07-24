@@ -90,7 +90,7 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
     // Só adiciona ao carrinho se não for pizza personalizada com preço fallback
     if (!(nome && nome.toLowerCase().includes('personalizada') && precoFinal === 49.9)) {
       const item = {
-        nome: nome + " (" + tamanho + ")",
+        nome: tamanho ? nome + " (" + tamanho + ")" : nome,
         preco: precoFinal,
         quantidade: quantidade,
         borda_recheada: borda,
@@ -103,17 +103,27 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
       localStorage.setItem("carrinho", carrinhoString);
       // Atualizar contador
       atualizarContadorCarrinho();
-      // Feedback visual
-      const originalText = btn.getAttribute('data-original-text') || 'Adicionar';
-      const originalColor = btn.getAttribute('data-original-color') || '';
-      btn.style.background = '#228b22';
+      // Feedback visual universal (funciona para pizzas doces e bebidas)
+      // Salva texto e cor originais do botão, considerando botões de tamanho (Média/Grande)
+      if (!btn.hasAttribute('data-original-text')) {
+        btn.setAttribute('data-original-text', btn.textContent);
+      }
+      if (!btn.hasAttribute('data-original-color')) {
+        btn.setAttribute('data-original-color', btn.style.backgroundColor || '');
+      }
+      btn.style.backgroundColor = '#228b22';
       btn.textContent = '✓ Adicionado!';
       setTimeout(() => {
-        btn.style.background = originalColor || '';
-        btn.textContent = originalText;
+        // Se o botão for de tamanho, restaura para 'Média' ou 'Grande'
+        if (tamanho && (btn.textContent === '✓ Adicionado!' || btn.textContent === 'Adicionar')) {
+          btn.textContent = tamanho;
+        } else {
+          btn.textContent = btn.getAttribute('data-original-text');
+        }
+        btn.style.backgroundColor = btn.getAttribute('data-original-color');
       }, 2000);
       // Mostrar alerta de sucesso
-      alert(`✅ ${quantidade}x ${nome} (${tamanho}) adicionado ao carrinho!`);
+      alert(`✅ ${quantidade}x ${nome}${tamanho ? ` (${tamanho})` : ''} adicionado ao carrinho!`);
     }
     
   } catch (error) {
