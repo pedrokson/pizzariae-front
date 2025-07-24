@@ -469,11 +469,12 @@
           const bordaSelect = card.querySelector(".borda-recheada");
           if (bordaSelect) borda = bordaSelect.value;
         }
-        // Se tiver borda recheada, soma 13.90 ao preço unitário
+
         let precoFinal = preco;
         if (borda) {
           precoFinal += 13.9;
         }
+
         let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
         carrinho.push({
           nome: nome + " (" + tamanho + ")",
@@ -485,13 +486,11 @@
         console.log("💾 Salvando carrinho:", carrinho);
         localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
-        // Feedback visual melhorado
-        if (
-          !btn.dataset.originalText ||
-          btn.dataset.originalText === "✓ Adicionado!"
-        ) {
-          btn.dataset.originalText = tamanho;
+        // Salvar o texto original do botão, mas só uma vez
+        if (!btn.dataset.originalText) {
+          btn.dataset.originalText = btn.textContent;
         }
+
         btn.style.background = "linear-gradient(145deg, #28a745, #20a03a)";
         btn.textContent = "✓ Adicionado!";
         btn.style.transform = "scale(1.05)";
@@ -501,7 +500,7 @@
           btn.textContent = btn.dataset.originalText;
           btn.style.transform = "scale(1)";
         }, 2500);
-        // Alert melhorado
+
         alert(
           `🍕 Adicionado com sucesso!\n\n${quantidade}x ${nome} (${tamanho})${
             borda ? "\nCom borda de " + borda : ""
@@ -510,6 +509,7 @@
             .replace(".", ",")}`
         );
       }
+
       function mostrarTamanhos(botao) {
         console.log("👆 CHAMANDO mostrarTamanhos");
 
