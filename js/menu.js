@@ -108,7 +108,12 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
       btn.textContent = '✓ Adicionado!';
       setTimeout(() => {
         btn.style.background = '#b22222';
-        btn.textContent = 'Adicionar';
+        // Restaurar texto original do botão de tamanho, se existir
+        if (btn.hasAttribute('data-original-text')) {
+          btn.textContent = btn.getAttribute('data-original-text');
+        } else {
+          btn.textContent = 'Adicionar';
+        }
       }, 2000);
       // Mostrar alerta de sucesso
       alert(`✅ ${quantidade}x ${nome} (${tamanho}) adicionado ao carrinho!`);
