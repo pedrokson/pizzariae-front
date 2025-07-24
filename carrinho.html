@@ -1514,6 +1514,12 @@
 
           if (item.tipo === "personalizada") {
             sabor = `Personalizada: ${item.metade1} / ${item.metade2}`;
+            // Adiciona borda personalizada se existir
+            if (item.borda_recheada) {
+              sabor += ` (Borda: ${item.borda_recheada})`;
+            } else if (item.borda) {
+              sabor += ` (Borda: ${item.borda})`;
+            }
           } else {
             sabor = item.nome || "";
             const tamanhoRegex = /\(([^)]+)\)$/;
@@ -1523,10 +1529,10 @@
               tamanho = match[1];
               sabor = sabor.replace(tamanhoRegex, "").trim();
             }
-          }
-
-          if (item.borda_recheada) {
-            sabor += ` (Borda: ${item.borda_recheada})`;
+            // Adiciona borda para pizzas normais se existir
+            if (item.borda_recheada) {
+              sabor += ` (Borda: ${item.borda_recheada})`;
+            }
           }
 
           const saborTexto = doc.splitTextToSize(sabor, colSabor - 2);
