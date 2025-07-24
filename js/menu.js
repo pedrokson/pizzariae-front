@@ -104,16 +104,13 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
       // Atualizar contador
       atualizarContadorCarrinho();
       // Feedback visual
+      const originalText = btn.getAttribute('data-original-text') || 'Adicionar';
+      const originalColor = btn.getAttribute('data-original-color') || '';
       btn.style.background = '#228b22';
       btn.textContent = '✓ Adicionado!';
       setTimeout(() => {
-        btn.style.background = '#b22222';
-        // Restaurar texto original do botão de tamanho, se existir
-        if (btn.hasAttribute('data-original-text')) {
-          btn.textContent = btn.getAttribute('data-original-text');
-        } else {
-          btn.textContent = 'Adicionar';
-        }
+        btn.style.background = originalColor || '';
+        btn.textContent = originalText;
       }, 2000);
       // Mostrar alerta de sucesso
       alert(`✅ ${quantidade}x ${nome} (${tamanho}) adicionado ao carrinho!`);
