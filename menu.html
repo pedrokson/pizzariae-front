@@ -486,8 +486,11 @@
         localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
         // Feedback visual melhorado
-        if (!btn.dataset.originalText) {
-          btn.dataset.originalText = btn.textContent;
+        if (
+          !btn.dataset.originalText ||
+          btn.dataset.originalText === "✓ Adicionado!"
+        ) {
+          btn.dataset.originalText = tamanho;
         }
         btn.style.background = "linear-gradient(145deg, #28a745, #20a03a)";
         btn.textContent = "✓ Adicionado!";
@@ -498,7 +501,6 @@
           btn.textContent = btn.dataset.originalText;
           btn.style.transform = "scale(1)";
         }, 2500);
-
         // Alert melhorado
         alert(
           `🍕 Adicionado com sucesso!\n\n${quantidade}x ${nome} (${tamanho})${
