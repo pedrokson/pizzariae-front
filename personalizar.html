@@ -1,45 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Personalizar Pizza - Jerônimu's</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    body {
-      background: #f8f8f8;
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-    }
-    .faixa-italia-horizontal {
-      width: 100%;
-      height: 8px;
-      display: flex;
-      margin-bottom: 0;
-    }
-    .faixa-italia-horizontal .faixa-verde {
-      background: #1fa64b;
-      flex: 1;
-    }
-    .faixa-italia-horizontal .faixa-branca {
-      background: #fff;
-      flex: 1;
-    }
-    .faixa-italia-horizontal .faixa-vermelha {
-      background: #b22222;
-      flex: 1;
-    }
-    /* Navegação melhorada */
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Personalizar Pizza - Jerônimu's</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      body {
+        background: #f8f8f8;
+        margin: 0;
+        font-family: "Arial", sans-serif;
+      }
+      .faixa-italia-horizontal {
+        width: 100%;
+        height: 8px;
+        display: flex;
+        margin-bottom: 20;
+      }
+      .faixa-italia-horizontal .faixa-verde {
+        background: #1fa64b;
+        flex: 1;
+      }
+      .faixa-italia-horizontal .faixa-branca {
+        background: #fff;
+        flex: 1;
+      }
+      .faixa-italia-horizontal .faixa-vermelha {
+        background: #b22222;
+        flex: 1;
+      }
+      /* Navegação melhorada */
       header {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+        background: linear-gradient(
+          135deg,
+          #2c3e50 0%,
+          #34495e 50%,
+          #2c3e50 100%
+        );
         padding: 1.5rem 0;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         position: relative;
         overflow: hidden;
       }
 
       header::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -59,8 +64,8 @@
         color: #fff;
         font-size: 2.2rem;
         margin-bottom: 1rem;
-        font-family: 'Georgia', serif;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        font-family: "Georgia", serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
 
       nav {
@@ -75,8 +80,8 @@
         max-width: 900px;
         margin: 1rem auto 0;
         backdrop-filter: blur(15px);
-        border: 2px solid rgba(255,255,255,0.1);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
       }
 
       nav a {
@@ -87,22 +92,22 @@
         transition: all 0.3s ease;
         border-radius: 25px;
         position: relative;
-        background: rgba(255,255,255,0.15);
-        border: 2px solid rgba(255,255,255,0.2);
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.2);
         font-size: 0.95rem;
         display: flex;
         align-items: center;
         gap: 8px;
         backdrop-filter: blur(5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       }
 
       nav a:hover {
-        background: rgba(255,255,255,0.25);
+        background: rgba(255, 255, 255, 0.25);
         color: #fff;
-        border-color: rgba(255,255,255,0.4);
+        border-color: rgba(255, 255, 255, 0.4);
         transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       }
 
       nav a.active {
@@ -110,91 +115,91 @@
         color: #fff;
         font-weight: 700;
         box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        border-color: rgba(255,255,255,0.3);
+        border-color: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
       }
-    .nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.15);
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 22px;
-      font-weight: bold;
-      font-size: 1rem;
-      border: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: all 0.3s;
-      border: 2px solid transparent;
-    }
-    .nav-btn:hover {
-      background: rgba(255,255,255,0.25);
-      color: #fff;
-      border-color: rgba(255,255,255,0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-    }
-    .nav-btn.active {
-      background: #2196f3;
-      color: #fff;
-      border: 2px solid #fff;
-      box-shadow: 0 6px 20px rgba(33,150,243,0.18);
-    }
-    .personalizar-container {
-      max-width: 700px;
-      margin: 32px auto;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-      padding: 1.2rem;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #d32f2f;
-    }
-    .metade-select {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      margin-bottom: 2rem;
-    }
-    .metade {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    label {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-    select {
-      padding: 0.5rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      width: 100%;
-    }
-    .btn-adicionar {
-      display: block;
-      margin: 0 auto;
-      padding: 0.8rem 2rem;
-      background: #d32f2f;
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn-adicionar:hover {
-      background: #ff6b35;
-    }
-     /* Responsividade */
+      .nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 22px;
+        font-weight: bold;
+        font-size: 1rem;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+        border: 2px solid transparent;
+      }
+      .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+      }
+      .nav-btn.active {
+        background: #2196f3;
+        color: #fff;
+        border: 2px solid #fff;
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.18);
+      }
+      .personalizar-container {
+        max-width: 700px;
+        margin: 32px auto;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        padding: 1.2rem;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #d32f2f;
+      }
+      .metade-select {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+      .metade {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+      select {
+        padding: 0.5rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        width: 100%;
+      }
+      .btn-adicionar {
+        display: block;
+        margin: 0 auto;
+        padding: 0.8rem 2rem;
+        background: #d32f2f;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .btn-adicionar:hover {
+        background: #ff6b35;
+      }
+      /* Responsividade */
       @media (max-width: 768px) {
         .menu {
           padding: 1rem 0.5rem;
@@ -290,237 +295,321 @@
           border-radius: 12px;
         }
       }
-    header h1 {
-    font-size: 1.3rem;
-  }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="faixa-italia-horizontal">
+        <div class="faixa-verde"></div>
+        <div class="faixa-branca"></div>
+        <div class="faixa-vermelha"></div>
+      </div>
+      <div class="header-content">
+        <h1>🍕 Jerônimu's Pizzaria</h1>
+        <div class="nav-group">
+          <nav>
+            <a href="index.html">🏠 Início</a>
+            <a href="menu.html">🍕 Pizzas Salgadas</a>
+            <a href="doces.html">🍰 Pizzas Doces</a>
+            <a href="personalizar.html" class="active">🧩 Personalizar Pizza</a>
+            <a href="bebidas.html">🥤 Bebidas</a>
+            <a href="carrinho.html">🛒 Carrinho</a>
+            <a href="#" onclick="sair(); return false;">🚪 Sair</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <a
+      href="https://wa.me/5543999047461"
+      target="_blank"
+      class="whatsapp-float"
+    >
+      <img src="img/whatsapp.png" alt="WhatsApp" />
+    </a>
 
-  </style>
-</head>
-<body>
-  <header>
-    <div class="faixa-italia-horizontal">
-      <div class="faixa-verde"></div>
-      <div class="faixa-branca"></div>
-      <div class="faixa-vermelha"></div>
+    <div class="personalizar-container">
+      <h2>Personalizar Pizza</h2>
+      <form id="form-personalizar">
+        <div class="metade-select">
+          <div style="text-align: center; margin-bottom: 1.5rem">
+            <label for="tamanho" style="font-weight: bold">Tamanho</label><br />
+            <select
+              id="tamanho"
+              name="tamanho"
+              style="
+                width: 180px;
+                padding: 0.5rem;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                font-size: 1rem;
+                text-align: center;
+              "
+            >
+              <option value="">Selecione o tamanho</option>
+              <option value="Média">Média</option>
+              <option value="Grande">Grande</option>
+            </select>
+          </div>
+          <div style="text-align: center; margin-bottom: 1.5rem">
+            <label for="borda" style="font-weight: bold">Borda recheada</label
+            ><br />
+            <select
+              id="borda"
+              name="borda"
+              style="
+                width: 180px;
+                padding: 0.5rem;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                font-size: 1rem;
+                text-align: center;
+              "
+            >
+              <option value="">Sem borda</option>
+              <option value="Catupiry">Catupiry</option>
+              <option value="Cheddar">Cheddar</option>
+              <option value="Chocolate">Chocolate</option>
+              <option value="Cream Cheese">Cream Cheese</option>
+            </select>
+          </div>
+          <div class="metade">
+            <label for="metade1">Metade 1</label>
+            <select id="metade1" name="metade1">
+              <option value="">Selecione o sabor</option>
+              <optgroup
+                label="Tradicionais (Média: R$ 51,90 | Grande: R$ 59,90)"
+              >
+                <option value="bacon">Bacon</option>
+                <option value="portuguesa">Portuguesa</option>
+                <option value="4queijos">4 Queijos</option>
+                <option value="calabresa">Calabresa</option>
+                <option value="palmito">Palmito</option>
+                <option value="frango">Frango com Catupiry ou Cheddar</option>
+                <option value="baiana">Baiana</option>
+                <option value="americana">Americana</option>
+                <option value="napolitana">Napolitana</option>
+              </optgroup>
+              <optgroup label="Especiais (Média: R$ 56,90 | Grande: R$ 64,90)">
+                <option value="catubresa">Catubresa</option>
+                <option value="marguerita">Marguerita</option>
+                <option value="dacasa">Da Casa</option>
+                <option value="canadense">Canadense</option>
+                <option value="brocolis">Brócolis com Bacon</option>
+                <option value="rucula">Rúcula com Tomate Seco</option>
+                <option value="jeronimus">Jerônimus</option>
+                <option value="caipira">Caipira</option>
+                <option value="garden">Garden</option>
+                <option value="padoguesa">Padoguesa</option>
+                <option value="pizzaiolo">Pizzaiolo</option>
+                <option value="pepperoni">Pepperoni</option>
+              </optgroup>
+              <optgroup label="Doces (Média: R$ 51,90 | Grande: R$ 59,90)">
+                <option value="romeujulieta">Romeu e Julieta</option>
+                <option value="sonhovalsa">Sonho de Valsa</option>
+                <option value="mm">M & M</option>
+                <option value="prestigio">Prestígio</option>
+                <option value="doisamores">Dois Amores</option>
+                <option value="bananachocobranco">
+                  Banana com Chocolate Branco
+                </option>
+                <option value="banoffe">Banoffe</option>
+                <option value="bis">Bis ao Leite</option>
+                <option value="abacaxi">Abacaxi</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="metade">
+            <label for="metade2">Metade 2</label>
+            <select id="metade2" name="metade2">
+              <option value="">Selecione o sabor</option>
+              <optgroup
+                label="Tradicionais (Média: R$ 51,90 | Grande: R$ 59,90)"
+              >
+                <option value="bacon">Bacon</option>
+                <option value="portuguesa">Portuguesa</option>
+                <option value="4queijos">4 Queijos</option>
+                <option value="calabresa">Calabresa</option>
+                <option value="palmito">Palmito</option>
+                <option value="frango">Frango com Catupiry ou Cheddar</option>
+                <option value="baiana">Baiana</option>
+                <option value="americana">Americana</option>
+                <option value="napolitana">Napolitana</option>
+              </optgroup>
+              <optgroup label="Especiais (Média: R$ 56,90 | Grande: R$ 64,90)">
+                <option value="catubresa">Catubresa</option>
+                <option value="marguerita">Marguerita</option>
+                <option value="dacasa">Da Casa</option>
+                <option value="canadense">Canadense</option>
+                <option value="brocolis">Brócolis com Bacon</option>
+                <option value="rucula">Rúcula com Tomate Seco</option>
+                <option value="jeronimus">Jerônimus</option>
+                <option value="caipira">Caipira</option>
+                <option value="garden">Garden</option>
+                <option value="padoguesa">Padoguesa</option>
+                <option value="pizzaiolo">Pizzaiolo</option>
+                <option value="pepperoni">Pepperoni</option>
+              </optgroup>
+              <optgroup label="Doces (Média: R$ 51,90 | Grande: R$ 59,90)">
+                <option value="romeujulieta">Romeu e Julieta</option>
+                <option value="sonhovalsa">Sonho de Valsa</option>
+                <option value="mm">M & M</option>
+                <option value="prestigio">Prestígio</option>
+                <option value="doisamores">Dois Amores</option>
+                <option value="bananachocobranco">
+                  Banana com Chocolate Branco
+                </option>
+                <option value="banoffe">Banoffe</option>
+                <option value="bis">Bis ao Leite</option>
+                <option value="abacaxi">Abacaxi</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <div style="text-align: center; margin-bottom: 1.5rem">
+          <label for="quantidade" style="font-weight: bold">Quantidade</label
+          ><br />
+          <input
+            type="number"
+            id="quantidade"
+            name="quantidade"
+            min="1"
+            value="1"
+            style="
+              width: 80px;
+              padding: 0.5rem;
+              border-radius: 8px;
+              border: 1px solid #ccc;
+              font-size: 1rem;
+              text-align: center;
+            "
+          />
+        </div>
+        <button type="submit" class="btn-adicionar">
+          Adicionar ao Carrinho
+        </button>
+      </form>
     </div>
-    <div class="header-content">
-      <h1>🍕 Jerônimu's Pizzaria</h1>
-      <div class="nav-group">
-        <nav>
-          <a href="index.html">🏠 Início</a>
-          <a href="menu.html">🍕 Pizzas Salgadas</a>
-          <a href="doces.html">🍰 Pizzas Doces</a>
-          <a href="personalizar.html" class="active">🧩 Personalizar Pizza</a>
-          <a href="bebidas.html">🥤 Bebidas</a>
-          <a href="carrinho.html">🛒 Carrinho</a>
-          <a href="#" onclick="sair(); return false;">🚪 Sair</a>
-        </nav>
-      </div>
-    </div>
-  </header>
-  <a href="https://wa.me/5543999047461" target="_blank" class="whatsapp-float">
-    <img src="img/whatsapp.png" alt="WhatsApp" />
-  </a>
+    <script>
+      document
+        .getElementById("form-personalizar")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const metade1 = document.getElementById("metade1").value;
+          const metade2 = document.getElementById("metade2").value;
+          const quantidade =
+            parseInt(document.getElementById("quantidade").value) || 1;
+          const tamanho = document.getElementById("tamanho").value;
+          const borda = document.getElementById("borda").value;
+          if (!metade1 || !metade2) {
+            alert("Selecione os dois sabores para personalizar sua pizza!");
+            return;
+          }
+          if (!tamanho) {
+            alert("Selecione o tamanho da pizza!");
+            return;
+          }
+          if (quantidade < 1) {
+            alert("Quantidade deve ser pelo menos 1!");
+            return;
+          }
 
-  <div class="personalizar-container">
-    <h2>Personalizar Pizza</h2>
-    <form id="form-personalizar">
-      <div class="metade-select">
-        <div style="text-align:center; margin-bottom:1.5rem;">
-          <label for="tamanho" style="font-weight:bold;">Tamanho</label><br>
-          <select id="tamanho" name="tamanho" style="width:180px; padding:0.5rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; text-align:center;">
-            <option value="">Selecione o tamanho</option>
-            <option value="Média">Média</option>
-            <option value="Grande">Grande</option>
-          </select>
-        </div>
-        <div style="text-align:center; margin-bottom:1.5rem;">
-          <label for="borda" style="font-weight:bold;">Borda recheada</label><br>
-          <select id="borda" name="borda" style="width:180px; padding:0.5rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; text-align:center;">
-            <option value="">Sem borda</option>
-            <option value="Catupiry">Catupiry</option>
-            <option value="Cheddar">Cheddar</option>
-            <option value="Chocolate">Chocolate</option>
-            <option value="Cream Cheese">Cream Cheese</option>
-          </select>
-        </div>
-        <div class="metade">
-          <label for="metade1">Metade 1</label>
-          <select id="metade1" name="metade1">
-            <option value="">Selecione o sabor</option>
-            <optgroup label="Tradicionais (Média: R$ 51,90 | Grande: R$ 59,90)">
-              <option value="bacon">Bacon</option>
-              <option value="portuguesa">Portuguesa</option>
-              <option value="4queijos">4 Queijos</option>
-              <option value="calabresa">Calabresa</option>
-              <option value="palmito">Palmito</option>
-              <option value="frango">Frango com Catupiry ou Cheddar</option>
-              <option value="baiana">Baiana</option>
-              <option value="americana">Americana</option>
-              <option value="napolitana">Napolitana</option>
-            </optgroup>
-            <optgroup label="Especiais (Média: R$ 56,90 | Grande: R$ 64,90)">
-              <option value="catubresa">Catubresa</option>
-              <option value="marguerita">Marguerita</option>
-              <option value="dacasa">Da Casa</option>
-              <option value="canadense">Canadense</option>
-              <option value="brocolis">Brócolis com Bacon</option>
-              <option value="rucula">Rúcula com Tomate Seco</option>
-              <option value="jeronimus">Jerônimus</option>
-              <option value="caipira">Caipira</option>
-              <option value="garden">Garden</option>
-              <option value="padoguesa">Padoguesa</option>
-              <option value="pizzaiolo">Pizzaiolo</option>
-              <option value="pepperoni">Pepperoni</option>
-            </optgroup>
-            <optgroup label="Doces (Média: R$ 51,90 | Grande: R$ 59,90)">
-              <option value="romeujulieta">Romeu e Julieta</option>
-              <option value="sonhovalsa">Sonho de Valsa</option>
-              <option value="mm">M & M</option>
-              <option value="prestigio">Prestígio</option>
-              <option value="doisamores">Dois Amores</option>
-              <option value="bananachocobranco">Banana com Chocolate Branco</option>
-              <option value="banoffe">Banoffe</option>
-              <option value="bis">Bis ao Leite</option>
-              <option value="abacaxi">Abacaxi</option>
-            </optgroup>
-          </select>
-        </div>
-        <div class="metade">
-          <label for="metade2">Metade 2</label>
-          <select id="metade2" name="metade2">
-            <option value="">Selecione o sabor</option>
-            <optgroup label="Tradicionais (Média: R$ 51,90 | Grande: R$ 59,90)">
-              <option value="bacon">Bacon</option>
-              <option value="portuguesa">Portuguesa</option>
-              <option value="4queijos">4 Queijos</option>
-              <option value="calabresa">Calabresa</option>
-              <option value="palmito">Palmito</option>
-              <option value="frango">Frango com Catupiry ou Cheddar</option>
-              <option value="baiana">Baiana</option>
-              <option value="americana">Americana</option>
-              <option value="napolitana">Napolitana</option>
-            </optgroup>
-            <optgroup label="Especiais (Média: R$ 56,90 | Grande: R$ 64,90)">
-              <option value="catubresa">Catubresa</option>
-              <option value="marguerita">Marguerita</option>
-              <option value="dacasa">Da Casa</option>
-              <option value="canadense">Canadense</option>
-              <option value="brocolis">Brócolis com Bacon</option>
-              <option value="rucula">Rúcula com Tomate Seco</option>
-              <option value="jeronimus">Jerônimus</option>
-              <option value="caipira">Caipira</option>
-              <option value="garden">Garden</option>
-              <option value="padoguesa">Padoguesa</option>
-              <option value="pizzaiolo">Pizzaiolo</option>
-              <option value="pepperoni">Pepperoni</option>
-            </optgroup>
-            <optgroup label="Doces (Média: R$ 51,90 | Grande: R$ 59,90)">
-              <option value="romeujulieta">Romeu e Julieta</option>
-              <option value="sonhovalsa">Sonho de Valsa</option>
-              <option value="mm">M & M</option>
-              <option value="prestigio">Prestígio</option>
-              <option value="doisamores">Dois Amores</option>
-              <option value="bananachocobranco">Banana com Chocolate Branco</option>
-              <option value="banoffe">Banoffe</option>
-              <option value="bis">Bis ao Leite</option>
-              <option value="abacaxi">Abacaxi</option>
-            </optgroup>
-          </select>
-        </div>
-      </div>
-      <div style="text-align:center; margin-bottom:1.5rem;">
-        <label for="quantidade" style="font-weight:bold;">Quantidade</label><br>
-        <input type="number" id="quantidade" name="quantidade" min="1" value="1" style="width:80px; padding:0.5rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; text-align:center;">
-      </div>
-      <button type="submit" class="btn-adicionar">Adicionar ao Carrinho</button>
-    </form>
-  </div>
-  <script>
-    document.getElementById('form-personalizar').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const metade1 = document.getElementById('metade1').value;
-      const metade2 = document.getElementById('metade2').value;
-      const quantidade = parseInt(document.getElementById('quantidade').value) || 1;
-      const tamanho = document.getElementById('tamanho').value;
-      const borda = document.getElementById('borda').value;
-      if (!metade1 || !metade2) {
-        alert('Selecione os dois sabores para personalizar sua pizza!');
-        return;
-      }
-      if (!tamanho) {
-        alert('Selecione o tamanho da pizza!');
-        return;
-      }
-      if (quantidade < 1) {
-        alert('Quantidade deve ser pelo menos 1!');
-        return;
-      }
+          // Preços por tipo
+          const precos = {
+            tradicional: { Media: 51.9, Grande: 59.9 },
+            especial: { Media: 56.9, Grande: 64.9 },
+            doce: { Media: 51.9, Grande: 59.9 },
+          };
 
-      // Preços por tipo
-      const precos = {
-        tradicional: { Media: 51.90, Grande: 59.90 },
-        especial: { Media: 56.90, Grande: 64.90 },
-        doce: { Media: 51.90, Grande: 59.90 }
-      };
+          // Função para identificar o tipo da pizza
+          function tipoPizza(sabor) {
+            const tradicionais = [
+              "bacon",
+              "portuguesa",
+              "4queijos",
+              "calabresa",
+              "palmito",
+              "frango",
+              "baiana",
+              "americana",
+              "napolitana",
+            ];
+            const especiais = [
+              "catubresa",
+              "marguerita",
+              "dacasa",
+              "canadense",
+              "brocolis",
+              "rucula",
+              "jeronimus",
+              "caipira",
+              "garden",
+              "padoguesa",
+              "pizzaiolo",
+              "pepperoni",
+            ];
+            const doces = [
+              "romeujulieta",
+              "sonhovalsa",
+              "mm",
+              "prestigio",
+              "doisamores",
+              "bananachocobranco",
+              "banoffe",
+              "bis",
+              "abacaxi",
+            ];
+            if (tradicionais.includes(sabor)) return "tradicional";
+            if (especiais.includes(sabor)) return "especial";
+            if (doces.includes(sabor)) return "doce";
+            return "tradicional"; // fallback
+          }
 
-      // Função para identificar o tipo da pizza
-      function tipoPizza(sabor) {
-        const tradicionais = [
-          'bacon','portuguesa','4queijos','calabresa','palmito','frango','baiana','americana','napolitana'
-        ];
-        const especiais = [
-          'catubresa','marguerita','dacasa','canadense','brocolis','rucula','jeronimus','caipira','garden','padoguesa','pizzaiolo','pepperoni'
-        ];
-        const doces = [
-          'romeujulieta','sonhovalsa','mm','prestigio','doisamores','bananachocobranco','banoffe','bis','abacaxi'
-        ];
-        if (tradicionais.includes(sabor)) return 'tradicional';
-        if (especiais.includes(sabor)) return 'especial';
-        if (doces.includes(sabor)) return 'doce';
-        return 'tradicional'; // fallback
+          // Descobre o tipo de cada metade
+          const tipo1 = tipoPizza(metade1);
+          const tipo2 = tipoPizza(metade2);
+          // Descobre o preço de cada metade
+          const preco1 =
+            precos[tipo1][tamanho === "Média" ? "Media" : "Grande"];
+          const preco2 =
+            precos[tipo2][tamanho === "Média" ? "Media" : "Grande"];
+          // O preço final é o maior entre as duas metades
+          let precoFinal = Math.max(preco1, preco2);
+          if (borda) {
+            precoFinal += 13.9;
+          }
+
+          let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+          const itemPersonalizado = {
+            id: Date.now(),
+            tipo: "personalizada",
+            metade1,
+            metade2,
+            tamanho,
+            borda,
+            quantidade,
+            preco: precoFinal,
+            observacoes: "",
+            timestamp: new Date().toISOString(),
+          };
+          carrinho.push(itemPersonalizado);
+          localStorage.setItem("carrinho", JSON.stringify(carrinho));
+          alert(
+            `Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${precoFinal.toFixed(
+              2
+            )}`
+          );
+          window.location.href = "carrinho.html";
+        });
+      // Função sair global para logout
+      function sair() {
+        console.log("Função sair chamada"); // debug
+        if (confirm("Deseja realmente sair?")) {
+          // Limpa localStorage e redireciona
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuario");
+          window.location.href = "login.html";
+        }
       }
-
-      // Descobre o tipo de cada metade
-      const tipo1 = tipoPizza(metade1);
-      const tipo2 = tipoPizza(metade2);
-      // Descobre o preço de cada metade
-      const preco1 = precos[tipo1][tamanho === 'Média' ? 'Media' : 'Grande'];
-      const preco2 = precos[tipo2][tamanho === 'Média' ? 'Media' : 'Grande'];
-      // O preço final é o maior entre as duas metades
-      let precoFinal = Math.max(preco1, preco2);
-      if (borda) {
-          precoFinal += 13.90;
-      }
-
-      let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-      const itemPersonalizado = {
-        id: Date.now(),
-        tipo: 'personalizada',
-        metade1,
-        metade2,
-        tamanho,
-        borda,
-        quantidade,
-        preco: precoFinal,
-        observacoes: '',
-        timestamp: new Date().toISOString()
-      };
-      carrinho.push(itemPersonalizado);
-      localStorage.setItem('carrinho', JSON.stringify(carrinho));
-      alert(`Pizza personalizada adicionada ao carrinho! Preço unitário: R$ ${precoFinal.toFixed(2)}`);
-      window.location.href = 'carrinho.html';
-    });
-     // Função sair global para logout
-  function sair() {
-    console.log('Função sair chamada'); // debug
-    if (confirm('Deseja realmente sair?')) {
-      // Limpa localStorage e redireciona
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuario');
-      window.location.href = 'login.html';
-    }
-  }
-  </script>
-</body>
+    </script>
+  </body>
 </html>

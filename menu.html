@@ -15,7 +15,12 @@
     <style>
       /* Estilo moderno para a página de cardápio */
       body {
-        background: linear-gradient(135deg, #f5f5f5 0%, #fff8f0 50%, #f0f8ff 100%);
+        background: linear-gradient(
+          135deg,
+          #f5f5f5 0%,
+          #fff8f0 50%,
+          #f0f8ff 100%
+        );
       }
 
       /* Faixa decorativa no topo */
@@ -43,13 +48,13 @@
         margin: 2rem 0;
         font-size: 2.5rem;
         color: #b22222;
-        font-family: 'Georgia', serif;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        font-family: "Georgia", serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         position: relative;
       }
-      
+
       .menu-title::after {
-        content: '';
+        content: "";
         display: block;
         width: 100px;
         height: 4px;
@@ -60,15 +65,20 @@
 
       /* Navegação melhorada */
       header {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+        background: linear-gradient(
+          135deg,
+          #2c3e50 0%,
+          #34495e 50%,
+          #2c3e50 100%
+        );
         padding: 1.5rem 0;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         position: relative;
         overflow: hidden;
       }
 
       header::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -88,8 +98,8 @@
         color: #fff;
         font-size: 2.2rem;
         margin-bottom: 1rem;
-        font-family: 'Georgia', serif;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        font-family: "Georgia", serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
 
       nav {
@@ -104,8 +114,8 @@
         max-width: 900px;
         margin: 1rem auto 0;
         backdrop-filter: blur(15px);
-        border: 2px solid rgba(255,255,255,0.1);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
       }
 
       nav a {
@@ -116,22 +126,22 @@
         transition: all 0.3s ease;
         border-radius: 25px;
         position: relative;
-        background: rgba(255,255,255,0.15);
-        border: 2px solid rgba(255,255,255,0.2);
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.2);
         font-size: 0.95rem;
         display: flex;
         align-items: center;
         gap: 8px;
         backdrop-filter: blur(5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       }
 
       nav a:hover {
-        background: rgba(255,255,255,0.25);
+        background: rgba(255, 255, 255, 0.25);
         color: #fff;
-        border-color: rgba(255,255,255,0.4);
+        border-color: rgba(255, 255, 255, 0.4);
         transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       }
 
       nav a.active {
@@ -139,7 +149,7 @@
         color: #fff;
         font-weight: 700;
         box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        border-color: rgba(255,255,255,0.3);
+        border-color: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
       }
 
@@ -156,12 +166,12 @@
       .menu-item {
         background: linear-gradient(145deg, #ffffff 0%, #f8f8f8 100%);
         border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         padding: 25px;
         text-align: center;
         position: relative;
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        border: 1px solid rgba(255,255,255,0.8);
+        border: 1px solid rgba(255, 255, 255, 0.8);
         overflow: hidden;
         width: 100%;
         max-width: 350px;
@@ -189,7 +199,7 @@
       }
 
       .menu-item::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -200,7 +210,7 @@
 
       .menu-item:hover {
         transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 15px 40px rgba(178,34,34,0.2);
+        box-shadow: 0 15px 40px rgba(178, 34, 34, 0.2);
       }
 
       .menu-item img {
@@ -209,7 +219,7 @@
         object-fit: cover;
         border-radius: 15px;
         margin-bottom: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         transition: transform 0.3s ease;
       }
 
@@ -221,12 +231,12 @@
         font-size: 1.5rem;
         color: #b22222;
         margin-bottom: 10px;
-        font-family: 'Georgia', serif;
+        font-family: "Georgia", serif;
         font-weight: bold;
       }
 
       .menu-item h3::after {
-        content: '';
+        content: "";
         display: block;
         width: 40px;
         height: 2px;
@@ -248,27 +258,36 @@
         font-size: 1.1rem;
         color: #b22222;
         margin-bottom: 20px;
-        background: linear-gradient(90deg, rgba(178,34,34,0.08), rgba(178,34,34,0.03));
+        background: linear-gradient(
+          90deg,
+          rgba(178, 34, 34, 0.08),
+          rgba(178, 34, 34, 0.03)
+        );
         padding: 10px 15px;
         border-radius: 25px;
-        border: 1px solid rgba(178,34,34,0.15);
+        border: 1px solid rgba(178, 34, 34, 0.15);
         position: relative;
       }
 
       .menu-item p:nth-of-type(2)::before {
-        content: '💰';
+        content: "💰";
         margin-right: 8px;
       }
 
       /* Efeito de brilho sutil nos cards */
       .menu-item::after {
-        content: '';
+        content: "";
         position: absolute;
         top: -50%;
         left: -50%;
         width: 200%;
         height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
         transform: rotate(45deg);
         transition: transform 0.6s;
         pointer-events: none;
@@ -284,7 +303,7 @@
         gap: 10px;
         margin: 20px 0;
         justify-content: center;
-        background: rgba(255,255,255,0.8);
+        background: rgba(255, 255, 255, 0.8);
         padding: 10px 20px;
         border-radius: 25px;
         border: 1px solid #e0e0e0;
@@ -305,7 +324,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 3px 10px rgba(178,34,34,0.3);
+        box-shadow: 0 3px 10px rgba(178, 34, 34, 0.3);
       }
 
       .btn-menor:hover,
@@ -360,16 +379,16 @@
         font-size: 1.1rem;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(255,107,53,0.4);
+        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
         margin-top: 10px;
       }
 
       .menu-item > button:hover {
         background: linear-gradient(145deg, #e55a2b, #cc4a1f);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255,107,53,0.6);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
       }
-      
+
       .botoes-tamanho {
         display: none;
         gap: 15px;
@@ -388,7 +407,7 @@
           transform: translateY(0);
         }
       }
-      
+
       .botoes-tamanho button {
         flex: 1;
         max-width: 130px;
@@ -401,267 +420,13 @@
         font-size: 1rem;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(31,166,75,0.4);
+        box-shadow: 0 4px 15px rgba(31, 166, 75, 0.4);
       }
-      
+
       .botoes-tamanho button:hover {
         background: linear-gradient(145deg, #188a3f, #146b32);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(31,166,75,0.6);
-      }
-
-      /* Responsividade */
-      @media (max-width: 1200px) {
-        .menu-group {
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 30px;
-          padding: 25px;
-          margin: 30px auto;
-        }
-        header h1 {
-          font-size: 2rem;
-        }
-        nav a {
-          padding: 10px 16px;
-          font-size: 0.9rem;
-          border-radius: 20px;
-        }
-      }
-
-      @media (max-width: 900px) {
-        .menu-group {
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 25px;
-          padding: 20px;
-          margin: 25px auto;
-        }
-        .menu-item {
-          max-width: 100%;
-          min-height: 480px;
-          padding: 20px;
-        }
-        .menu-item img {
-          height: 160px;
-        }
-        header h1 {
-          font-size: 1.8rem;
-        }
-        nav {
-          gap: 0.3rem;
-          padding: 0.8rem;
-        }
-        nav a {
-          padding: 10px 14px;
-          font-size: 0.85rem;
-          border-radius: 18px;
-        }
-      }
-
-      @media (max-width: 600px) {
-        .menu-group {
-          grid-template-columns: 1fr;
-          gap: 20px;
-          padding: 15px;
-          margin: 20px auto;
-        }
-        .menu-item {
-          min-height: 450px;
-          padding: 18px;
-        }
-        header {
-          padding: 1rem 0;
-        }
-        header h1 {
-          font-size: 1.6rem;
-          margin-bottom: 0.8rem;
-        }
-        nav {
-          flex-direction: column;
-          gap: 0.5rem;
-          padding: 1rem;
-          margin: 0.8rem auto 0;
-        }
-        nav a {
-          text-align: center;
-          padding: 12px 16px;
-          font-size: 0.9rem;
-          border-radius: 20px;
-        }
-      }
-
-      @media (max-width: 600px) {
-        .menu-group {
-          grid-template-columns: 1fr;
-          gap: 15px;
-          padding: 5px;
-        }
-        
-        .menu-item {
-          max-width: 100%;
-          min-height: 460px;
-          padding: 15px;
-          margin: 0 auto;
-        }
-        
-        .menu-item img {
-          height: 140px;
-        }
-        
-        .menu-title {
-          font-size: 1.8rem;
-          margin: 1.5rem 0;
-        }
-        
-        .botoes-tamanho {
-          flex-direction: column;
-          gap: 10px;
-        }
-        
-        .botoes-tamanho button {
-          max-width: 100%;
-        }
-      }
-
-      /* Melhorias para smartphones pequenos */
-      @media (max-width: 480px) {
-        .menu-group {
-          grid-template-columns: 1fr;
-          gap: 12px;
-          padding: 8px;
-          margin: 15px auto;
-        }
-        
-        .menu-item {
-          min-height: 400px;
-          padding: 12px;
-          margin: 0 4px;
-          border-radius: 12px;
-        }
-        
-        .menu-item img {
-          height: 120px;
-          width: 120px;
-          object-fit: cover;
-        }
-        
-        .menu-item h3 {
-          font-size: 1.1rem;
-          margin: 8px 0;
-        }
-        
-        .menu-item p {
-          font-size: 0.85rem;
-          margin: 4px 0;
-        }
-        
-        .menu-title {
-          font-size: 1.5rem;
-          margin: 1rem 0;
-          padding: 0 10px;
-        }
-        
-        .botoes-tamanho {
-          flex-direction: column;
-          gap: 8px;
-          margin: 10px 0;
-        }
-        
-        .botoes-tamanho button {
-          padding: 12px;
-          font-size: 0.9rem;
-          border-radius: 10px;
-          min-height: 45px;
-        }
-        
-        .menu-item .quantidade-container {
-          gap: 6px;
-          margin: 8px 0;
-        }
-        
-        .menu-item .btn-menor,
-        .menu-item .btn-maior {
-          width: 32px;
-          height: 32px;
-          font-size: 1rem;
-        }
-        
-        .menu-item .quantidade-pizza {
-          width: 50px;
-          padding: 6px;
-          font-size: 1rem;
-        }
-        
-        select.borda-recheada {
-          padding: 12px 8px;
-          font-size: 0.9rem;
-          border-radius: 8px;
-        }
-        
-        header h1 {
-          font-size: 1.4rem;
-          margin-bottom: 0.6rem;
-        }
-        
-        nav {
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 0.3rem;
-          padding: 0.8rem 0.5rem;
-        }
-        
-        nav a {
-          padding: 10px 12px;
-          font-size: 0.8rem;
-          border-radius: 15px;
-          flex: 1;
-          min-width: 80px;
-          text-align: center;
-        }
-      }
-      
-      /* Para tablets em modo retrato */
-      @media (min-width: 601px) and (max-width: 768px) {
-        .menu-group {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
-          padding: 15px;
-        }
-        
-        .menu-item {
-          min-height: 420px;
-          padding: 16px;
-        }
-        
-        .menu-item img {
-          height: 150px;
-        }
-        
-        .botoes-tamanho {
-          gap: 8px;
-        }
-        
-        .botoes-tamanho button {
-          padding: 10px;
-          font-size: 0.9rem;
-        }
-      }
-      
-      /* Para tablets em modo paisagem */
-      @media (min-width: 769px) and (max-width: 1024px) {
-        .menu-group {
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-          padding: 20px;
-        }
-        
-        .menu-item {
-          min-height: 450px;
-          padding: 18px;
-        }
-        
-        .menu-item img {
-          height: 160px;
-        }
+        box-shadow: 0 6px 20px rgba(31, 166, 75, 0.6);
       }
 
       /* WhatsApp responsivo melhorado */
@@ -672,7 +437,7 @@
           bottom: 15px;
           right: 15px;
         }
-        
+
         .whatsapp-float img {
           width: 28px;
           height: 28px;
@@ -688,8 +453,8 @@
         input.value = valor;
       }
       function adicionarCarrinho(nome, tamanho, preco, btn) {
-        console.log('🛒 CHAMANDO adicionarCarrinho:', nome, tamanho, preco);
-        
+        console.log("🛒 CHAMANDO adicionarCarrinho:", nome, tamanho, preco);
+
         let quantidade = 1;
         let borda = "";
         const card = btn.closest(".menu-item");
@@ -711,50 +476,52 @@
           quantidade: quantidade,
           borda_recheada: borda,
         });
-        
-        console.log('💾 Salvando carrinho:', carrinho);
+
+        console.log("💾 Salvando carrinho:", carrinho);
         localStorage.setItem("carrinho", JSON.stringify(carrinho));
-        
+
         // Feedback visual melhorado
-        btn.style.background = 'linear-gradient(145deg, #28a745, #20a03a)';
-        btn.textContent = '✓ Adicionado!';
-        btn.style.transform = 'scale(1.05)';
-        
+        btn.style.background = "linear-gradient(145deg, #28a745, #20a03a)";
+        btn.textContent = "✓ Adicionado!";
+        btn.style.transform = "scale(1.05)";
+
         setTimeout(() => {
-          btn.style.background = 'linear-gradient(145deg, #1fa64b, #188a3f)';
+          btn.style.background = "linear-gradient(145deg, #1fa64b, #188a3f)";
           btn.textContent = tamanho;
-          btn.style.transform = 'scale(1)';
+          btn.style.transform = "scale(1)";
         }, 2500);
-        
+
         // Alert melhorado
         alert(
           `🍕 Adicionado com sucesso!\n\n${quantidade}x ${nome} (${tamanho})${
             borda ? "\nCom borda de " + borda : ""
-          }\n\nTotal: R$ ${(precoFinal * quantidade).toFixed(2).replace('.', ',')}`
+          }\n\nTotal: R$ ${(precoFinal * quantidade)
+            .toFixed(2)
+            .replace(".", ",")}`
         );
       }
-      
+
       function mostrarTamanhos(botao) {
-        console.log('👆 CHAMANDO mostrarTamanhos');
-        
+        console.log("👆 CHAMANDO mostrarTamanhos");
+
         // Esconde todos os outros botoes-tamanho abertos
-        document.querySelectorAll('.botoes-tamanho').forEach(div => {
-          div.style.display = 'none';
+        document.querySelectorAll(".botoes-tamanho").forEach((div) => {
+          div.style.display = "none";
         });
-        
+
         // Mostra o container de tamanhos do card clicado com animação
         const tamanhos = botao.nextElementSibling;
         if (tamanhos) {
-          tamanhos.style.display = 'flex';
-          
+          tamanhos.style.display = "flex";
+
           // Muda o texto do botão
-          botao.textContent = 'Escolha o tamanho:';
-          botao.style.background = 'linear-gradient(145deg, #666, #555)';
-          botao.style.cursor = 'default';
-          
-          console.log('✅ Mostrando tamanhos');
+          botao.textContent = "Escolha o tamanho:";
+          botao.style.background = "linear-gradient(145deg, #666, #555)";
+          botao.style.cursor = "default";
+
+          console.log("✅ Mostrando tamanhos");
         } else {
-          console.error('❌ Elemento tamanhos não encontrado');
+          console.error("❌ Elemento tamanhos não encontrado");
         }
       }
     </script>
@@ -2006,15 +1773,17 @@
         </div>
       </section>
     </main>
-    
+
     <!-- Botão flutuante do WhatsApp -->
-    <a href="https://wa.me/5511999999999?text=Olá! Gostaria de fazer um pedido na Pizzaria Jerônimu's" 
-       class="whatsapp-float" 
-       target="_blank"
-       title="Fale conosco no WhatsApp">
+    <a
+      href="https://wa.me/5511999999999?text=Olá! Gostaria de fazer um pedido na Pizzaria Jerônimu's"
+      class="whatsapp-float"
+      target="_blank"
+      title="Fale conosco no WhatsApp"
+    >
       <img src="img/whatsapp.png" alt="WhatsApp" />
     </a>
-    
+
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js");
@@ -2022,13 +1791,13 @@
     </script>
     <script src="js/menu.js"></script>
     <script src="js/auth.js"></script>
-<script src="js/auth.js"></script>
+    <script src="js/auth.js"></script>
     <script>
       // Função sair global para logout
       function sair() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuario');
-        window.location.href = 'login.html';
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+        window.location.href = "login.html";
       }
     </script>
   </body>
