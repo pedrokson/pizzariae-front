@@ -482,10 +482,8 @@
         });
         localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
-        // 💡 Salva o texto original só uma vez, com .trim()
-        if (!btn.dataset.originalText) {
-          btn.dataset.originalText = btn.textContent.trim();
-        }
+        // Pega o texto original diretamente do atributo data
+        const textoOriginal = btn.getAttribute("data-original-text") || tamanho;
 
         // Feedback visual
         btn.textContent = "✓ Adicionado!";
@@ -493,12 +491,11 @@
         btn.style.transform = "scale(1.05)";
 
         setTimeout(() => {
-          btn.textContent = btn.dataset.originalText;
+          btn.textContent = textoOriginal;
           btn.style.background = "";
           btn.style.transform = "scale(1)";
         }, 2500);
 
-        // Alerta com resumo do pedido
         alert(
           `🍕 Adicionado com sucesso!\n\n${quantidade}x ${nome} (${tamanho})${
             borda ? "\nCom borda de " + borda : ""
@@ -1767,11 +1764,13 @@
             <div class="botoes-tamanho" style="display: none; margin-top: 8px">
               <button
                 onclick="adicionarCarrinho('Pizza Alcatra', 'Média', 51.90, this)"
+                data-original-text="Média"
               >
                 Média
               </button>
               <button
                 onclick="adicionarCarrinho('Pizza Alcatra', 'Grande', 59.90, this)"
+                data-original-text="Grande"
               >
                 Grande
               </button>
