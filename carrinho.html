@@ -829,8 +829,57 @@
         padding: 1rem 0 0 0;
         margin-top: 1rem;
         border-top: 2px solid #f0f0f0;
-      }      
-      
+      }
+      @media (max-width: 768px) {
+        .carrinho-tabela table,
+        .carrinho-tabela thead,
+        .carrinho-tabela tbody,
+        .carrinho-tabela th,
+        .carrinho-tabela td,
+        .carrinho-tabela tr {
+          display: block;
+          width: 100%;
+        }
+
+        .carrinho-tabela thead {
+          display: none; /* Esconde os títulos da tabela */
+        }
+
+        .carrinho-tabela tr {
+          border: 1px solid #ddd;
+          margin-bottom: 1rem;
+          border-radius: 8px;
+          padding: 0.8rem;
+          background-color: #fff;
+        }
+
+        .carrinho-tabela td {
+          display: flex;
+          justify-content: space-between;
+          padding: 0.5rem 0;
+          font-size: 0.95rem;
+          border: none;
+          border-bottom: 1px solid #eee;
+        }
+
+        .carrinho-tabela td:last-child {
+          border-bottom: none;
+        }
+
+        .carrinho-tabela td::before {
+          content: attr(data-label);
+          font-weight: bold;
+          color: #444;
+        }
+
+        .btn-finalizar,
+        .btn-remover {
+          width: 100%;
+          font-size: 1rem;
+          padding: 0.8rem;
+          margin-top: 0.5rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1158,7 +1207,7 @@
 
         if (carrinho.length === 0) {
           console.log("⚠️ Carrinho vazio");
-          tabela.innerHTML = `<tr><td colspan="5">Seu carrinho está vazio.</td></tr>`;
+          tabela.innerHTML = `<tr> colspan="5">Seu carrinho está vazio.</td></tr>`;
           cardsContainer.innerHTML = `<div style="text-align: center; padding: 2rem; color: #666;">Seu carrinho está vazio</div>`;
           totalEl.textContent = "";
           return;
@@ -1181,38 +1230,32 @@
           const total = precoPizza * item.quantidade;
           totalGeral += total;
           tabela.innerHTML += `
-          <tr>
-            <td>
-              ${nomePizza}
-              ${detalhesPersonalizada}
-              ${
-                item.borda_recheada && item.borda_recheada !== ""
-                  ? `<br><span class="borda-info">com borda ${item.borda_recheada} (+R$ 13,90)</span>`
-                  : ""
-              }
-              ${
-                item.tamanho
-                  ? `<br><small>Tamanho: ${item.tamanho}</small>`
-                  : ""
-              }
-              ${
-                item.observacoes
-                  ? `<br><small>Obs: ${item.observacoes}</small>`
-                  : ""
-              }
-            </td>
-            <td>
-              <div class="quantidade-container">
-                <button class="quantidade-btn" onclick="alterarQuantidadeCarrinho(${index}, -1)">-</button>
-                <span>${item.quantidade}</span>
-                <button class="quantidade-btn quantidade-mais" onclick="alterarQuantidadeCarrinho(${index}, 1)">+</button>
-              </div>
-            </td>
-            <td>R$ ${precoPizza.toFixed(2).replace(".", ",")}</td>
-            <td>R$ ${total.toFixed(2).replace(".", ",")}</td>
-            <td><button class="remover-btn" onclick="removerItemCarrinho(${index})">Remover</button></td>
-          </tr>
-        `;
+    <tr>
+      <td data-label="Pizza">
+        ${nomePizza}
+        ${detalhesPersonalizada}
+        ${
+          item.borda_recheada && item.borda_recheada !== ""
+            ? `<br><span class="borda-info">com borda ${item.borda_recheada} (+R$ 13,90)</span>`
+            : ""
+        }
+        ${item.tamanho ? `<br><small>Tamanho: ${item.tamanho}</small>` : ""}
+        ${item.observacoes ? `<br><small>Obs: ${item.observacoes}</small>` : ""}
+      </td>
+      <td data-label="Quantidade">
+        <div class="quantidade-container">
+          <button class="quantidade-btn" onclick="alterarQuantidadeCarrinho(${index}, -1)">-</button>
+          <span>${item.quantidade}</span>
+          <button class="quantidade-btn quantidade-mais" onclick="alterarQuantidadeCarrinho(${index}, 1)">+</button>
+        </div>
+      </td>
+      <td data-label="Preço Unit.">R$ ${precoPizza
+        .toFixed(2)
+        .replace(".", ",")}</td>
+      <td data-label="Total">R$ ${total.toFixed(2).replace(".", ",")}</td>
+      <td data-label="Ação"><button class="remover-btn" onclick="removerItemCarrinho(${index})">Remover</button></td>
+    </tr>
+  `;
         });
 
         tabela.innerHTML += `
