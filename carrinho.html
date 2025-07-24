@@ -14,7 +14,12 @@
     <style>
       /* Estilo moderno para a página do carrinho */
       body {
-        background: linear-gradient(135deg, #f5f5f5 0%, #fff8f0 50%, #f0f8ff 100%);
+        background: linear-gradient(
+          135deg,
+          #f5f5f5 0%,
+          #fff8f0 50%,
+          #f0f8ff 100%
+        );
       }
 
       /* Faixa decorativa no topo */
@@ -39,15 +44,20 @@
 
       /* Navegação melhorada */
       header {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+        background: linear-gradient(
+          135deg,
+          #2c3e50 0%,
+          #34495e 50%,
+          #2c3e50 100%
+        );
         padding: 1.5rem 0;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         position: relative;
         overflow: hidden;
       }
 
       header::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -67,8 +77,8 @@
         color: #fff;
         font-size: 2.2rem;
         margin-bottom: 1rem;
-        font-family: 'Georgia', serif;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        font-family: "Georgia", serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
 
       nav {
@@ -83,8 +93,8 @@
         max-width: 900px;
         margin: 1rem auto 0;
         backdrop-filter: blur(15px);
-        border: 2px solid rgba(255,255,255,0.1);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
       }
 
       nav a {
@@ -95,22 +105,22 @@
         transition: all 0.3s ease;
         border-radius: 25px;
         position: relative;
-        background: rgba(255,255,255,0.15);
-        border: 2px solid rgba(255,255,255,0.2);
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.2);
         font-size: 0.95rem;
         display: flex;
         align-items: center;
         gap: 8px;
         backdrop-filter: blur(5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       }
 
       nav a:hover {
-        background: rgba(255,255,255,0.25);
+        background: rgba(255, 255, 255, 0.25);
         color: #fff;
-        border-color: rgba(255,255,255,0.4);
+        border-color: rgba(255, 255, 255, 0.4);
         transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       }
 
       nav a.active {
@@ -118,7 +128,7 @@
         color: #fff;
         font-weight: 700;
         box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        border-color: rgba(255,255,255,0.3);
+        border-color: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
       }
 
@@ -532,235 +542,47 @@
         box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
       }
 
-/* Responsividade */
+      /* Responsividade */
       @media (max-width: 768px) {
-        .menu {
-          padding: 1rem 0.5rem;
-        }
-
-        .menu-group {
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-        }
-
-        .menu-item {
-          padding: 1.2rem;
-          margin: 0 0.5rem;
-        }
-
-        .menu h2 {
-          font-size: 1.6rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .menu-item h3 {
-          font-size: 1.2rem;
-        }
-
-        .menu-item img {
-          max-width: 100px;
-          height: 100px;
-        }
-
-        .btn-menor,
-        .btn-maior {
-          width: 40px;
-          height: 40px;
-          font-size: 1.3rem;
-        }
-
-        .menu-item button:not(.btn-menor):not(.btn-maior) {
-          padding: 12px 20px;
-          font-size: 1rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .menu {
-          padding: 0.5rem 0.25rem;
-        }
-
-        .menu-group {
-          gap: 1rem;
-        }
-
-        .menu-item {
-          padding: 1rem;
-          margin: 0 0.25rem;
-          border-radius: 12px;
-        }
-
-        .menu h2 {
-          font-size: 1.4rem;
-          margin-bottom: 1rem;
-        }
-
-        .menu-item h3 {
-          font-size: 1.1rem;
-          margin-bottom: 0.4rem;
-        }
-
-        .menu-item p {
-          font-size: 0.9rem;
-          margin-bottom: 0.6rem;
-        }
-
-        .menu-item img {
-          max-width: 90px;
-          height: 90px;
-        }
-
-        .quantidade-container {
-          gap: 6px;
-          margin: 0.8rem 0;
-        }
-
-        .btn-menor,
-        .btn-maior {
-          width: 35px;
-          height: 35px;
-          font-size: 1.1rem;
-        }
-
-        .menu-item button:not(.btn-menor):not(.btn-maior) {
-          padding: 14px 18px;
-          font-size: 0.95rem;
-          border-radius: 12px;
-        }
-      }
-
-      /* Responsividade para smartphones */
-      @media (max-width: 480px) {
         header {
-          padding: 0.8rem 0;
+          padding: 1rem 0;
         }
+        header h1 {
+          font-size: 1.6rem;
+          margin-bottom: 0.8rem;
+        }
+        nav {
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 1rem;
+          margin: 0.8rem auto 0;
+        }
+        nav a {
+          text-align: center;
+          padding: 12px 16px;
+          font-size: 0.9rem;
+          border-radius: 20px;
+        }
+      }
 
-        .header-content h1 {
-          font-size: 1.5rem;
+      @media (max-width: 480px) {
+        header h1 {
+          font-size: 1.4rem;
           margin-bottom: 0.6rem;
         }
-
         nav {
-          padding: 12px;
-          gap: 6px;
-          max-width: 98%;
-          border-radius: 20px;
-          flex-direction: row;
           flex-wrap: wrap;
+          justify-content: center;
+          gap: 0.3rem;
+          padding: 0.8rem 0.5rem;
         }
-
         nav a {
-          padding: 8px 10px;
-          font-size: 0.75rem;
+          padding: 10px 12px;
+          font-size: 0.8rem;
           border-radius: 15px;
           flex: 1;
-          min-width: 65px;
+          min-width: 80px;
           text-align: center;
-        }
-
-        .carrinho-container {
-          padding: 0.5rem 0.25rem;
-        }
-
-        .carrinho-container h2 {
-          font-size: 1.4rem;
-          margin-bottom: 1rem;
-        }
-
-        /* Cards ainda mais compactos no smartphone */
-        .carrinho-card {
-          padding: 1rem;
-          margin-bottom: 0.75rem;
-        }
-
-        .carrinho-card-header {
-          margin-bottom: 0.75rem;
-          padding-bottom: 0.75rem;
-        }
-
-        .carrinho-card-title h4 {
-          font-size: 0.95rem;
-        }
-
-        .carrinho-card-body {
-          gap: 0.75rem;
-        }
-
-        .total-carrinho {
-          padding: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .total-carrinho h3 {
-          font-size: 1.2rem;
-        }
-
-        .total-valor {
-          font-size: 1.6rem;
-        }
-
-        .btn-acao {
-          padding: 14px 16px;
-          font-size: 1rem;
-        }
-
-        .form-group textarea {
-          min-height: 100px;
-          padding: 12px;
-          font-size: 0.95rem;
-        }
-
-        /* Modal muito responsivo para smartphones */
-        .modal-endereco {
-          padding: 1rem;
-          margin: 0.5rem;
-          max-width: calc(100vw - 1rem);
-          max-height: calc(100vh - 1rem);
-          overflow-y: auto;
-          position: relative;
-        }
-
-        .modal-endereco h3 {
-          font-size: 1.3rem;
-          margin-bottom: 1rem;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-          padding: 12px;
-          font-size: 1rem;
-          border-radius: 8px;
-        }
-
-        /* Forçar layout vertical no modal mobile */
-        #modal-endereco > div {
-          width: 95% !important;
-          max-width: 380px !important;
-          margin: 1rem auto !important;
-          padding: 1rem !important;
-          max-height: calc(100vh - 2rem) !important;
-          overflow-y: auto !important;
-          border-radius: 15px !important;
-        }
-
-        #modal-endereco div[style*="display: flex"] {
-          flex-direction: column !important;
-          gap: 0 !important;
-        }
-
-        #modal-endereco div[style*="display: flex"] > div {
-          flex: none !important;
-          width: 100% !important;
-          margin-bottom: 1rem !important;
-        }
-
-        #modal-endereco div[style*="display: flex"] button {
-          width: 100% !important;
-          margin: 5px 0 !important;
-          padding: 14px !important;
-          font-size: 1rem !important;
-          border-radius: 8px !important;
         }
       }
 
@@ -789,7 +611,7 @@
         }
       }
       /* CSS específico do carrinho - limpo e otimizado */
-      
+
       .quantidade-container {
         align-items: center;
         justify-content: center;
@@ -824,7 +646,7 @@
       .quantidade-btn:active {
         transform: scale(0.92);
       }
-      
+
       .quantidade-container span {
         min-width: 28px;
         text-align: center;
@@ -901,8 +723,12 @@
       }
 
       @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       @keyframes slideIn {
@@ -978,7 +804,7 @@
     <main>
       <div class="carrinho-container">
         <h2>🛒 Seu Carrinho de Compras</h2>
-        
+
         <div class="carrinho-table">
           <table id="tabela-carrinho-container">
             <thead>
@@ -1002,12 +828,12 @@
         <div class="total-carrinho">
           <h3>Total do Pedido</h3>
           <div class="total-valor" id="total">R$ 0,00</div>
-          
+
           <div class="form-group">
             <label for="observacao">Observação do pedido:</label>
-            <textarea 
-              id="observacao" 
-              rows="5" 
+            <textarea
+              id="observacao"
+              rows="5"
               placeholder="Ex: Tirar cebola da pizza, entregar sem contato, etc."
             ></textarea>
           </div>
@@ -1022,58 +848,113 @@
           </button>
         </div>
 
-        <div id="carrinho-vazio" class="carrinho-vazio" style="display: none;">
+        <div id="carrinho-vazio" class="carrinho-vazio" style="display: none">
           <h3>Seu carrinho está vazio</h3>
           <p>Adicione algumas deliciosas pizzas ao seu carrinho!</p>
-          <a href="menu.html" class="btn-continuar">
-            🍕 Ver Pizzas Salgadas
-          </a>
+          <a href="menu.html" class="btn-continuar"> 🍕 Ver Pizzas Salgadas </a>
         </div>
       </div>
     </main>
 
     <!-- Modal de Endereço -->
-    <div id="modal-endereco" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
-      <div class="modal-endereco" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-height: auto;">
+    <div
+      id="modal-endereco"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        overflow-y: auto;
+      "
+    >
+      <div
+        class="modal-endereco"
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          min-height: auto;
+        "
+      >
         <h3>📍 Dados para Entrega</h3>
-        
+
         <div class="form-group">
           <label for="endereco-rua">Rua/Avenida:</label>
-          <input type="text" id="endereco-rua" placeholder="Ex: Rua das Flores, Av. Brasil" required>
+          <input
+            type="text"
+            id="endereco-rua"
+            placeholder="Ex: Rua das Flores, Av. Brasil"
+            required
+          />
         </div>
-        
-        <div style="display: flex; gap: 15px;">
-          <div class="form-group" style="flex: 1;">
+
+        <div style="display: flex; gap: 15px">
+          <div class="form-group" style="flex: 1">
             <label for="endereco-numero">Número:</label>
-            <input type="text" id="endereco-numero" placeholder="123" required>
+            <input
+              type="text"
+              id="endereco-numero"
+              placeholder="123"
+              required
+            />
           </div>
-          <div class="form-group" style="flex: 2;">
+          <div class="form-group" style="flex: 2">
             <label for="endereco-bairro">Bairro:</label>
-            <input type="text" id="endereco-bairro" placeholder="Ex: Centro, Vila Nova" required>
+            <input
+              type="text"
+              id="endereco-bairro"
+              placeholder="Ex: Centro, Vila Nova"
+              required
+            />
           </div>
         </div>
-        
+
         <div class="form-group">
           <label for="endereco-complemento">Complemento (opcional):</label>
-          <input type="text" id="endereco-complemento" placeholder="Ex: Apartamento 201, Casa dos fundos">
+          <input
+            type="text"
+            id="endereco-complemento"
+            placeholder="Ex: Apartamento 201, Casa dos fundos"
+          />
         </div>
-        
-        <div style="display: flex; gap: 15px;">
-          <div class="form-group" style="flex: 1;">
+
+        <div style="display: flex; gap: 15px">
+          <div class="form-group" style="flex: 1">
             <label for="endereco-cep">CEP:</label>
-            <input type="text" id="endereco-cep" placeholder="86270-000" maxlength="9" required>
+            <input
+              type="text"
+              id="endereco-cep"
+              placeholder="86270-000"
+              maxlength="9"
+              required
+            />
           </div>
-          <div class="form-group" style="flex: 2;">
+          <div class="form-group" style="flex: 2">
             <label for="endereco-cidade">Cidade:</label>
-            <input type="text" id="endereco-cidade" value="São Jerônimo da Serra - PR" readonly style="background: #f5f5f5;">
+            <input
+              type="text"
+              id="endereco-cidade"
+              value="São Jerônimo da Serra - PR"
+              readonly
+              style="background: #f5f5f5"
+            />
           </div>
         </div>
-        
+
         <div class="form-group">
           <label for="endereco-referencia">Ponto de Referência:</label>
-          <input type="text" id="endereco-referencia" placeholder="Ex: Próximo ao mercado, em frente à igreja">
+          <input
+            type="text"
+            id="endereco-referencia"
+            placeholder="Ex: Próximo ao mercado, em frente à igreja"
+          />
         </div>
-        
+
         <div class="form-group">
           <label for="tipo-entrega">Tipo de Pedido:</label>
           <select id="tipo-entrega" onchange="atualizarTaxaEntrega()" required>
@@ -1082,7 +963,7 @@
             <option value="retirada">🏠 Retirar na Pizzaria (Grátis)</option>
           </select>
         </div>
-        
+
         <div class="form-group">
           <label for="forma-pagamento">Forma de Pagamento:</label>
           <select id="forma-pagamento" onchange="mostrarCampoTroco()" required>
@@ -1093,32 +974,111 @@
             <option value="pix">📱 PIX</option>
           </select>
         </div>
-        
-        <div id="troco-container" class="form-group" style="display: none;">
+
+        <div id="troco-container" class="form-group" style="display: none">
           <label for="troco-para">Troco para quanto? (opcional):</label>
-          <input type="number" id="troco-para" placeholder="Ex: 50" step="0.01" min="0">
+          <input
+            type="number"
+            id="troco-para"
+            placeholder="Ex: 50"
+            step="0.01"
+            min="0"
+          />
         </div>
-        
-        <div class="form-group" style="background: #f8f9fa; border: 2px solid #d32f2f; border-radius: 8px; padding: 1rem; margin: 1rem 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <strong style="color: #333;">Subtotal dos Itens:</strong>
-            <span id="subtotal-modal" style="color: #333; font-weight: bold;">R$ 0,00</span>
+
+        <div
+          class="form-group"
+          style="
+            background: #f8f9fa;
+            border: 2px solid #d32f2f;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 0.5rem;
+            "
+          >
+            <strong style="color: #333">Subtotal dos Itens:</strong>
+            <span id="subtotal-modal" style="color: #333; font-weight: bold"
+              >R$ 0,00</span
+            >
           </div>
-          <div id="taxa-entrega-info" style="display: none; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; color: #666;">
+          <div
+            id="taxa-entrega-info"
+            style="
+              display: none;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 0.5rem;
+              color: #666;
+            "
+          >
             <span>Taxa de Entrega:</span>
             <span>R$ 3,00</span>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem; border-top: 2px solid #d32f2f;">
-            <strong style="color: #d32f2f; font-size: 1.1rem;">TOTAL FINAL:</strong>
-            <strong id="total-final-modal" style="color: #d32f2f; font-size: 1.2rem;">R$ 0,00</strong>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding-top: 0.5rem;
+              border-top: 2px solid #d32f2f;
+            "
+          >
+            <strong style="color: #d32f2f; font-size: 1.1rem"
+              >TOTAL FINAL:</strong
+            >
+            <strong
+              id="total-final-modal"
+              style="color: #d32f2f; font-size: 1.2rem"
+              >R$ 0,00</strong
+            >
           </div>
         </div>
-        
-        <div class="botoes-modal" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <button onclick="confirmarPedidoComEndereco()" style="background: #25d366; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
+
+        <div
+          class="botoes-modal"
+          style="
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <button
+            onclick="confirmarPedidoComEndereco()"
+            style="
+              background: #25d366;
+              color: white;
+              padding: 12px 24px;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 16px;
+              font-weight: bold;
+            "
+          >
             📱 Enviar Pedido
           </button>
-          <button onclick="fecharModalEndereco()" style="background: #dc3545; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
+          <button
+            onclick="fecharModalEndereco()"
+            style="
+              background: #dc3545;
+              color: white;
+              padding: 12px 24px;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 16px;
+              font-weight: bold;
+            "
+          >
             ❌ Cancelar
           </button>
         </div>
@@ -1128,37 +1088,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
       function renderCarrinho() {
-        console.log('🛒 Renderizando carrinho...');
+        console.log("🛒 Renderizando carrinho...");
         const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-        console.log('📦 Itens encontrados:', carrinho);
-        
+        console.log("📦 Itens encontrados:", carrinho);
+
         const tabela = document.getElementById("tabela-carrinho");
         const cardsContainer = document.getElementById("carrinho-cards");
         const totalEl = document.getElementById("total");
-        
+
         // Limpar ambos os containers
         tabela.innerHTML = "";
         cardsContainer.innerHTML = "";
-        
+
         let totalGeral = 0;
-        
+
         if (carrinho.length === 0) {
-          console.log('⚠️ Carrinho vazio');
+          console.log("⚠️ Carrinho vazio");
           tabela.innerHTML = `<tr><td colspan="5">Seu carrinho está vazio.</td></tr>`;
           cardsContainer.innerHTML = `<div style="text-align: center; padding: 2rem; color: #666;">Seu carrinho está vazio</div>`;
           totalEl.textContent = "";
           return;
         }
-        
+
         console.log(`✅ Processando ${carrinho.length} itens do carrinho`);
-        
+
         // Renderizar tabela (desktop)
         carrinho.forEach((item, index) => {
-          let nomePizza = item.nome || '';
+          let nomePizza = item.nome || "";
           let precoPizza = item.preco || 0;
-          let detalhesPersonalizada = '';
-          if (item.tipo === 'personalizada') {
-            nomePizza = 'Pizza Personalizada';
+          let detalhesPersonalizada = "";
+          if (item.tipo === "personalizada") {
+            nomePizza = "Pizza Personalizada";
             detalhesPersonalizada = `<br><small>Metade 1: ${item.metade1}</small><br><small>Metade 2: ${item.metade2}</small>`;
             if (item.borda) {
               detalhesPersonalizada += `<br><span class="borda-info">com borda ${item.borda} (+R$ 13,90)</span>`;
@@ -1176,8 +1136,16 @@
                   ? `<br><span class="borda-info">com borda ${item.borda_recheada} (+R$ 13,90)</span>`
                   : ""
               }
-              ${item.tamanho ? `<br><small>Tamanho: ${item.tamanho}</small>` : ""}
-              ${item.observacoes ? `<br><small>Obs: ${item.observacoes}</small>` : ""}
+              ${
+                item.tamanho
+                  ? `<br><small>Tamanho: ${item.tamanho}</small>`
+                  : ""
+              }
+              ${
+                item.observacoes
+                  ? `<br><small>Obs: ${item.observacoes}</small>`
+                  : ""
+              }
             </td>
             <td>
               <div class="quantidade-container">
@@ -1186,29 +1154,31 @@
                 <button class="quantidade-btn quantidade-mais" onclick="alterarQuantidadeCarrinho(${index}, 1)">+</button>
               </div>
             </td>
-            <td>R$ ${precoPizza.toFixed(2).replace('.', ',')}</td>
-            <td>R$ ${total.toFixed(2).replace('.', ',')}</td>
+            <td>R$ ${precoPizza.toFixed(2).replace(".", ",")}</td>
+            <td>R$ ${total.toFixed(2).replace(".", ",")}</td>
             <td><button class="remover-btn" onclick="removerItemCarrinho(${index})">Remover</button></td>
           </tr>
         `;
         });
-        
+
         tabela.innerHTML += `
         <tr>
           <td colspan="4"><strong>Total Geral</strong></td>
-          <td><strong>R$ ${totalGeral.toFixed(2).replace('.', ',')}</strong></td>
+          <td><strong>R$ ${totalGeral
+            .toFixed(2)
+            .replace(".", ",")}</strong></td>
         </tr>
       `;
 
         // Renderizar cards (mobile)
         carrinho.forEach((item, index) => {
-          let nomePizza = item.nome || '';
+          let nomePizza = item.nome || "";
           let precoPizza = item.preco || 0;
-          let detalhesPersonalizada = '';
-          if (item.tipo === 'personalizada') {
-            nomePizza = 'Pizza Personalizada';
+          let detalhesPersonalizada = "";
+          if (item.tipo === "personalizada") {
+            nomePizza = "Pizza Personalizada";
             detalhesPersonalizada = `<br><small>Metade 1: ${item.metade1}</small><br><small>Metade 2: ${item.metade2}</small>`;
-           if (item.borda) {
+            if (item.borda) {
               detalhesPersonalizada += `<br><span class="borda-info">com borda ${item.borda} (+R$ 13,90)</span>`;
             }
           }
@@ -1237,8 +1207,12 @@
               <div class="carrinho-card-body">
                 <div class="carrinho-card-price">
                   <div class="price-label">Preços:</div>
-                  <div class="price-unit">Unitário: R$ ${precoPizza.toFixed(2).replace('.', ',')}</div>
-                  <div class="price-total">Total: R$ ${total.toFixed(2).replace('.', ',')}</div>
+                  <div class="price-unit">Unitário: R$ ${precoPizza
+                    .toFixed(2)
+                    .replace(".", ",")}</div>
+                  <div class="price-total">Total: R$ ${total
+                    .toFixed(2)
+                    .replace(".", ",")}</div>
                 </div>
                 <div class="carrinho-card-quantity">
                   <div class="quantity-label">Quantidade</div>
@@ -1252,15 +1226,17 @@
             </div>
           `;
         });
-        
+
         // Adicionar card do total para mobile
         cardsContainer.innerHTML += `
           <div class="carrinho-total-card">
             <h4>Total do Pedido</h4>
-            <div class="total-value">R$ ${totalGeral.toFixed(2).replace('.', ',')}</div>
+            <div class="total-value">R$ ${totalGeral
+              .toFixed(2)
+              .replace(".", ",")}</div>
           </div>
         `;
-        
+
         totalEl.textContent = "";
       }
 
@@ -1295,24 +1271,24 @@
 
         // Mostrar modal de endereço
         const modal = document.getElementById("modal-endereco");
-        const modalContent = modal.querySelector('.modal-endereco');
+        const modalContent = modal.querySelector(".modal-endereco");
         modal.style.display = "block";
-        
+
         // Calcular e exibir totais iniciais
         atualizarTaxaEntrega();
-        
+
         // Verificar se o modal cabe na tela e ajustar posicionamento
         setTimeout(() => {
           const modalHeight = modalContent.offsetHeight;
           const windowHeight = window.innerHeight;
-          
+
           if (modalHeight > windowHeight * 0.9) {
             // Se o modal é muito alto, usar scroll
-            modalContent.style.position = 'absolute';
-            modalContent.style.top = '2%';
-            modalContent.style.transform = 'translateX(-50%)';
-            modalContent.style.maxHeight = '96vh';
-            modalContent.style.overflowY = 'auto';
+            modalContent.style.position = "absolute";
+            modalContent.style.top = "2%";
+            modalContent.style.transform = "translateX(-50%)";
+            modalContent.style.maxHeight = "96vh";
+            modalContent.style.overflowY = "auto";
           }
         }, 100);
       }
@@ -1322,247 +1298,324 @@
       }
 
       function validarEndereco() {
-        const rua = document.getElementById('endereco-rua').value.trim();
-        const numero = document.getElementById('endereco-numero').value.trim();
-        const bairro = document.getElementById('endereco-bairro').value.trim();
-        const cep = document.getElementById('endereco-cep').value.trim();
-        
+        const rua = document.getElementById("endereco-rua").value.trim();
+        const numero = document.getElementById("endereco-numero").value.trim();
+        const bairro = document.getElementById("endereco-bairro").value.trim();
+        const cep = document.getElementById("endereco-cep").value.trim();
+
         if (!rua || !numero || !bairro || !cep) {
-          alert('Por favor, preencha todos os campos obrigatórios do endereço!');
+          alert(
+            "Por favor, preencha todos os campos obrigatórios do endereço!"
+          );
           return false;
         }
-        
+
         // Validar CEP (formato 00000-000 ou 00000000)
-        const cepLimpo = cep.replace(/\D/g, '');
+        const cepLimpo = cep.replace(/\D/g, "");
         if (cepLimpo.length !== 8) {
-          alert('Por favor, informe um CEP válido (8 dígitos)!');
+          alert("Por favor, informe um CEP válido (8 dígitos)!");
           return false;
         }
-        
+
         return true;
       }
 
       function obterDadosEndereco() {
         return {
-          rua: document.getElementById('endereco-rua').value.trim(),
-          numero: document.getElementById('endereco-numero').value.trim(),
-          bairro: document.getElementById('endereco-bairro').value.trim(),
-          complemento: document.getElementById('endereco-complemento').value.trim(),
-          cep: document.getElementById('endereco-cep').value.trim(),
-          cidade: document.getElementById('endereco-cidade').value.trim(),
-          referencia: document.getElementById('endereco-referencia').value.trim()
+          rua: document.getElementById("endereco-rua").value.trim(),
+          numero: document.getElementById("endereco-numero").value.trim(),
+          bairro: document.getElementById("endereco-bairro").value.trim(),
+          complemento: document
+            .getElementById("endereco-complemento")
+            .value.trim(),
+          cep: document.getElementById("endereco-cep").value.trim(),
+          cidade: document.getElementById("endereco-cidade").value.trim(),
+          referencia: document
+            .getElementById("endereco-referencia")
+            .value.trim(),
         };
       }
 
       function gerarPDFPedido(carrinho, endereco) {
-  const doc = new window.jspdf.jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: [80, 200]
-  });
+        const doc = new window.jspdf.jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: [80, 200],
+        });
 
-  const largura = 80;
-  let y = 8;
+        const largura = 80;
+        let y = 8;
 
-  const tipoEntrega = document.getElementById('tipo-entrega').value;
-  const formaPagamento = document.getElementById('forma-pagamento').value;
-  const trocoValue = document.getElementById('troco-para').value;
-  const obs = document.getElementById('observacao').value;
+        const tipoEntrega = document.getElementById("tipo-entrega").value;
+        const formaPagamento = document.getElementById("forma-pagamento").value;
+        const trocoValue = document.getElementById("troco-para").value;
+        const obs = document.getElementById("observacao").value;
 
-  // Cabeçalho
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(14);
-  doc.setFont(undefined, 'bold');
-  doc.text("JERONIMU'S PIZZARIA", largura / 2, y, { align: 'center' }); y += 8;
+        // Cabeçalho
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(14);
+        doc.setFont(undefined, "bold");
+        doc.text("JERONIMU'S PIZZARIA", largura / 2, y, { align: "center" });
+        y += 8;
 
-  doc.setFontSize(11);
-  doc.setFont(undefined, 'normal');
-  doc.text('COMANDA DE PEDIDO', largura / 2, y, { align: 'center' }); y += 6;
+        doc.setFontSize(11);
+        doc.setFont(undefined, "normal");
+        doc.text("COMANDA DE PEDIDO", largura / 2, y, { align: "center" });
+        y += 6;
 
-  doc.setFont(undefined, 'bold');
-  doc.text(tipoEntrega === 'entrega' ? 'ENTREGA' : 'RETIRAR NA PIZZARIA', largura / 2, y, { align: 'center' }); y += 7;
+        doc.setFont(undefined, "bold");
+        doc.text(
+          tipoEntrega === "entrega" ? "ENTREGA" : "RETIRAR NA PIZZARIA",
+          largura / 2,
+          y,
+          { align: "center" }
+        );
+        y += 7;
 
-  doc.setFont(undefined, 'normal');
-  doc.setLineWidth(0.3);
-  doc.line(7, y, largura - 7, y); y += 2.5;
+        doc.setFont(undefined, "normal");
+        doc.setLineWidth(0.3);
+        doc.line(7, y, largura - 7, y);
+        y += 2.5;
 
-  doc.setFontSize(9.5);
-  doc.text(`Cliente: ${endereco.nome || ''}`, 8, y); y += 4;
-  doc.text(`Fone: ${endereco.telefone || ''}`, 8, y); y += 4;
+        doc.setFontSize(9.5);
+        doc.text(`Cliente: ${endereco.nome || ""}`, 8, y);
+        y += 4;
+        doc.text(`Fone: ${endereco.telefone || ""}`, 8, y);
+        y += 4;
 
-  if (tipoEntrega === 'entrega') {
-    doc.text(`Endereço: ${endereco.rua || ''}, ${endereco.numero || ''}`, 8, y); y += 4;
-    doc.text(`Bairro: ${endereco.bairro || ''}`, 8, y); y += 4;
-    doc.text(`Cidade: ${endereco.cidade || ''}`, 8, y); y += 4;
-    doc.text(`CEP: ${endereco.cep || ''}`, 8, y); y += 4;
-    if (endereco.referencia) {
-      doc.text(`Ref.: ${endereco.referencia}`, 8, y); y += 4;
-    }
-  }
+        if (tipoEntrega === "entrega") {
+          doc.text(
+            `Endereço: ${endereco.rua || ""}, ${endereco.numero || ""}`,
+            8,
+            y
+          );
+          y += 4;
+          doc.text(`Bairro: ${endereco.bairro || ""}`, 8, y);
+          y += 4;
+          doc.text(`Cidade: ${endereco.cidade || ""}`, 8, y);
+          y += 4;
+          doc.text(`CEP: ${endereco.cep || ""}`, 8, y);
+          y += 4;
+          if (endereco.referencia) {
+            doc.text(`Ref.: ${endereco.referencia}`, 8, y);
+            y += 4;
+          }
+        }
 
-  doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 8, y);
-  doc.text(`Hora: ${new Date().toLocaleTimeString('pt-BR').slice(0, 5)}`, largura - 8, y, { align: 'right' }); y += 5;
+        doc.text(`Data: ${new Date().toLocaleDateString("pt-BR")}`, 8, y);
+        doc.text(
+          `Hora: ${new Date().toLocaleTimeString("pt-BR").slice(0, 5)}`,
+          largura - 8,
+          y,
+          { align: "right" }
+        );
+        y += 5;
 
-  doc.setLineWidth(0.2);
-  doc.line(7, y, largura - 7, y); y += 2.5;
+        doc.setLineWidth(0.2);
+        doc.line(7, y, largura - 7, y);
+        y += 2.5;
 
-  // Tabela de itens
-  doc.setFontSize(10);
-  doc.setFont(undefined, 'bold');
+        // Tabela de itens
+        doc.setFontSize(10);
+        doc.setFont(undefined, "bold");
 
-  const colQnt = 10, colSabor = 32, colTam = 15, colValor = 16;
-  const xQnt = 7, xSabor = xQnt + colQnt, xTam = xSabor + colSabor, xValor = xTam + colTam;
+        const colQnt = 10,
+          colSabor = 32,
+          colTam = 15,
+          colValor = 16;
+        const xQnt = 7,
+          xSabor = xQnt + colQnt,
+          xTam = xSabor + colSabor,
+          xValor = xTam + colTam;
 
-  // Cabeçalho da tabela
-  doc.rect(xQnt, y, colQnt, 7); doc.text('Qnt', xQnt + colQnt/2, y + 4, {align: 'center'});
-  doc.rect(xSabor, y, colSabor, 7); doc.text('Sabor', xSabor + colSabor/2, y + 4, {align: 'center'});
-  doc.rect(xTam, y, colTam, 7); doc.text('Tam.', xTam + colTam/2, y + 4, {align: 'center'});
-  doc.rect(xValor, y, colValor, 7); doc.text('Valor', xValor + colValor/2, y + 4, {align: 'center'});
-  y += 7;
+        // Cabeçalho da tabela
+        doc.rect(xQnt, y, colQnt, 7);
+        doc.text("Qnt", xQnt + colQnt / 2, y + 4, { align: "center" });
+        doc.rect(xSabor, y, colSabor, 7);
+        doc.text("Sabor", xSabor + colSabor / 2, y + 4, { align: "center" });
+        doc.rect(xTam, y, colTam, 7);
+        doc.text("Tam.", xTam + colTam / 2, y + 4, { align: "center" });
+        doc.rect(xValor, y, colValor, 7);
+        doc.text("Valor", xValor + colValor / 2, y + 4, { align: "center" });
+        y += 7;
 
-  doc.setFont(undefined, 'normal');
-  let subtotal = 0;
+        doc.setFont(undefined, "normal");
+        let subtotal = 0;
 
-  carrinho.forEach((item) => {
-    let sabor = '';
-    let tamanho = item.tamanho || '-';
+        carrinho.forEach((item) => {
+          let sabor = "";
+          let tamanho = item.tamanho || "-";
 
-    if (item.tipo === 'personalizada') {
-      sabor = `Personalizada: ${item.metade1} / ${item.metade2}`;
-    } else {
-      sabor = item.nome || '';
-      const tamanhoRegex = /\(([^)]+)\)$/;
-      const match = typeof sabor === 'string' ? sabor.match(tamanhoRegex) : null;
-      if (match) {
-        tamanho = match[1];
-        sabor = sabor.replace(tamanhoRegex, '').trim();
+          if (item.tipo === "personalizada") {
+            sabor = `Personalizada: ${item.metade1} / ${item.metade2}`;
+          } else {
+            sabor = item.nome || "";
+            const tamanhoRegex = /\(([^)]+)\)$/;
+            const match =
+              typeof sabor === "string" ? sabor.match(tamanhoRegex) : null;
+            if (match) {
+              tamanho = match[1];
+              sabor = sabor.replace(tamanhoRegex, "").trim();
+            }
+          }
+
+          if (item.borda_recheada) {
+            sabor += ` (Borda: ${item.borda_recheada})`;
+          }
+
+          const saborTexto = doc.splitTextToSize(sabor, colSabor - 2);
+          const alturaLinha = 4;
+          const alturaTotal = saborTexto.length * alturaLinha;
+
+          doc.rect(xQnt, y, colQnt, alturaTotal);
+          doc.text(String(item.quantidade), xQnt + colQnt / 2, y + 4, {
+            align: "center",
+          });
+
+          doc.rect(xSabor, y, colSabor, alturaTotal);
+          doc.text(saborTexto, xSabor + 2, y + 4);
+
+          doc.rect(xTam, y, colTam, alturaTotal);
+          doc.text(tamanho, xTam + colTam / 2, y + 4, { align: "center" });
+
+          doc.rect(xValor, y, colValor, alturaTotal);
+          doc.text(
+            `R$ ${item.preco.toFixed(2)}`,
+            xValor + colValor / 2,
+            y + 4,
+            { align: "center" }
+          );
+
+          y += alturaTotal;
+          subtotal += item.preco * item.quantidade;
+        });
+
+        // Linhas em branco até 5
+        for (let i = carrinho.length; i < 5; i++) {
+          const alturaVazia = 7;
+          doc.rect(xQnt, y, colQnt, alturaVazia);
+          doc.text("-", xQnt + colQnt / 2, y + 4, { align: "center" });
+          doc.rect(xSabor, y, colSabor, alturaVazia);
+          doc.text("-", xSabor + colSabor / 2, y + 4, { align: "center" });
+          doc.rect(xTam, y, colTam, alturaVazia);
+          doc.text("-", xTam + colTam / 2, y + 4, { align: "center" });
+          doc.rect(xValor, y, colValor, alturaVazia);
+          doc.text("-", xValor + colValor / 2, y + 4, { align: "center" });
+          y += alturaVazia;
+        }
+
+        doc.setLineWidth(0.2);
+        doc.line(7, y, largura - 7, y);
+        y += 2.5;
+
+        doc.setFontSize(11);
+        doc.setFont(undefined, "bold");
+        doc.text("Subtotal:", 8, y);
+        doc.text(`R$ ${subtotal.toFixed(2)}`, largura - 8, y, {
+          align: "right",
+        });
+        y += 5;
+
+        const taxaEntrega = tipoEntrega === "entrega" ? 3.0 : 0;
+        if (taxaEntrega > 0) {
+          doc.setFontSize(10);
+          doc.setFont(undefined, "normal");
+          doc.text("Taxa entrega:", 8, y);
+          doc.text(`R$ ${taxaEntrega.toFixed(2)}`, largura - 8, y, {
+            align: "right",
+          });
+          y += 4.2;
+        }
+
+        const totalFinal = subtotal + taxaEntrega;
+        doc.setFontSize(12);
+        doc.setFont(undefined, "bold");
+        doc.text("TOTAL GERAL:", 8, y);
+        doc.text(`R$ ${totalFinal.toFixed(2)}`, largura - 8, y, {
+          align: "right",
+        });
+        y += 6;
+
+        doc.setLineWidth(0.2);
+        doc.line(7, y, largura - 7, y);
+        y += 2.5;
+
+        // Pagamento
+        doc.setFontSize(10);
+        doc.setFont(undefined, "bold");
+        doc.text("Pagamento:", 8, y);
+        doc.setFont(undefined, "normal");
+        doc.text(formaPagamento, largura - 8, y, { align: "right" });
+
+        if (trocoValue) {
+          y += 4;
+          doc.setFont(undefined, "bold");
+          doc.text("Troco para:", 8, y);
+          doc.setFont(undefined, "normal");
+          doc.text(`R$ ${parseFloat(trocoValue).toFixed(2)}`, largura - 8, y, {
+            align: "right",
+          });
+        }
+
+        y += 5;
+        if (obs && obs.trim()) {
+          doc.setFontSize(9.5);
+          doc.setFont(undefined, "italic");
+          doc.text("Obs:", largura / 2, y, { align: "center" });
+          y += 3.5;
+          doc.setFont(undefined, "normal");
+          doc.text(doc.splitTextToSize(obs, largura - 16), largura / 2, y, {
+            align: "center",
+          });
+          y += 6;
+        }
+
+        doc.setFontSize(8.5);
+        doc.setFont(undefined, "italic");
+        doc.text("Obrigado pela preferência!", largura / 2, y, {
+          align: "center",
+        });
+
+        doc.save("pedido-pizzaria.pdf");
       }
-    }
-
-    if (item.borda_recheada) {
-      sabor += ` (Borda: ${item.borda_recheada})`;
-    }
-
-    const saborTexto = doc.splitTextToSize(sabor, colSabor - 2);
-    const alturaLinha = 4;
-    const alturaTotal = saborTexto.length * alturaLinha;
-
-    doc.rect(xQnt, y, colQnt, alturaTotal);
-    doc.text(String(item.quantidade), xQnt + colQnt/2, y + 4, {align: 'center'});
-
-    doc.rect(xSabor, y, colSabor, alturaTotal);
-    doc.text(saborTexto, xSabor + 2, y + 4);
-
-    doc.rect(xTam, y, colTam, alturaTotal);
-    doc.text(tamanho, xTam + colTam/2, y + 4, {align: 'center'});
-
-    doc.rect(xValor, y, colValor, alturaTotal);
-    doc.text(`R$ ${item.preco.toFixed(2)}`, xValor + colValor/2, y + 4, {align: 'center'});
-
-    y += alturaTotal;
-    subtotal += item.preco * item.quantidade;
-  });
-
-  // Linhas em branco até 5
-  for (let i = carrinho.length; i < 5; i++) {
-    const alturaVazia = 7;
-    doc.rect(xQnt, y, colQnt, alturaVazia); doc.text('-', xQnt + colQnt/2, y + 4, {align: 'center'});
-    doc.rect(xSabor, y, colSabor, alturaVazia); doc.text('-', xSabor + colSabor/2, y + 4, {align: 'center'});
-    doc.rect(xTam, y, colTam, alturaVazia); doc.text('-', xTam + colTam/2, y + 4, {align: 'center'});
-    doc.rect(xValor, y, colValor, alturaVazia); doc.text('-', xValor + colValor/2, y + 4, {align: 'center'});
-    y += alturaVazia;
-  }
-
-  doc.setLineWidth(0.2);
-  doc.line(7, y, largura - 7, y); y += 2.5;
-
-  doc.setFontSize(11);
-  doc.setFont(undefined, 'bold');
-  doc.text('Subtotal:', 8, y);
-  doc.text(`R$ ${subtotal.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 5;
-
-  const taxaEntrega = tipoEntrega === 'entrega' ? 3.00 : 0;
-  if (taxaEntrega > 0) {
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
-    doc.text('Taxa entrega:', 8, y);
-    doc.text(`R$ ${taxaEntrega.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 4.2;
-  }
-
-  const totalFinal = subtotal + taxaEntrega;
-  doc.setFontSize(12);
-  doc.setFont(undefined, 'bold');
-  doc.text('TOTAL GERAL:', 8, y);
-  doc.text(`R$ ${totalFinal.toFixed(2)}`, largura - 8, y, { align: 'right' }); y += 6;
-
-  doc.setLineWidth(0.2);
-  doc.line(7, y, largura - 7, y); y += 2.5;
-
-  // Pagamento
-  doc.setFontSize(10);
-  doc.setFont(undefined, 'bold');
-  doc.text('Pagamento:', 8, y);
-  doc.setFont(undefined, 'normal');
-  doc.text(formaPagamento, largura - 8, y, { align: 'right' });
-
-  if (trocoValue) {
-    y += 4;
-    doc.setFont(undefined, 'bold');
-    doc.text('Troco para:', 8, y);
-    doc.setFont(undefined, 'normal');
-    doc.text(`R$ ${parseFloat(trocoValue).toFixed(2)}`, largura - 8, y, { align: 'right' });
-  }
-
-  y += 5;
-  if (obs && obs.trim()) {
-    doc.setFontSize(9.5);
-    doc.setFont(undefined, 'italic');
-    doc.text('Obs:', largura / 2, y, { align: 'center' }); y += 3.5;
-    doc.setFont(undefined, 'normal');
-    doc.text(doc.splitTextToSize(obs, largura - 16), largura / 2, y, { align: 'center' }); y += 6;
-  }
-
-  doc.setFontSize(8.5);
-  doc.setFont(undefined, 'italic');
-  doc.text('Obrigado pela preferência!', largura / 2, y, { align: 'center' });
-
-  doc.save('pedido-pizzaria.pdf');
-}
 
       function enviarPedidoWhatsApp() {
-        const numeroLoja = '43991310616';
-        const mensagem = encodeURIComponent('Pedido gerado! PDF em anexo.');
+        const numeroLoja = "43991310616";
+        const mensagem = encodeURIComponent("Pedido gerado! PDF em anexo.");
         const url = `https://wa.me/${numeroLoja}?text=${mensagem}`;
-        window.open(url, '_blank');
+        window.open(url, "_blank");
       }
 
       function confirmarPedidoComEndereco() {
         try {
           const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
           if (carrinho.length === 0) {
-            alert('Seu carrinho está vazio!');
+            alert("Seu carrinho está vazio!");
             fecharModalEndereco();
             return;
           }
-          const tipoEntrega = document.getElementById('tipo-entrega').value;
+          const tipoEntrega = document.getElementById("tipo-entrega").value;
           if (!tipoEntrega) {
-            alert('Por favor, selecione o tipo de pedido (entrega ou retirada)!');
+            alert(
+              "Por favor, selecione o tipo de pedido (entrega ou retirada)!"
+            );
             return;
           }
-          const formaPagamento = document.getElementById('forma-pagamento').value;
+          const formaPagamento =
+            document.getElementById("forma-pagamento").value;
           if (!formaPagamento) {
-            alert('Por favor, selecione a forma de pagamento!');
+            alert("Por favor, selecione a forma de pagamento!");
             return;
           }
-          if (tipoEntrega === 'entrega') {
+          if (tipoEntrega === "entrega") {
             if (!validarEndereco()) {
               return;
             }
           }
           const usuario = JSON.parse(localStorage.getItem("usuario")) || {};
           const endereco = obterDadosEndereco();
-          endereco.nome = usuario.nome || '';
-          endereco.telefone = usuario.telefone || '';
+          endereco.nome = usuario.nome || "";
+          endereco.telefone = usuario.telefone || "";
           fecharModalEndereco();
           // Gerar PDF da notinha
           gerarPDFPedido(carrinho, endereco);
@@ -1575,64 +1628,68 @@
             localStorage.removeItem("carrinho");
             renderCarrinho();
             document.getElementById("observacao").value = "";
-            document.getElementById('endereco-rua').value = '';
-            document.getElementById('endereco-numero').value = '';
-            document.getElementById('endereco-bairro').value = '';
-            document.getElementById('endereco-complemento').value = '';
-            document.getElementById('endereco-cep').value = '';
-            document.getElementById('endereco-referencia').value = '';
-            document.getElementById('tipo-entrega').value = '';
-            document.getElementById('forma-pagamento').value = '';
-            document.getElementById('troco-para').value = '';
-            document.getElementById('troco-container').style.display = 'none';
-            document.getElementById('taxa-entrega-info').style.display = 'none';
+            document.getElementById("endereco-rua").value = "";
+            document.getElementById("endereco-numero").value = "";
+            document.getElementById("endereco-bairro").value = "";
+            document.getElementById("endereco-complemento").value = "";
+            document.getElementById("endereco-cep").value = "";
+            document.getElementById("endereco-referencia").value = "";
+            document.getElementById("tipo-entrega").value = "";
+            document.getElementById("forma-pagamento").value = "";
+            document.getElementById("troco-para").value = "";
+            document.getElementById("troco-container").style.display = "none";
+            document.getElementById("taxa-entrega-info").style.display = "none";
           }
         } catch (error) {
-          console.error('Erro ao confirmar pedido:', error);
-          alert('Erro ao processar pedido. Tente novamente.');
+          console.error("Erro ao confirmar pedido:", error);
+          alert("Erro ao processar pedido. Tente novamente.");
         }
       }
 
       // Função para atualizar taxa de entrega
       function atualizarTaxaEntrega() {
-        const tipoEntrega = document.getElementById('tipo-entrega').value;
-        const taxaInfo = document.getElementById('taxa-entrega-info');
-        const subtotalModal = document.getElementById('subtotal-modal');
-        const totalFinalModal = document.getElementById('total-final-modal');
-        
+        const tipoEntrega = document.getElementById("tipo-entrega").value;
+        const taxaInfo = document.getElementById("taxa-entrega-info");
+        const subtotalModal = document.getElementById("subtotal-modal");
+        const totalFinalModal = document.getElementById("total-final-modal");
+
         // Calcular subtotal dos itens
         const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
         let subtotal = 0;
-        carrinho.forEach(item => {
+        carrinho.forEach((item) => {
           subtotal += item.preco * item.quantidade;
         });
-        
+
         // Atualizar subtotal
-        subtotalModal.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-        
+        subtotalModal.textContent = `R$ ${subtotal
+          .toFixed(2)
+          .replace(".", ",")}`;
+
         // Calcular total com taxa
         let total = subtotal;
-        if (tipoEntrega === 'entrega') {
-          total += 3.00; // Taxa de entrega
-          taxaInfo.style.display = 'flex';
+        if (tipoEntrega === "entrega") {
+          total += 3.0; // Taxa de entrega
+          taxaInfo.style.display = "flex";
         } else {
-          taxaInfo.style.display = 'none';
+          taxaInfo.style.display = "none";
         }
-        
+
         // Atualizar total final
-        totalFinalModal.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        totalFinalModal.textContent = `R$ ${total
+          .toFixed(2)
+          .replace(".", ",")}`;
       }
 
       // Função para mostrar/ocultar campo de troco
       function mostrarCampoTroco() {
-        const formaPagamento = document.getElementById('forma-pagamento').value;
-        const trocoContainer = document.getElementById('troco-container');
-        
-        if (formaPagamento === 'dinheiro') {
-          trocoContainer.style.display = 'block';
+        const formaPagamento = document.getElementById("forma-pagamento").value;
+        const trocoContainer = document.getElementById("troco-container");
+
+        if (formaPagamento === "dinheiro") {
+          trocoContainer.style.display = "block";
         } else {
-          trocoContainer.style.display = 'none';
-          document.getElementById('troco-para').value = '';
+          trocoContainer.style.display = "none";
+          document.getElementById("troco-para").value = "";
         }
       }
 
@@ -1641,45 +1698,54 @@
 
       // Função para formatar CEP automaticamente
       function formatarCEP(input) {
-        let value = input.value.replace(/\D/g, '');
+        let value = input.value.replace(/\D/g, "");
         if (value.length >= 5) {
-          value = value.substring(0, 5) + '-' + value.substring(5, 8);
+          value = value.substring(0, 5) + "-" + value.substring(5, 8);
         }
         input.value = value;
       }
 
       // Adicionar eventos quando a página carregar
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         // Formatação automática do CEP
-        const cepInput = document.getElementById('endereco-cep');
+        const cepInput = document.getElementById("endereco-cep");
         if (cepInput) {
-          cepInput.addEventListener('input', function() {
+          cepInput.addEventListener("input", function () {
             formatarCEP(this);
           });
-          
+
           // Permitir apenas números e hífen
-          cepInput.addEventListener('keypress', function(e) {
-            if (!/[0-9-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          cepInput.addEventListener("keypress", function (e) {
+            if (
+              !/[0-9-]/.test(e.key) &&
+              ![
+                "Backspace",
+                "Delete",
+                "Tab",
+                "ArrowLeft",
+                "ArrowRight",
+              ].includes(e.key)
+            ) {
               e.preventDefault();
             }
           });
         }
 
         // Eventos para campos de tipo de entrega e forma de pagamento
-        const tipoEntregaSelect = document.getElementById('tipo-entrega');
+        const tipoEntregaSelect = document.getElementById("tipo-entrega");
         if (tipoEntregaSelect) {
-          tipoEntregaSelect.addEventListener('change', atualizarTaxaEntrega);
+          tipoEntregaSelect.addEventListener("change", atualizarTaxaEntrega);
         }
 
-        const formaPagamentoSelect = document.getElementById('forma-pagamento');
+        const formaPagamentoSelect = document.getElementById("forma-pagamento");
         if (formaPagamentoSelect) {
-          formaPagamentoSelect.addEventListener('change', mostrarCampoTroco);
+          formaPagamentoSelect.addEventListener("change", mostrarCampoTroco);
         }
 
         // Fechar modal ao clicar fora dele
-        const modal = document.getElementById('modal-endereco');
+        const modal = document.getElementById("modal-endereco");
         if (modal) {
-          modal.addEventListener('click', function(e) {
+          modal.addEventListener("click", function (e) {
             if (e.target === modal) {
               fecharModalEndereco();
             }
@@ -1687,39 +1753,39 @@
         }
 
         // Fechar modal com ESC
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape') {
-            const modal = document.getElementById('modal-endereco');
-            if (modal && modal.style.display === 'block') {
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            const modal = document.getElementById("modal-endereco");
+            if (modal && modal.style.display === "block") {
               fecharModalEndereco();
             }
           }
         });
       });
-      
+
       // Carregar carrinho ao carregar a página
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         renderCarrinho();
       });
     </script>
     <script>
-      if ("serviceWorker"in navigator) {
+      if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js");
       }
     </script>
     <script src="js/auth.js"></script>
-<script>
-  verificarAutenticacao();
-  // Função sair global para logout
-  function sair() {
-    console.log('Função sair chamada'); // debug
-    if (confirm('Deseja realmente sair?')) {
-      // Limpa localStorage e redireciona
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuario');
-      window.location.href = 'login.html';
-    }
-  }
-</script>
+    <script>
+      verificarAutenticacao();
+      // Função sair global para logout
+      function sair() {
+        console.log("Função sair chamada"); // debug
+        if (confirm("Deseja realmente sair?")) {
+          // Limpa localStorage e redireciona
+          localStorage.removeItem("token");
+          localStorage.removeItem("usuario");
+          window.location.href = "login.html";
+        }
+      }
+    </script>
   </body>
 </html>
