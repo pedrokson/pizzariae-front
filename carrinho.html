@@ -830,6 +830,19 @@
         margin-top: 1rem;
         border-top: 2px solid #f0f0f0;
       }
+      /* Estilo padrão para telas maiores */
+      .carrinho-tabela table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .carrinho-tabela th,
+      .carrinho-tabela td {
+        text-align: center;
+        padding: 10px;
+      }
+
+      /* Responsividade para telas menores */
       @media (max-width: 768px) {
         .carrinho-tabela table,
         .carrinho-tabela thead,
@@ -842,24 +855,23 @@
         }
 
         .carrinho-tabela thead {
-          display: none; /* Esconde os títulos da tabela */
+          display: none; /* Oculta os cabeçalhos */
         }
 
         .carrinho-tabela tr {
+          margin-bottom: 15px;
           border: 1px solid #ddd;
-          margin-bottom: 1rem;
+          padding: 10px;
           border-radius: 8px;
-          padding: 0.8rem;
           background-color: #fff;
         }
 
         .carrinho-tabela td {
           display: flex;
           justify-content: space-between;
-          padding: 0.5rem 0;
-          font-size: 0.95rem;
-          border: none;
+          padding: 8px;
           border-bottom: 1px solid #eee;
+          font-size: 0.95rem;
         }
 
         .carrinho-tabela td:last-child {
@@ -872,12 +884,10 @@
           color: #444;
         }
 
-        .btn-finalizar,
         .btn-remover {
           width: 100%;
+          margin-top: 10px;
           font-size: 1rem;
-          padding: 0.8rem;
-          margin-top: 0.5rem;
         }
       }
     </style>
