@@ -544,46 +544,102 @@
 
       /* Responsividade */
       @media (max-width: 768px) {
-        header {
-          padding: 1rem 0;
+        .menu {
+          padding: 1rem 0.5rem;
         }
-        header h1 {
+
+        .menu-group {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .menu-item {
+          padding: 1.2rem;
+          margin: 0 0.5rem;
+        }
+
+        .menu h2 {
           font-size: 1.6rem;
-          margin-bottom: 0.8rem;
+          margin-bottom: 1.5rem;
         }
-        nav {
-          flex-direction: column;
-          gap: 0.5rem;
-          padding: 1rem;
-          margin: 0.8rem auto 0;
+
+        .menu-item h3 {
+          font-size: 1.2rem;
         }
-        nav a {
-          text-align: center;
-          padding: 12px 16px;
-          font-size: 0.9rem;
-          border-radius: 20px;
+
+        .menu-item img {
+          max-width: 100px;
+          height: 100px;
+        }
+
+        .btn-menor,
+        .btn-maior {
+          width: 40px;
+          height: 40px;
+          font-size: 1.3rem;
+        }
+
+        .menu-item button:not(.btn-menor):not(.btn-maior) {
+          padding: 12px 20px;
+          font-size: 1rem;
         }
       }
 
       @media (max-width: 480px) {
-        header h1 {
+        .menu {
+          padding: 0.5rem 0.25rem;
+        }
+
+        .menu-group {
+          gap: 1rem;
+        }
+
+        .menu-item {
+          padding: 1rem;
+          margin: 0 0.25rem;
+          border-radius: 12px;
+        }
+
+        .menu h2 {
           font-size: 1.4rem;
+          margin-bottom: 1rem;
+        }
+
+        .menu-item h3 {
+          font-size: 1.1rem;
+          margin-bottom: 0.4rem;
+        }
+
+        .menu-item p {
+          font-size: 0.9rem;
           margin-bottom: 0.6rem;
         }
-        nav {
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 0.3rem;
-          padding: 0.8rem 0.5rem;
+
+        .menu-item img {
+          max-width: 90px;
+          height: 90px;
         }
-        nav a {
-          padding: 10px 12px;
-          font-size: 0.8rem;
-          border-radius: 15px;
-          flex: 1;
-          min-width: 80px;
-          text-align: center;
+
+        .quantidade-container {
+          gap: 6px;
+          margin: 0.8rem 0;
         }
+
+        .btn-menor,
+        .btn-maior {
+          width: 35px;
+          height: 35px;
+          font-size: 1.1rem;
+        }
+
+        .menu-item button:not(.btn-menor):not(.btn-maior) {
+          padding: 14px 18px;
+          font-size: 0.95rem;
+          border-radius: 12px;
+        }
+      }
+      header h1 {
+        font-size: 1.3rem;
       }
 
       /* Melhorias para tablets */
