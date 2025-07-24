@@ -486,13 +486,16 @@
         localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
         // Feedback visual melhorado
+        if (!btn.dataset.originalText) {
+          btn.dataset.originalText = btn.textContent;
+        }
         btn.style.background = "linear-gradient(145deg, #28a745, #20a03a)";
         btn.textContent = "✓ Adicionado!";
         btn.style.transform = "scale(1.05)";
 
         setTimeout(() => {
           btn.style.background = "linear-gradient(145deg, #1fa64b, #188a3f)";
-          btn.textContent = "Escolha o tamanho:";
+          btn.textContent = btn.dataset.originalText;
           btn.style.transform = "scale(1)";
         }, 2500);
 
@@ -505,7 +508,6 @@
             .replace(".", ",")}`
         );
       }
-
       function mostrarTamanhos(botao) {
         console.log("👆 CHAMANDO mostrarTamanhos");
 
