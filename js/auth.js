@@ -1,5 +1,5 @@
 // Fazer login
-export async function fazerLogin(email, senha) {
+async function fazerLogin(email, senha) {
   try {
     const response = await window.apiRequest('/api/clientes/login', {
       method: 'POST',
@@ -19,7 +19,7 @@ export async function fazerLogin(email, senha) {
 }
 
 // Fazer cadastro
-export async function fazerCadastro(dadosCadastro) {
+async function fazerCadastro(dadosCadastro) {
   try {
     // Validar dados antes de enviar
     if (!dadosCadastro.endereco || typeof dadosCadastro.endereco === 'string') {
@@ -43,19 +43,19 @@ export async function fazerCadastro(dadosCadastro) {
 }
 
 // Verificar se está logado
-export function verificarAutenticacao() {
+function verificarAutenticacao() {
   return window.isLoggedIn ? window.isLoggedIn() : false;
 }
 // Expor para escopo global
 window.verificarAutenticacao = verificarAutenticacao;
 
 // Obter dados do usuário logado
-export function obterUsuario() {
+function obterUsuario() {
   return window.getUser ? window.getUser() : null;
 }
 
 // Fazer logout
-export function sair() {
+function sair() {
   if (window.logout) {
     window.logout();
   } else {
@@ -67,7 +67,7 @@ export function sair() {
 }
 
 // Atualizar dados do usuário
-export async function atualizarPerfil(dadosAtualizados) {
+async function atualizarPerfil(dadosAtualizados) {
   try {
     const usuario = getUser();
     if (!usuario) {
@@ -92,7 +92,7 @@ export async function atualizarPerfil(dadosAtualizados) {
 }
 
 // Validar formulário de cadastro
-export function validarCadastro(dados) {
+function validarCadastro(dados) {
   const erros = [];
   
   if (!dados.nome || dados.nome.length < 2) {
@@ -130,7 +130,7 @@ export function validarCadastro(dados) {
 }
 
 // Aplicar máscara de telefone
-export function mascaraTelefone(valor) {
+function mascaraTelefone(valor) {
   valor = valor.replace(/\D/g, '');
   valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
   valor = valor.replace(/(\d)(\d{4})$/, '$1-$2');
@@ -138,7 +138,7 @@ export function mascaraTelefone(valor) {
 }
 
 // Aplicar máscara de CEP
-export function mascaraCEP(valor) {
+function mascaraCEP(valor) {
   valor = valor.replace(/\D/g, '');
   valor = valor.replace(/^(\d{5})(\d)/, '$1-$2');
   return valor;
