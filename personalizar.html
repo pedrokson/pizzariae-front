@@ -389,6 +389,9 @@
       const preco2 = precos[tipo2][tamanho === 'Média' ? 'Media' : 'Grande'];
       // O preço final é o maior entre as duas metades
       const precoFinal = Math.max(preco1, preco2);
+      if (borda) {
+      precoFinal += 13.90;
+      }
 
       let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
       const itemPersonalizado = {
