@@ -129,19 +129,24 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
       atualizarContadorCarrinho();
       // Feedback visual universal (funciona para pizzas doces e bebidas)
       // Salva texto e cor originais do botão, considerando botões de tamanho (Média/Grande)
-      if (!btn.hasAttribute("data-original-text")) {
-        btn.setAttribute("data-original-text", btn.textContent);
-      }
-      if (!btn.hasAttribute("data-original-color")) {
-        btn.setAttribute(
-          "data-original-color",
-          btn.style.backgroundColor || ""
-        );
-      }
-      btn.style.backgroundColor = "#228b22";
-      btn.textContent = "✓ Adicionado!";
-      setTimeout(() => {
-        // Se for bebida, sempre volta para 'Adicionar'
+          setTimeout(() => {
+            // Sempre salva o texto original antes de alterar
+            if (!btn.hasAttribute('data-original-text') || btn.getAttribute('data-original-text') === '' || btn.getAttribute('data-original-text') === 'Adicionar') {
+              // Se for botão de tamanho, salva o texto do tamanho
+              if (tamanho && (tamanho === 'Média' || tamanho === 'Grande')) {
+                btn.setAttribute('data-original-text', tamanho);
+              } else {
+                btn.setAttribute('data-original-text', btn.textContent);
+              }
+            }
+            // Restaura corretamente
+            if (card && card.querySelector('h3') && card.querySelector('h3').textContent.match(/coca|fanta|sprite|guaran|água|suco|refrigerante/i)) {
+              btn.textContent = 'Adicionar';
+            } else {
+              btn.textContent = btn.getAttribute('data-original-text');
+            }
+            btn.style.backgroundColor = btn.getAttribute('data-original-color');
+          }, 2000);
         if (
           card &&
           card.querySelector("h3") &&
