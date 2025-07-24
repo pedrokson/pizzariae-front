@@ -471,9 +471,7 @@
         }
 
         let precoFinal = preco;
-        if (borda) {
-          precoFinal += 13.9;
-        }
+        if (borda) precoFinal += 13.9;
 
         let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
         carrinho.push({
@@ -482,25 +480,25 @@
           quantidade: quantidade,
           borda_recheada: borda,
         });
-
-        console.log("💾 Salvando carrinho:", carrinho);
         localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
-        // Salvar o texto original do botão, mas só uma vez
+        // 💡 Salva o texto original só uma vez, com .trim()
         if (!btn.dataset.originalText) {
-          btn.dataset.originalText = btn.textContent;
+          btn.dataset.originalText = btn.textContent.trim();
         }
 
-        btn.style.background = "linear-gradient(145deg, #28a745, #20a03a)";
+        // Feedback visual
         btn.textContent = "✓ Adicionado!";
+        btn.style.background = "linear-gradient(145deg, #28a745, #20a03a)";
         btn.style.transform = "scale(1.05)";
 
         setTimeout(() => {
-          btn.style.background = "linear-gradient(145deg, #1fa64b, #188a3f)";
           btn.textContent = btn.dataset.originalText;
+          btn.style.background = "";
           btn.style.transform = "scale(1)";
         }, 2500);
 
+        // Alerta com resumo do pedido
         alert(
           `🍕 Adicionado com sucesso!\n\n${quantidade}x ${nome} (${tamanho})${
             borda ? "\nCom borda de " + borda : ""
