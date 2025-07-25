@@ -49,7 +49,7 @@ export async function buscarMeusPedidos() {
       throw new Error('Usuário não está logado');
     }
     
-    return await apiRequest(`/pedidos?cliente=${usuario.id}`);
+    return await apiRequest(`/api/pedidos?cliente=${usuario.id}`);
   } catch (error) {
     console.error('Erro ao buscar pedidos:', error);
     throw error;
@@ -59,7 +59,7 @@ export async function buscarMeusPedidos() {
 // Acompanhar pedido específico
 export async function acompanharPedido(pedidoId) {
   try {
-    return await apiRequest(`/pedidos/${pedidoId}`);
+    return await apiRequest(`/api/pedidos/${pedidoId}`);
   } catch (error) {
     console.error('Erro ao acompanhar pedido:', error);
     throw error;
@@ -69,7 +69,7 @@ export async function acompanharPedido(pedidoId) {
 // Atualizar status do pedido (para admin)
 export async function atualizarStatusPedido(pedidoId, novoStatus) {
   try {
-    return await apiRequest(`/pedidos/${pedidoId}/status`, {
+    return await apiRequest(`/api/pedidos/${pedidoId}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status: novoStatus })
     });
@@ -82,7 +82,7 @@ export async function atualizarStatusPedido(pedidoId, novoStatus) {
 // Adicionar avaliação ao pedido
 export async function avaliarPedido(pedidoId, nota, comentario) {
   try {
-    return await apiRequest(`/pedidos/${pedidoId}/avaliacao`, {
+    return await apiRequest(`/api/pedidos/${pedidoId}/avaliacao`, {
       method: 'POST',
       body: JSON.stringify({ nota, comentario })
     });
