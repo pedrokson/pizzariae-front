@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
+    <script src="config/api.js"></script>
     <script>
       if (!localStorage.getItem("token") || !localStorage.getItem("usuario")) {
         window.location.href = "login.html";
@@ -480,21 +481,21 @@
     <button class="logout-btn" onclick="sair()">
       <img src="img/logout-icon.png" alt="Sair" style="width: 20px; height: 20px;"/> Sair
     </button>
+    <script src="api.js"></script>
     <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
-  }
-</script>
-<script src="api.js"></script>
-<script src="js/auth.js"></script>
-<script>
-  verificarAutenticacao();
-  // Função sair global para logout
-  function sair() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    window.location.href = 'login.html';
-  }
-</script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js');
+      }
+    </script>
+    <script src="js/auth.js"></script>
+    <script>
+      verificarAutenticacao();
+      // Função sair global para logout
+      function sair() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        window.location.href = 'login.html';
+      }
+    </script>
   </body>
 </html>
