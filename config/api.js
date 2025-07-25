@@ -66,16 +66,16 @@ const apiRequest = async (endpoint, options = {}) => {
   }
 };
 
-// Função para testar conectividade
+
+// Função para testar conectividade (testa a raiz do backend)
 const testarConectividade = async () => {
   try {
     console.log('🔍 Testando conexão com o backend...');
-    const response = await fetch(API_BASE_URL.replace('/api', ''), {
+    const response = await fetch(API_BASE_URL, {
       method: 'GET',
       mode: 'cors',
       cache: 'no-cache'
     });
-    
     if (response.ok) {
       console.log('✅ Backend respondendo:', response.status);
       return true;
@@ -88,6 +88,8 @@ const testarConectividade = async () => {
     return false;
   }
 };
+
+// Lembrete: sempre use endpoints começando com /api/, por exemplo: apiRequest('/api/pedidos')
 
 // Exportar para uso global
 if (typeof window !== 'undefined') {
