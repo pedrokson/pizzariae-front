@@ -349,7 +349,6 @@
       let notaAvaliacao = 0;
 
       async function carregarPedidos() {
-
         try {
           let usuario = getUser();
           if (!usuario) {
@@ -372,6 +371,14 @@
           document.getElementById('erro').style.display = 'block';
         }
       }
+
+      // Verifica se acabou de realizar um pedido e recarrega pedidos
+      document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('pedido_realizado')) {
+          localStorage.removeItem('pedido_realizado');
+          carregarPedidos();
+        }
+      });
 
       function renderizarPedidos(pedidos) {
         const container = document.getElementById('pedidos-lista');
