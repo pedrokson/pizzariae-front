@@ -107,3 +107,7 @@ if (typeof window !== 'undefined') {
   window.testarConectividade = testarConectividade;
   window.API_BASE_URL = API_BASE_URL;
 }
+if (typeof window !== 'undefined') {
+  window.apiRequest = apiRequest;
+  window.API_BASE_URL = API_BASE_URL;
+}
