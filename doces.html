@@ -893,28 +893,13 @@
       </section>
     </main>
 
+    <script src="config/api.js"></script>
+    <script src="js/auth.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js");
       }
-    </script>
-    <script src="js/menu.js"></script>
-    <script src="js/auth.js"></script>
-    <script>
       verificarAutenticacao();
-      
-      // Importar função sair
-      async function sair() {
-        if (confirm('Deseja realmente sair?')) {
-          // Importar dinamicamente a função sair
-          const { sair: fazerLogout } = await import('./js/auth.js');
-          fazerLogout();
-          window.location.href = 'login.html';
-        }
-      }
-    </script>
-    <script src="js/auth.js"></script>
-    <script>
       // Função sair global para logout
       function sair() {
         localStorage.removeItem('token');
@@ -922,5 +907,6 @@
         window.location.href = 'login.html';
       }
     </script>
+    <script src="js/menu.js"></script>
   </body>
 </html>
