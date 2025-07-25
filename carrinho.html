@@ -1696,7 +1696,7 @@
             enviarPedidoWhatsApp();
           }, 1000);
           // Limpar carrinho após gerar
-          if (confirm("Pedido gerado! Deseja limpar o carrinho?")) {
+          if (confirm("Pedido realizado com sucesso!\n\nATENÇÃO: Após finalizar, será gerado um PDF do seu pedido. Por favor, envie esse PDF para o WhatsApp da pizzaria para confirmação!\n\nWhatsApp: (43) 99131-0616")) {
             localStorage.removeItem("carrinho");
             renderCarrinho();
             document.getElementById("observacao").value = "";
