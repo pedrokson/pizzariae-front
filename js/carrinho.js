@@ -396,8 +396,11 @@ class CarrinhoManager {
       // Limpar carrinho após pedido
       this.limparCarrinho();
 
-      alert('Pedido realizado com sucesso!\n\nATENÇÃO: O PDF do seu pedido deve ser enviado para o WhatsApp da pizzaria para confirmação!\n\nWhatsApp: (43) 99131-0616');
       window.location.href = '/pedido-confirmado.html';
+      // Os alerts abaixo não serão exibidos pois o redirecionamento é imediato,
+      // mas ficam como referência se quiser usar em outro fluxo:
+      // alert('Será gerada uma notinha do seu pedido. Por favor, envie o PDF para o WhatsApp da pizzaria para confirmação!');
+      // alert('Pedido realizado com sucesso!\n\nATENÇÃO: O PDF do seu pedido deve ser enviado para o WhatsApp da pizzaria para confirmação!\n\nWhatsApp: (43) 99131-0616');
     } catch (error) {
       console.error('Erro ao finalizar pedido:', error);
       alert('Erro ao finalizar pedido. Tente novamente.');
