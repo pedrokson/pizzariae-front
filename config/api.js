@@ -1,4 +1,4 @@
-﻿export { apiRequest };
+﻿
 const API_BASE_URL = window.location.hostname.includes('azurestaticapps.net')
   ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net'
   : 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net';
@@ -105,9 +105,5 @@ const testarConectividade = async () => {
 if (typeof window !== 'undefined') {
   window.apiRequest = apiRequest;
   window.testarConectividade = testarConectividade;
-  window.API_BASE_URL = API_BASE_URL;
-}
-if (typeof window !== 'undefined') {
-  window.apiRequest = apiRequest;
   window.API_BASE_URL = API_BASE_URL;
 }
