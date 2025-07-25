@@ -275,129 +275,6 @@
         }
       }
     </style>
-      }
-      
-      .status-pendente { background: #fff3cd; color: #856404; }
-      .status-confirmado { background: #d4edda; color: #155724; }
-      .status-preparando { background: #cce5ff; color: #004085; }
-      .status-saiu-entrega { background: #e2e3e5; color: #383d41; }
-      .status-entregue { background: #d1ecf1; color: #0c5460; }
-      .status-cancelado { background: #f8d7da; color: #721c24; }
-      
-      .pedido-data {
-        color: #666;
-        font-size: 0.9em;
-      }
-      
-      .pedido-itens {
-        margin: 15px 0;
-      }
-      
-      .item-pedido {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid #eee;
-      }
-      
-      .item-pedido:last-child {
-        border-bottom: none;
-      }
-      
-      .item-info {
-        flex: 1;
-      }
-      
-      .item-nome {
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-      
-      .item-detalhes {
-        font-size: 0.9em;
-        color: #666;
-      }
-      
-      .item-preco {
-        font-weight: bold;
-        color: #b22222;
-      }
-      
-      .pedido-total {
-        text-align: right;
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #b22222;
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 2px solid #eee;
-      }
-      
-      .sem-pedidos {
-        text-align: center;
-        padding: 40px;
-        color: #666;
-      }
-      
-      .loading {
-        text-align: center;
-        padding: 40px;
-      }
-      
-      .erro {
-        background: #f8d7da;
-        color: #721c24;
-        padding: 15px;
-        border-radius: 5px;
-        margin: 20px 0;
-      }
-      
-      .btn-avaliar {
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 10px;
-        font-size: 0.9em;
-      }
-      
-      .btn-avaliar:hover {
-        background: #1e7e34;
-      }
-      
-      .avaliacao {
-        background: #e7f3ff;
-        padding: 10px;
-        border-radius: 5px;
-        margin-top: 10px;
-        border-left: 3px solid #007bff;
-      }
-      
-      .estrelas {
-        color: #ffc107;
-        margin-bottom: 5px;
-      }
-      
-      @media (max-width: 600px) {
-        .pedidos-container {
-          padding: 10px;
-        }
-        
-        .pedido-header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        
-        .item-pedido {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 5px;
-        }
-      }
-    </style>
   </head>
   <body>
     <header>
@@ -472,28 +349,23 @@
       let notaAvaliacao = 0;
 
       async function carregarPedidos() {
+
         try {
-          const usuario = getUser();
+          let usuario = getUser();
           if (!usuario) {
             window.location.href = 'login.html';
             return;
           }
-
           document.getElementById('loading').style.display = 'block';
           document.getElementById('erro').style.display = 'none';
-          
           // Buscar pedidos do usuário
           const pedidos = await apiRequest(`/pedidos?cliente=${usuario._id}`);
-          
           document.getElementById('loading').style.display = 'none';
-          
           if (!pedidos || pedidos.length === 0) {
             document.getElementById('sem-pedidos').style.display = 'block';
             return;
           }
-          
           renderizarPedidos(pedidos);
-          
         } catch (error) {
           console.error('Erro ao carregar pedidos:', error);
           document.getElementById('loading').style.display = 'none';
@@ -649,10 +521,7 @@
       document.addEventListener('DOMContentLoaded', carregarPedidos);
     </script>
 
-    <script src="js/auth.js"></script>
-    <script>
-      verificarAutenticacao();
-    </script>
+
 
     <script>
       if ('serviceWorker' in navigator) {
