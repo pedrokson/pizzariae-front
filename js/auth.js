@@ -50,9 +50,17 @@ function verificarAutenticacao() {
 window.verificarAutenticacao = verificarAutenticacao;
 
 // Obter dados do usuário logado
-function obterUsuario() {
-  return window.getUser ? window.getUser() : null;
+function getUser() {
+  const usuario = localStorage.getItem('usuario');
+  try {
+    return usuario ? JSON.parse(usuario) : null;
+  } catch {
+    return null;
+  }
 }
+
+// Exportar para uso em módulos ES6
+export { getUser, sair as logout };
 
 // Fazer logout
 function sair() {

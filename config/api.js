@@ -1,4 +1,5 @@
-﻿const API_BASE_URL = window.location.hostname.includes('azurestaticapps.net')
+﻿export { apiRequest };
+const API_BASE_URL = window.location.hostname.includes('azurestaticapps.net')
   ? 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net'
   : 'https://pizzaria-backend-eueqgmb0fyb5cdbj.brazilsouth-01.azurewebsites.net';
 
