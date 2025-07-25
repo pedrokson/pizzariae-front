@@ -6,6 +6,16 @@ const API_BASE_URL = window.location.hostname.includes('azurestaticapps.net')
 console.log('🌐 API Base URL configurada:', API_BASE_URL);
 
 const apiRequest = async (endpoint, options = {}) => {
+  // Garante que o endpoint sempre começa com /api/
+  let fixedEndpoint = endpoint;
+  if (!fixedEndpoint.startsWith('/api/')) {
+    if (fixedEndpoint.startsWith('/')) {
+      fixedEndpoint = '/api' + fixedEndpoint;
+    } else {
+      fixedEndpoint = '/api/' + fixedEndpoint;
+    }
+  }
+
   const token = localStorage.getItem('token');
   
   const config = {
@@ -17,14 +27,14 @@ const apiRequest = async (endpoint, options = {}) => {
   };
 
   console.log('📡 Fazendo requisição:', {
-    url: `${API_BASE_URL}${endpoint}`,
+    url: `${API_BASE_URL}${fixedEndpoint}`,
     method: config.method || 'GET',
     headers: config.headers,
     body: config.body
   });
 
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+    const response = await fetch(`${API_BASE_URL}${fixedEndpoint}`, config);
     
     console.log('📨 Resposta recebida:', {
       status: response.status,
