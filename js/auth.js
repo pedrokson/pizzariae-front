@@ -59,8 +59,7 @@ function getUser() {
   }
 }
 
-// Exportar para uso em módulos ES6
-export { getUser, sair as logout };
+
 
 // Fazer logout
 function sair() {
