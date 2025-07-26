@@ -1717,7 +1717,9 @@
             observacoes: String(document.getElementById("observacao").value || ""),
             itens: carrinho.map(item => ({
               produto: item.produto || null,
-              nome: item.nome || item.metade1 ? `Personalizada: ${item.metade1} / ${item.metade2}` : "",
+              nome: (item.tipo === "personalizada")
+                ? `Personalizada: ${item.metade1 || ''} / ${item.metade2 || ''}`
+                : (item.nome || ""),
               tamanho: item.tamanho || "",
               quantidade: item.quantidade,
               precoUnitario: item.preco || 0,
