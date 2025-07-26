@@ -1689,26 +1689,44 @@
           endereco.telefone = usuario.telefone || "";
 
           // Montar objeto do pedido para o backend
+          // Montar objeto do pedido para o backend conforme o schema
+          const trocoParaValue = document.getElementById("troco-para").value;
+          const dataHora = new Date().toISOString();
           const pedido = {
             cliente: {
-              nome: endereco.nome,
-              telefone: endereco.telefone,
+              nome: String(endereco.nome || ""),
+              telefone: String(endereco.telefone || ""),
             },
             endereco: {
-              rua: endereco.rua,
-              numero: endereco.numero,
-              bairro: endereco.bairro,
-              complemento: endereco.complemento,
-              cep: endereco.cep,
-              cidade: endereco.cidade,
-              referencia: endereco.referencia,
+              rua: String(endereco.rua || ""),
+              numero: String(endereco.numero || ""),
+              bairro: String(endereco.bairro || ""),
+              complemento: String(endereco.complemento || ""),
+              cidade: String(endereco.cidade || ""),
+              cep: String(endereco.cep || ""),
+              estado: "",
+              pontoReferencia: String(endereco.referencia || ""),
             },
-            tipoEntrega: tipoEntrega,
-            formaPagamento: formaPagamento,
-            trocoPara: document.getElementById("troco-para").value || null,
-            observacao: document.getElementById("observacao").value || "",
-            itens: carrinho,
-            dataHora: new Date().toISOString(),
+            entrega: {
+              tipo: tipoEntrega === "entrega" ? "delivery" : "retirada"
+            },
+            formaPagamento: {
+              tipo: String(formaPagamento || ""),
+              ...(trocoParaValue && trocoParaValue !== "" ? { troco: String(trocoParaValue) } : {})
+            },
+            observacoes: String(document.getElementById("observacao").value || ""),
+            itens: carrinho.map(item => ({
+              produto: item.produto || null,
+              nome: item.nome || item.metade1 ? `Personalizada: ${item.metade1} / ${item.metade2}` : "",
+              tamanho: item.tamanho || "",
+              quantidade: item.quantidade,
+              precoUnitario: item.preco || 0,
+              observacoes: item.observacoes || ""
+            })),
+            horarios: {
+              pedido: dataHora
+            },
+            dataHora: dataHora
           };
 
           // Enviar pedido para o backend
