@@ -115,13 +115,13 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
       // Buscar o ID do produto pelo nome e tamanho
       let produtoId = null;
       try {
-        // Buscar todos os produtos disponíveis
         if (window.listarProdutos) {
           const produtos = await window.listarProdutos();
-          // Normalizar nome e tamanho para comparar
           const nomeNormalizado = nome.replace(/pizza /i, "").trim().toLowerCase();
           const tamanhoNormalizado = (tamanho || "").toLowerCase();
+          console.log('[DEBUG] Buscando produto:', { nome, tamanho, nomeNormalizado, tamanhoNormalizado });
           for (const prod of produtos) {
+            console.log('[DEBUG] Produto do backend:', { nome: prod.nome, tamanhos: prod.tamanhos, _id: prod._id });
             if (
               prod.nome &&
               prod.nome.trim().toLowerCase() === nomeNormalizado &&
@@ -131,12 +131,16 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
               )
             ) {
               produtoId = prod._id;
+              console.log('[DEBUG] Produto encontrado! _id:', produtoId);
               break;
             }
           }
+          if (!produtoId) {
+            console.warn('[DEBUG] Nenhum produto correspondente encontrado para:', { nome, tamanho });
+          }
         }
       } catch (e) {
-        // Se não conseguir buscar, deixa produtoId como null
+        console.error('[DEBUG] Erro ao buscar produtoId:', e);
       }
       const item = {
         nome: tamanho ? nome + " (" + tamanho + ")" : nome,
@@ -180,3 +184,4 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
   } catch (error) {
     alert("❌ Erro ao adicionar item ao carrinho: " + error.message);
   }
+}

@@ -1707,14 +1707,10 @@
               estado: "",
               pontoReferencia: String(endereco.referencia || ""),
             },
-            entrega: {
-              tipo: tipoEntrega === "entrega" ? "delivery" : "retirada"
-            },
-            formaPagamento: {
-              tipo: String(formaPagamento || ""),
-              ...(trocoParaValue && trocoParaValue !== "" ? { troco: String(trocoParaValue) } : {})
-            },
-            observacoes: String(document.getElementById("observacao").value || ""),
+            tipoEntrega: tipoEntrega, // "entrega" ou "retirada"
+            formaPagamento: String(formaPagamento || ""),
+            trocoPara: trocoParaValue && trocoParaValue !== "" ? String(trocoParaValue) : null,
+            observacao: String(document.getElementById("observacao").value || ""),
             itens: carrinho.map(item => ({
               produto: item.produto || null,
               nome: (item.tipo === "personalizada")
@@ -1725,9 +1721,6 @@
               precoUnitario: item.preco || 0,
               observacoes: item.observacoes || ""
             })),
-            horarios: {
-              pedido: dataHora
-            },
             dataHora: dataHora
           };
 
