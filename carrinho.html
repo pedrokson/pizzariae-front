@@ -1660,7 +1660,7 @@
         window.open(url, "_blank");
       }
 
-      function confirmarPedidoComEndereco() {
+      async function confirmarPedidoComEndereco() {
         try {
           const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
           if (carrinho.length === 0) {
@@ -1670,13 +1670,10 @@
           }
           const tipoEntrega = document.getElementById("tipo-entrega").value;
           if (!tipoEntrega) {
-            alert(
-              "Por favor, selecione o tipo de pedido (entrega ou retirada)!"
-            );
+            alert("Por favor, selecione o tipo de pedido (entrega ou retirada)!");
             return;
           }
-          const formaPagamento =
-            document.getElementById("forma-pagamento").value;
+          const formaPagamento = document.getElementById("forma-pagamento").value;
           if (!formaPagamento) {
             alert("Por favor, selecione a forma de pagamento!");
             return;
@@ -1690,6 +1687,47 @@
           const endereco = obterDadosEndereco();
           endereco.nome = usuario.nome || "";
           endereco.telefone = usuario.telefone || "";
+
+          // Montar objeto do pedido para o backend
+          const pedido = {
+            cliente: {
+              nome: endereco.nome,
+              telefone: endereco.telefone,
+            },
+            endereco: {
+              rua: endereco.rua,
+              numero: endereco.numero,
+              bairro: endereco.bairro,
+              complemento: endereco.complemento,
+              cep: endereco.cep,
+              cidade: endereco.cidade,
+              referencia: endereco.referencia,
+            },
+            tipoEntrega: tipoEntrega,
+            formaPagamento: formaPagamento,
+            trocoPara: document.getElementById("troco-para").value || null,
+            observacao: document.getElementById("observacao").value || "",
+            itens: carrinho,
+            dataHora: new Date().toISOString(),
+          };
+
+          // Enviar pedido para o backend
+          try {
+            const response = await fetch("/api/pedidos", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(pedido),
+            });
+            if (!response.ok) {
+              throw new Error("Erro ao enviar pedido para o servidor.");
+            }
+          } catch (err) {
+            alert("Erro ao enviar pedido para o servidor. Tente novamente.");
+            return;
+          }
+
           fecharModalEndereco();
           // Gerar PDF da notinha
           gerarPDFPedido(carrinho, endereco);
