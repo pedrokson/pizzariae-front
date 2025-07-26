@@ -423,6 +423,10 @@
     <script src="js/menu.js"></script>
   </head>
   <body>
+    <script type="module">
+      import { adicionarCarrinho } from './js/menu.js';
+      window.adicionarCarrinho = adicionarCarrinho;
+    </script>
     <header>
       <div class="faixa-italia-horizontal">
         <div class="faixa-verde"></div>

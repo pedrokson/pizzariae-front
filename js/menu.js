@@ -19,7 +19,6 @@ function mostrarTamanhos(botao) {
     if (botoesContainer) {
       botoesContainer.style.display = "block";
     }
-  }
 }
 
 async function adicionarCarrinho(nome, tamanho, preco, btn) {
@@ -113,11 +112,38 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
         precoFinal === 49.9
       )
     ) {
+      // Buscar o ID do produto pelo nome e tamanho
+      let produtoId = null;
+      try {
+        // Buscar todos os produtos disponíveis
+        if (window.listarProdutos) {
+          const produtos = await window.listarProdutos();
+          // Normalizar nome e tamanho para comparar
+          const nomeNormalizado = nome.replace(/pizza /i, "").trim().toLowerCase();
+          const tamanhoNormalizado = (tamanho || "").toLowerCase();
+          for (const prod of produtos) {
+            if (
+              prod.nome &&
+              prod.nome.trim().toLowerCase() === nomeNormalizado &&
+              prod.tamanhos &&
+              prod.tamanhos.some(
+                (t) => t.nome.trim().toLowerCase() === tamanhoNormalizado
+              )
+            ) {
+              produtoId = prod._id;
+              break;
+            }
+          }
+        }
+      } catch (e) {
+        // Se não conseguir buscar, deixa produtoId como null
+      }
       const item = {
         nome: tamanho ? nome + " (" + tamanho + ")" : nome,
         preco: precoFinal,
         quantidade: quantidade,
         borda_recheada: borda,
+        produto: produtoId,
         id: Date.now(),
         timestamp: new Date().toISOString(),
       };
@@ -128,18 +154,14 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
       // Atualizar contador
       atualizarContadorCarrinho();
       // Feedback visual universal (funciona para pizzas doces e bebidas)
-      // Salva texto e cor originais do botão, considerando botões de tamanho (Média/Grande)
       setTimeout(() => {
-        // Sempre salva o texto original antes de alterar
         if (!btn.hasAttribute('data-original-text') || btn.getAttribute('data-original-text') === '' || btn.getAttribute('data-original-text') === 'Adicionar') {
-          // Se for botão de tamanho, salva o texto do tamanho
           if (tamanho && (tamanho === 'Média' || tamanho === 'Grande')) {
             btn.setAttribute('data-original-text', tamanho);
           } else {
             btn.setAttribute('data-original-text', btn.textContent);
           }
         }
-        // Restaura corretamente
         if (card && card.querySelector('h3') && card.querySelector('h3').textContent.match(/coca|fanta|sprite|guaran|água|suco|refrigerante/i)) {
           btn.textContent = 'Adicionar';
         } else if (tamanho && (tamanho === 'Média' || tamanho === 'Grande')) {
@@ -151,33 +173,10 @@ async function adicionarCarrinho(nome, tamanho, preco, btn) {
         }
         btn.style.backgroundColor = btn.getAttribute('data-original-color');
       }, 2000);
-      // Mostrar alerta de sucesso
       alert(
-        `✅ ${quantidade}x ${nome}${
-          tamanho ? ` (${tamanho})` : ""
-        } adicionado ao carrinho!`
+        `✅ ${quantidade}x ${nome}$${tamanho ? ` (${tamanho})` : ""} adicionado ao carrinho!`
       );
     }
   } catch (error) {
     alert("❌ Erro ao adicionar item ao carrinho: " + error.message);
   }
-}
-
-function atualizarContadorCarrinho() {
-  const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-  const total = carrinho.reduce((sum, item) => sum + item.quantidade, 0);
-
-  // Buscar elemento do contador (pode estar no header)
-  const contador = document.querySelector(
-    ".cart-count, .carrinho-count, #carrinho-count"
-  );
-  if (contador) {
-    contador.textContent = total;
-    contador.style.display = total > 0 ? "inline" : "none";
-  }
-}
-
-// Inicializar contador ao carregar a página
-document.addEventListener("DOMContentLoaded", function () {
-  atualizarContadorCarrinho();
-});
