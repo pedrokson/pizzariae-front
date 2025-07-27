@@ -1700,30 +1700,22 @@
               estado: "", // preencha se quiser
               pontoReferencia: endereco.referencia, // nome correto para o backend
             },
-            entrega: {
-              tipo: tipoEntrega === "entrega" ? "delivery" : "retirada",
-            },
-            formaPagamento: {
-              tipo: formaPagamento,
-              troco:
-                formaPagamento === "dinheiro" && trocoParaValue
-                  ? Number(trocoParaValue)
-                  : undefined,
-            },
-            observacoes: document.getElementById("observacao").value || "",
+            tipoEntrega: tipoEntrega, // "entrega" ou "retirada"
+            formaPagamento: formaPagamento, // "dinheiro", "pix", etc.
+            trocoPara: formaPagamento === "dinheiro" && trocoParaValue ? Number(trocoParaValue) : null,
+            observacao: document.getElementById("observacao").value || "",
             itens: carrinho.map((item) => ({
               produto: item.produto || null,
               nome:
                 item.tipo === "personalizada"
-                  ? `Personalizada: ${item.metade1 || ""} / ${
-                      item.metade2 || ""
-                    }`
+                  ? `Personalizada: ${item.metade1 || ""} / ${item.metade2 || ""}`
                   : item.nome || "",
               tamanho: item.tamanho || "",
               quantidade: item.quantidade,
               precoUnitario: item.preco || 0,
               observacoes: item.observacoes || "",
             })),
+            dataHora: new Date().toISOString(),
           };
 
           // Enviar pedido para o backend
