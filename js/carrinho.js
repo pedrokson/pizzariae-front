@@ -399,7 +399,7 @@ class CarrinhoManager {
       // Sinaliza que o pedido foi feito com sucesso
       localStorage.setItem('pedido_realizado', '1');
 
-      alert('Pedido realizado com sucesso!\n\nATENÇÃO: Após finalizar, será gerado um PDF do seu pedido. Por favor, envie esse PDF para o WhatsApp da pizzaria para confirmação!\n\nWhatsApp: (43) 99131-0616');
+      alert('Pedido realizado com sucesso!\n\nATENÇÃO: Após finalizar, será gerado um PDF do seu pedido. Por favor, envie esse PDF para o WhatsApp da pizzaria para confirmação!\n\nWhatsApp: (43) 99904-7461');
       window.location.href = '/pedido-confirmado.html';
     } catch (error) {
       console.error('Erro ao finalizar pedido:', error);
