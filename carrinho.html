@@ -1453,24 +1453,17 @@
         y += 4;
         doc.text(`Fone: ${endereco.telefone || ""}`, 8, y);
         y += 4;
-
-        if (tipoEntrega === "entrega") {
-          doc.text(
-            `Endereço: ${endereco.rua || ""}, ${endereco.numero || ""}`,
-            8,
-            y
-          );
+        doc.text(`Endereço: ${endereco.rua || ""}, ${endereco.numero || ""}`, 8, y);
+        y += 4;
+        doc.text(`Bairro: ${endereco.bairro || ""}`, 8, y);
+        y += 4;
+        doc.text(`Cidade: ${endereco.cidade || ""}`, 8, y);
+        y += 4;
+        doc.text(`CEP: ${endereco.cep || ""}`, 8, y);
+        y += 4;
+        if (endereco.referencia) {
+          doc.text(`Ref.: ${endereco.referencia}`, 8, y);
           y += 4;
-          doc.text(`Bairro: ${endereco.bairro || ""}`, 8, y);
-          y += 4;
-          doc.text(`Cidade: ${endereco.cidade || ""}`, 8, y);
-          y += 4;
-          doc.text(`CEP: ${endereco.cep || ""}`, 8, y);
-          y += 4;
-          if (endereco.referencia) {
-            doc.text(`Ref.: ${endereco.referencia}`, 8, y);
-            y += 4;
-          }
         }
 
         const now = new Date();
